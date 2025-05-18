@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application-prod.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/ConfirmationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/CredentialRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/EmailServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/EmailServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,11 +20,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Kotlin Class" />
         <option value="HTML File" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -79,6 +79,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.import",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -154,7 +155,7 @@
       <workItem from="1745448788176" duration="125000" />
       <workItem from="1745448984824" duration="8727000" />
       <workItem from="1747259345901" duration="38000" />
-      <workItem from="1747259421748" duration="17886000" />
+      <workItem from="1747259421748" duration="19185000" />
     </task>
     <servers />
   </component>
