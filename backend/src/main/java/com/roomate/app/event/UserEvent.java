@@ -14,5 +14,5 @@ import java.util.Map;
 public class UserEvent {
     private UserEntity userEntity;
     private EventType type;
-    private Map<?,?> data;
+    private Map<?, ?> data;
 }

@@ -1,0 +1,17 @@
+#Database
+POSTGRESQL_USERNAME: user
+POSTGRESQL_PASSWORD: fortnite_battlepass
+POSTGRESQL_HOST: localhost
+POSTGRESQL_PORT: 5432
+POSTGRESQL_DATABASE: appDatabase
+
+#Server
+CONTAINER_PORT: 8085
+ACTIVE_PROFILE: dev
+
+#EmailConfig
+EMAIL_HOST: smtp.gmail.com
+EMAIL_PORT: 587
+EMAIL_ID: jefef358@gmail.com
+EMAIL_PASSWORD: 123
+VERIFY_EMAIL_HOST: http://securedoc.com
