@@ -1,0 +1,10 @@
+package com.roomate.app.service;
+
+import com.roomate.app.entity.RoleEntity;
+import com.roomate.app.enumeration.Permissions;
+
+public interface UserService {
+    void createUser(String firstName, String lastName, String email, String password);
+    RoleEntity getRoleName(String name);
+
+}

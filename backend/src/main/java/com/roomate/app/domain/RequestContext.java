@@ -6,7 +6,7 @@ public class RequestContext {
     private RequestContext() {
     }
 
-    public static void Start() {
+    public static void start() {
         USER_ID.remove();
     }
 

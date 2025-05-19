@@ -27,6 +27,7 @@ public class UserEntity extends Auditable {
     @Column(unique = true, nullable = false)
     private String email;
     private int loginAttempts;
+    private LocalDateTime lastLogin;
     private LocalDateTime lastLoginAttempt;
     @Column(unique = true)
     private String phone;

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface ConfirmationRepository extends JpaRepository<ConfirmationEntity, Long> {
-    Optional<ConfirmationEntity> findByKey(String key);
+    Optional<ConfirmationEntity> findByCode(String code);
     Optional<ConfirmationEntity> findByUserEntity(UserEntity userEntity);
 }
