@@ -32,7 +32,7 @@ public class UserServiceImplement implements UserService {
     private final CredentialRepository credentialRepository;
     private final ConfirmationRepository confirmationRepository;
     private final RoleRepository roleRepository;
-//    private final BCryptPasswordEncoder encoder;
+    //    private final BCryptPasswordEncoder encoder;
     private final ApplicationEventPublisher publisher;
 
     @Override
