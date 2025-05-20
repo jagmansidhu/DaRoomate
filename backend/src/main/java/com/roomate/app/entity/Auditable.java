@@ -39,10 +39,10 @@ public abstract class Auditable {
 
     @PrePersist
     protected void beforePersist() {
-        var userId = RequestContext.getUserId();
-        if (userId == null) {
-            throw new ApiException("User id is not set, so cannot persist entity");
-        }
+        var userId = 0L;//RequestContext.getUserId();
+//        if (userId == null) {
+//            throw new ApiException("User id is not set, so cannot persist entity");
+//        }
         setCreatedAt(LocalDateTime.now());
         setCreatedBy(userId);
         setUpdatedBy(userId);
@@ -51,10 +51,10 @@ public abstract class Auditable {
 
     @PreUpdate
     protected void beforeUpdate() {
-        var userId = RequestContext.getUserId();
-        if (userId == null) {
-            throw new ApiException("User id is not set, so cannot update entity");
-        }
+        var userId = 0L; //RequestContext.getUserId();
+//        if (userId == null) {
+//            throw new ApiException("User id is not set, so cannot update entity");
+//        }
         setCreatedAt(LocalDateTime.now());
         setCreatedBy(userId);
     }
