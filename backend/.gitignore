@@ -35,3 +35,8 @@ build/
 ### PROPERTIES FILES###
 .application-dev.yml/
 .application-prod.yml/
+
+.env
+.env.local
+
+.test
