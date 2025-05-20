@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### PROPERTIES FILES###
+.application-dev.yml/
+.application-prod.yml/
