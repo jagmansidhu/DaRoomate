@@ -45,8 +45,6 @@ spring:
     default-encoding: UTF-8
     properties:
       mail:
-        mime:
-          charset:UTF
         smtp:
           writetimeout: 10000
           connectiontimeout: 10000
@@ -57,6 +55,7 @@ spring:
             required: true
     verify:
       host: ${VERIFY_EMAIL_HOST}
+
 server:
   port: ${CONTAINER_PORT:8080}
   error:

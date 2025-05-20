@@ -23,7 +23,7 @@ public class UserUtil {
                 .enabled(false)
                 .loginAttempts(0)
                 .QrCodeSecret(EMPTY)
-                .phone(EMPTY)
+//                .phone(EMPTY)
                 .bio(EMPTY)
                 .imageUrl(EMPTY)
                 .roles(role)
