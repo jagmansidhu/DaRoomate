@@ -21,6 +21,7 @@ public class UserUtil {
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .enabled(false)
+                .mfa(false)
                 .loginAttempts(0)
                 .QrCodeSecret(EMPTY)
 //                .phone(EMPTY)
