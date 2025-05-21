@@ -7,10 +7,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
@@ -20,6 +22,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilterChainConfig {
 
+
+    // EFFECT: Configures the security filter chain.
+    //         If someone tries to connect to /user/test they will be allowed access without authentication.
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+        return security
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers("/user/test").permitAll()
+                                .anyRequest().authenticated())
+                .build();
+
+    }
+
+    // EFFECT: Creates an AuthenticationManager with a DaoAuthenticationProvider
+    //         overriding Spring security default with our users from UserDetailsService.
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
