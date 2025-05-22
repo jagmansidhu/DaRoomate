@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/LoginType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/JwtServiceImplement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JwtService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dtorequest/LoginRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/RequestUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +162,7 @@
       <workItem from="1745448984824" duration="8727000" />
       <workItem from="1747259345901" duration="38000" />
       <workItem from="1747259421748" duration="56319000" />
-      <workItem from="1747842518446" duration="6675000" />
+      <workItem from="1747842518446" duration="10247000" />
     </task>
     <servers />
   </component>
@@ -186,6 +179,18 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/User.java</url>
+          <line>20</line>
+          <properties field="updateAt" class="com.roomate.app.dto.User" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
