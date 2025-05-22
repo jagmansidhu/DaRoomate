@@ -37,6 +37,4 @@ public class UserController {
     private URI getUri() {
         return URI.create("");
     }
-
-
 }
