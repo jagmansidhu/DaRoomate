@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/RoommateAppAuthentication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/LoginType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/JwtServiceImplement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JwtService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/FilterChainConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/FilterChainConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +27,9 @@
       <list>
         <option value="Kotlin Class" />
         <option value="HTML File" />
-        <option value="Enum" />
-        <option value="Interface" />
         <option value="Record" />
+        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -165,7 +169,7 @@
       <workItem from="1745448984824" duration="8727000" />
       <workItem from="1747259345901" duration="38000" />
       <workItem from="1747259421748" duration="56319000" />
-      <workItem from="1747842518446" duration="3940000" />
+      <workItem from="1747842518446" duration="6675000" />
     </task>
     <servers />
   </component>

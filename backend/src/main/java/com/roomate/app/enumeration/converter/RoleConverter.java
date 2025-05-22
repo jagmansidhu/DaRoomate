@@ -6,6 +6,7 @@ import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 
+//EFFECT: Converts enum to be able to be stored in database
 @Converter(autoApply = true)
 public class RoleConverter implements AttributeConverter<Permissions, String> {
     @Override

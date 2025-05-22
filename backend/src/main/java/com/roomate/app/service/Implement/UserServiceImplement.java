@@ -1,10 +1,13 @@
 package com.roomate.app.service.Implement;
 
+import com.roomate.app.cache.CacheStore;
+import com.roomate.app.domain.RequestContext;
 import com.roomate.app.entity.ConfirmationEntity;
 import com.roomate.app.entity.CredentialEntity;
 import com.roomate.app.entity.RoleEntity;
 import com.roomate.app.entity.UserEntity;
 import com.roomate.app.enumeration.EventType;
+import com.roomate.app.enumeration.LoginType;
 import com.roomate.app.enumeration.Permissions;
 import com.roomate.app.event.UserEvent;
 import com.roomate.app.exception.ApiException;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static com.roomate.app.util.UserUtil.createUserEntity;
@@ -33,6 +37,7 @@ public class UserServiceImplement implements UserService {
     private final ConfirmationRepository confirmationRepository;
     private final RoleRepository roleRepository;
     //    private final BCryptPasswordEncoder encoder;
+    private final CacheStore<String, Integer> userCache;
     private final ApplicationEventPublisher publisher;
 
     @Override
@@ -59,6 +64,37 @@ public class UserServiceImplement implements UserService {
         userEntity.setEnabled(true);
         userRepository.save(userEntity);
         confirmationRepository.delete(confirmationEntity);
+    }
+
+    @Override
+    public void updateLoginAttempt(String email, LoginType loginType) {
+        var userEntity = getUserEntityByEmail(email);
+        RequestContext.setUserId(userEntity.getId());
+        switch (loginType) {
+            case LOGIN_ATTEMPT -> {
+                if (userCache.get(userEntity.getEmail()) == null) {
+                    userEntity.setLoginAttempts(1);
+                    userEntity.setAccountNonLocked(true);
+                    userCache.put(email, 0);
+                }
+                userEntity.setLoginAttempts(userEntity.getLoginAttempts() + 1);
+                userCache.put(email, userCache.get(userEntity.getEmail()) + 1);
+
+                if (userEntity.getLoginAttempts() >= 3) {
+                    userEntity.setAccountNonLocked(false);
+                    log.info("User account locked, too many Login attempts");
+                }
+            }
+            case LOGIN_SUCCESS -> {
+                userEntity.setLoginAttempts(0);
+                userEntity.setAccountNonLocked(true);
+                userEntity.setLastLogin(LocalDateTime.now());
+                userCache.invalidate(userEntity.getEmail());
+                log.info("User account unlocked");
+            }
+        }
+
+        userRepository.save(userEntity);
     }
 
     private UserEntity getUserEntityByEmail(String email) {
