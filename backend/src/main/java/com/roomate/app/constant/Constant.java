@@ -2,6 +2,9 @@ package com.roomate.app.constant;
 
 public class Constant {
     public static String ROLE_PREFIX = "ROLE_";
+    public static String EMPTY_VALUE = "EMPTY";
+    public static String AUTHORITIES = "ROLE_AUTHORITIES";
+    public static String ROLE = "roles";
     public static String AUTHORITY_DELIMITER = ",";
     public static String USER_AUTHORITIES = "document:create,document:read,document:update,document:delete";
     public static String ADMIN_AUTHORITIES = "user:create,user:read,user:update,document:create,document:read,document:update,document:delete";

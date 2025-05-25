@@ -2,6 +2,7 @@ package com.roomate.app.service.Implement;
 
 import com.roomate.app.cache.CacheStore;
 import com.roomate.app.domain.RequestContext;
+import com.roomate.app.dto.User;
 import com.roomate.app.entity.ConfirmationEntity;
 import com.roomate.app.entity.CredentialEntity;
 import com.roomate.app.entity.RoleEntity;
@@ -100,6 +101,12 @@ public class UserServiceImplement implements UserService {
     private UserEntity getUserEntityByEmail(String email) {
         var userByEmail = userRepository.findByEmail(email);
         return userByEmail
+                .orElseThrow(() -> new ApiException("User not found"));
+    }
+
+    private UserEntity getUserEntityByUserId(String id) {
+        var userByName = userRepository.findUserEntityByUserId(id);
+        return userByName
                 .orElseThrow(() -> new ApiException("User not found"));
     }
 

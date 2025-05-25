@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users
     qr_code_img_uri TEXT,
     login_attempts INTEGER DEFAULT 0,
     last_login TIMESTAMP(6) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    last_login_attempt Integer DEFAULT 0,
+    last_login_attempt TIMESTAMP(6) WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     mfa BOOLEAN NOT NULL DEFAULT FALSE,
     account_non_expired BOOLEAN NOT NULL DEFAULT FALSE,
     account_non_locked BOOLEAN NOT NULL DEFAULT FALSE,
