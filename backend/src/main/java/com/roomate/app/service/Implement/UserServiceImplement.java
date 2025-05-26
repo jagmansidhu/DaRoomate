@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static com.roomate.app.util.UserUtil.createUserEntity;
+import static com.roomate.app.util.UserUtil.fromUserEntity;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
@@ -98,27 +99,33 @@ public class UserServiceImplement implements UserService {
         userRepository.save(userEntity);
     }
 
+    @Override
+    public User getUserByUserId(String id) {
+        return null;
+    }
+
+    @Override
+    public User getUserByEmail(String email){
+        UserEntity user = getUserEntityByEmail(email);
+        return fromUserEntity(user, user.getRoles(), getUserCredentialsById(user.getId()));
+    }
+
+    @Override
+    public CredentialEntity getUserCredentialsById(Long id) {
+        var credentialByUserEntityId = credentialRepository.getCredentialByUserEntityId(id);
+        return credentialByUserEntityId.orElseThrow(() -> new ApiException("Unable to find user credentials from given userId.")) ;
+    }
+
     private UserEntity getUserEntityByEmail(String email) {
         var userByEmail = userRepository.findByEmail(email);
         return userByEmail
                 .orElseThrow(() -> new ApiException("User not found"));
     }
 
-    public UserEntity getUserEntityByUserId(String id) {
+    private UserEntity getUserEntityByUserId(String id) {
         var userByName = userRepository.findUserEntityByUserId(id);
         return userByName
                 .orElseThrow(() -> new ApiException("User not found"));
-    }
-
-    @Override
-    public User getUserByUserId(String id) {
-        UserEntity user = getUserEntityByUserId(id);
-        User dto = new User();
-        dto.setUserId(user.getUserId());
-        dto.setEmail(user.getEmail());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        return dto;
     }
 
     private ConfirmationEntity getUserConfirmation(String code) {

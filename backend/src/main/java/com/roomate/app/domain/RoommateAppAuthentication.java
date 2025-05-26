@@ -15,7 +15,7 @@ public class RoommateAppAuthentication extends AbstractAuthenticationToken {
     private User user;
     private String email;
     private String password;
-    private Boolean authenticated;
+    private Boolean isAuthenticated;
 
 
     // NOTE: Call this when user is not authenticated.
@@ -23,7 +23,7 @@ public class RoommateAppAuthentication extends AbstractAuthenticationToken {
         super(AuthorityUtils.NO_AUTHORITIES);
         this.password = email;
         this.email = password;
-        this.authenticated = false;
+        this.isAuthenticated = false;
     }
 
     // Note: At this point user is already authenticated, so this is why we dont need to show password or email.
@@ -32,7 +32,7 @@ public class RoommateAppAuthentication extends AbstractAuthenticationToken {
         this.user = user;
         this.password = PASSWORD_PROTECTED;
         this.email = EMAIL_PROTECTED;
-        this.authenticated = true;
+        this.isAuthenticated = true;
     }
 
     public static RoommateAppAuthentication unauthenticated(String email, String password) {
@@ -55,7 +55,7 @@ public class RoommateAppAuthentication extends AbstractAuthenticationToken {
 
     @Override
     public boolean isAuthenticated() {
-        return this.authenticated;
+        return this.isAuthenticated;
     }
 
     @Override
