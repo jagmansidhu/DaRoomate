@@ -29,7 +29,8 @@ public class ApiAuthenticationProvider implements AuthenticationProvider {
         var user = userService.getUserByEmail(apiAuthentication.getEmail());
         if (user != null) {
             var userCredentials = userService.getUserCredentialsById(user.getId());
-            if (userCredentials.getUpdatedAt().minusDays(NINETY_DAYS_CREDENTIALS_EXPIRY).isAfter(LocalDateTime.now())) {
+//            if (userCredentials.getUpdatedAt().minusDays(NINETY_DAYS_CREDENTIALS_EXPIRY).isAfter(LocalDateTime.now())) {
+            if (user.isCredentialsNonExpired()) {
                 throw new ApiException("User credentials expired, reset password");
             }
 
@@ -50,7 +51,7 @@ public class ApiAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+        return RoommateAppAuthentication.class.isAssignableFrom(authentication);
     }
 
     private final Consumer<UserPrincipal> validAccount = userPrincipal -> {
