@@ -104,10 +104,21 @@ public class UserServiceImplement implements UserService {
                 .orElseThrow(() -> new ApiException("User not found"));
     }
 
-    private UserEntity getUserEntityByUserId(String id) {
+    public UserEntity getUserEntityByUserId(String id) {
         var userByName = userRepository.findUserEntityByUserId(id);
         return userByName
                 .orElseThrow(() -> new ApiException("User not found"));
+    }
+
+    @Override
+    public User getUserByUserId(String id) {
+        UserEntity user = getUserEntityByUserId(id);
+        User dto = new User();
+        dto.setUserId(user.getUserId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        return dto;
     }
 
     private ConfirmationEntity getUserConfirmation(String code) {

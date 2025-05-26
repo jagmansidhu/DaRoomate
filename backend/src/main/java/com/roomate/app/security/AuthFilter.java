@@ -2,9 +2,12 @@ package com.roomate.app.security;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roomate.app.domain.Response;
 import com.roomate.app.domain.RoommateAppAuthentication;
+import com.roomate.app.dto.User;
 import com.roomate.app.dtorequest.LoginRequest;
 import com.roomate.app.enumeration.LoginType;
+import com.roomate.app.enumeration.TokenType;
 import com.roomate.app.service.JwtService;
 import com.roomate.app.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -19,18 +22,23 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
+import java.util.Map;
 
+import static com.roomate.app.util.RequestUtil.getResponse;
 import static com.roomate.app.util.RequestUtil.handleErrorResponse;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class AuthFilter extends AbstractAuthenticationProcessingFilter {
+    public static final String LOGIN_URL = "/user/login";
     private final UserService userService;
     private final JwtService jwtService;
 
     public AuthFilter(AuthenticationManager authenticationManager, UserService userService,JwtService jwtService) {
-        // Note: Saying listen to "/user/login" api and any POST req that comes, trigger authentication.
-        super(new AntPathRequestMatcher("/user/login", POST.name()), authenticationManager);
+        // Note: Saying listen to LOGIN_USER api url and any POST req that comes, trigger authentication.
+        super(new AntPathRequestMatcher(LOGIN_URL, POST.name()), authenticationManager);
         this.userService = userService;
         this.jwtService = jwtService;
     }
@@ -51,6 +59,25 @@ public class AuthFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+        var user = (User) authResult.getPrincipal();
+        userService.updateLoginAttempt(user.getEmail(), LoginType.LOGIN_SUCCESS);
+        var httpResponse = user.isMfa() ? sendQrCode(request, user) : sendResponse(request, response, user);
+        response.setContentType(APPLICATION_JSON_VALUE);
+        response.setStatus(OK.value());
+        var out = response.getOutputStream();
+        var mapper = new ObjectMapper();
+        mapper.writeValue(out, httpResponse);
+        out.flush();
+    }
+
+    private Response sendResponse(HttpServletRequest request, HttpServletResponse response, User user) {
+        jwtService.addCookie(response, user, TokenType.ACCESS_TOKEN);
+        jwtService.addCookie(response, user, TokenType.REFRESH_TOKEN);
+        return getResponse(request, Map.of("user", user), "login Success", OK);
+
+    }
+
+    private Response sendQrCode(HttpServletRequest request, User user) {
+        return getResponse(request, Map.of("user", user), "Please scan QR code", OK);
     }
 }

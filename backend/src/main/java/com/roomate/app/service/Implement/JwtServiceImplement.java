@@ -3,7 +3,6 @@ package com.roomate.app.service.Implement;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.roomate.app.domain.Token;
@@ -41,6 +40,7 @@ import static org.apache.tomcat.util.http.SameSiteCookies.NONE;
 @Slf4j
 public class JwtServiceImplement extends JwtConfig implements JwtService {
     private final UserService userService;
+
 
     private Algorithm algorithm() {
         return Algorithm.HMAC256(getSecret());
@@ -124,7 +124,7 @@ public class JwtServiceImplement extends JwtConfig implements JwtService {
                 .withNotBefore(new Date());
     };
 
-    String token = builder.get().sign(Algorithm.HMAC512(algorithm().getSigningKeyId()));
+//    String token = builder.get().sign(Algorithm.HMAC512(algorithm().getSigningKeyId()));
 
     public Function<String, List<GrantedAuthority>> authorities = token -> {
         DecodedJWT jwt = claimFunction.apply(token);
@@ -165,11 +165,21 @@ public class JwtServiceImplement extends JwtConfig implements JwtService {
     public <T> T getTokenData(HttpServletRequest request, String token, Function<TokenData, T> tokenFunction) {
         return tokenFunction.apply(
                 TokenData.builder()
-                        .valid(true)
+                        .valid(Objects.equals(userService.getUserByUserId(subject.apply(token)).getUserId(), claimFunction.apply(token).getSubject()))
                         .authorities(authorities.apply(token))
                         .claims(claimFunction.apply(token))
                         .user(userService.getUserByUserId(subject.apply(token)))
                         .build()
         );
+    }
+
+    @Override
+    public void removeCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
+        var optionalCookie = extractCookie.apply(request, cookieName);
+        if (optionalCookie.isPresent()) {
+            var cookie = optionalCookie.get();
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
     }
 }

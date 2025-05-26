@@ -3,6 +3,7 @@ package com.roomate.app.domain;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.roomate.app.dto.User;
+import com.roomate.app.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
