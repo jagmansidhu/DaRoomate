@@ -21,7 +21,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class UserEntity extends Auditable {
     @Column(unique = true, updatable = false, nullable = false)
-    private Integer userId;
+    private String userId;
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)

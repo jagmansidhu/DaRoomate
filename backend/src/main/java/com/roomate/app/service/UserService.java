@@ -15,6 +15,5 @@ public interface UserService {
     void updateLoginAttempt(String email, LoginType loginType);
     User getUserByEmail(String email);
     User getUserByUserId(String apply);
-// TODO implementation
     CredentialEntity getUserCredentialsById(Long id);
 }

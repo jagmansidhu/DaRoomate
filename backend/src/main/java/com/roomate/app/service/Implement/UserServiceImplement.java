@@ -101,7 +101,9 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public User getUserByUserId(String id) {
-        return null;
+        var user = userRepository.findUserEntityByUserId(id).orElseThrow(() -> new ApiException("User not found"));
+        return fromUserEntity(user, user.getRoles(), getUserCredentialsById(user.getId()));
+
     }
 
     @Override
