@@ -2,6 +2,7 @@ package com.example.demo.serviceTest;
 
 import com.example.demo.StartOneApplicationTests;
 import com.roomate.app.StartOneApplication;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = StartOneApplication.class)
+@Transactional
 class UserServiceTest {
 
     @Autowired
@@ -25,7 +27,7 @@ class UserServiceTest {
               {
                 "firstName": "Jow",
                 "lastName": "Jeffe",
-                "email": "test1@gmail.com",
+                "email": "test2@gmail.com",
                 "phone": "1234567890"
             }
         """;
