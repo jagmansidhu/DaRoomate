@@ -5,9 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/cache/CacheConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/cache/CacheStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/AuthFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/FilterChainConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/JwtConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/JwtServiceImplement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/practiceCode/service/JwtService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/entities/UserEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/ApiAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/ApiAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/constant/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant/monkey.png" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/constant/monkey.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ConfirmationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/ConfirmationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/CredentialsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/CredentialsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/RequestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/RequestContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/RoommateAppAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/RoommateAppAuthentication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/TokenData.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/TokenData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/UserPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dto/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dtorequest/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dtorequest/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dtorequest/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dtorequest/UserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/Auditable.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/Auditable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/ConfirmationEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/ConfirmationEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/CredentialEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/CredentialEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/RoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/RoleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/EventType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/LoginType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/LoginType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/Permissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/Permissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/TokenType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/converter/RoleConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/event/UserEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/event/UserEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/event/listener/UserEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/event/listener/UserEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/exception/ApiException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/exception/ApiException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/function/TriConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/function/TriConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/ConfirmationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/ConfirmationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/CredentialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/CredentialRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/ApiAuthenticationProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/FilterChainConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/JwtConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/EmailServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/EmailServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/JwtServiceImplement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/UserServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JwtService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/EmailUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/RequestUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/UserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/UserUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,40 +113,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JUnit.UserServiceTest.executor": "Run",
-    "JUnit.UserServiceTest.getUserByUserIdTest.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.StartOneApplication (1).executor": "Run",
-    "Spring Boot.StartOneApplication.executor": "Run",
-    "Spring Boot.StartOneApplication2.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jagman/IdeaProjects/ProjectStart/backend/src/main/java/com/roomate/app/constant",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.getUserByUserIdTest.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.StartOneApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.StartOneApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.StartOneApplication2.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jagman/IdeaProjects/ProjectStart/backend/src/main/java/com/roomate/app/constant&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.roomate.app.Exception" />
@@ -98,11 +156,12 @@
       <recent name="$PROJECT_DIR$/backend/docker" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/practiceCode" />
       <recent name="$PROJECT_DIR$/backend" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserServiceTest">
+  <component name="RunManager" selected="Spring Boot.StartOneApplication2">
     <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -198,7 +257,9 @@
       <workItem from="1745448984824" duration="8727000" />
       <workItem from="1747259345901" duration="38000" />
       <workItem from="1747259421748" duration="56319000" />
-      <workItem from="1747842518446" duration="46091000" />
+      <workItem from="1747842518446" duration="51508000" />
+      <workItem from="1748291158071" duration="3687000" />
+      <workItem from="1748363130660" duration="5906000" />
     </task>
     <servers />
   </component>
@@ -215,6 +276,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.hibernate.NonUniqueResultException" package="org.hibernate" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
