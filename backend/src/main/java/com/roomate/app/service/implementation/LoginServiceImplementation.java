@@ -36,16 +36,6 @@ public class LoginServiceImplementation implements LoginService {
                         loginDto.getEmail(),
                         loginDto.getPassword()
                 );
-
-//        System.out.println("Attempt login with: " + loginDto.getEmail() + " / " + loginDto.getPassword());
-//
-//        Authentication authentication = this.authenticationManager.authenticate(authenticationRequest);
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        HttpSession session = request.getSession();
-//        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-//
-//        return ResponseEntity.ok().build();
-
         try {
             Authentication authentication = this.authenticationManager.authenticate(authenticationRequest);
             System.out.println("Authentication SUCCESS for user: " + authentication.getName());
@@ -55,8 +45,7 @@ public class LoginServiceImplementation implements LoginService {
             return ResponseEntity.ok().build();
         } catch (org.springframework.security.core.AuthenticationException e) {
             System.err.println("Authentication FAILED for user: " + loginDto.getEmail() + " - Error: " + e.getMessage());
-            // Rethrow or return a specific error response
-            throw e; // Or return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            throw e;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
+import com.roomate.app.service.CustomerUserDetailsSer;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements CustomerUserDetailsSer, UserDetailsService {
 
     private final UserRepository userRepository;
 
