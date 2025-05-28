@@ -23,6 +23,8 @@ public class UserEntity {
     @NotNull
     @Column(unique = true)
     private String email;
+    @NotNull
+    private String password;
     private String phone;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
@@ -34,10 +36,11 @@ public class UserEntity {
 
     protected UserEntity() {}
 
-    public UserEntity(String firstName, String lastName, String mail, String phone) {
+    public UserEntity(String firstName, String lastName, String mail, String password, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = mail;
+        this.password = password;
         this.phone = phone;
 
     }
