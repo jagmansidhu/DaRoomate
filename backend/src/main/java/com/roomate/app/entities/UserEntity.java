@@ -34,7 +34,7 @@ public class UserEntity {
     @JsonIgnore
     private Set<RolesEntity> roles;
 
-    protected UserEntity() {}
+    public UserEntity() {}
 
     public UserEntity(String firstName, String lastName, String mail, String password, String phone) {
         this.firstName = firstName;
