@@ -30,17 +30,18 @@ public class RegisterController {
         return registerService.register(user);
     }
 
-//    @GetMapping("/all")
-//    @ResponseBody
-//    public List<UserDto> all() {
-//        return userRepository.findAll().stream()
-//                .map(user -> new UserDto(
-//                        user.getId(),
-//                        user.getFirstName(),
-//                        user.getLastName(),
-//                        user.getEmail(),
-//                        user.getPhone()
-//                ))
-//                .collect(Collectors.toList());
-//    }
+    @GetMapping("/all")
+    @ResponseBody
+    public List<UserDto> all() {
+        return userRepository.findAll().stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getPassword()
+                ))
+                .collect(Collectors.toList());
+    }
 }

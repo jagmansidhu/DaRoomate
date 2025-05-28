@@ -10,5 +10,4 @@ import org.springframework.stereotype.Service;
 public interface RegisterService {
     ResponseEntity<?> register(UserEntity user) throws UserApiError;
     void userExists(UserEntity user);
-    UserDetails loadUserByUsername(String email);
 }
