@@ -5,9 +5,9 @@
 //import com.roomate.app.entity.RoleEntity;
 //import com.roomate.app.entity.UserEntity;
 //import com.roomate.app.enumeration.Permissions;
-//import com.roomate.app.repository.CredentialRepository;
-//import com.roomate.app.repository.UserRepository;
-//import com.roomate.app.service.Implement.UserServiceImplement;
+//import com.roomate.app.com.roomate.app.repository.CredentialRepository;
+//import com.roomate.app.com.roomate.app.repository.UserRepository;
+//import com.roomate.app.com.roomate.app.service.Implement.UserServiceImplement;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;

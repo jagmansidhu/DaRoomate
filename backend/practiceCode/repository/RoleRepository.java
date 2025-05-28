@@ -1,7 +1,7 @@
-//package com.roomate.app.repository;
+//package com.roomate.app.com.roomate.app.repository;
 //
 //import com.roomate.app.entity.RoleEntity;
-//import org.springframework.data.jpa.repository.JpaRepository;
+//import org.springframework.data.jpa.com.roomate.app.repository.JpaRepository;
 //
 //import java.util.Optional;
 //

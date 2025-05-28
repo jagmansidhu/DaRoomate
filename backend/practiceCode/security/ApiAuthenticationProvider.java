@@ -3,7 +3,7 @@
 //import com.roomate.app.domain.RoommateAppAuthentication;
 //import com.roomate.app.domain.UserPrincipal;
 //import com.roomate.app.exception.ApiException;
-//import com.roomate.app.service.UserService;
+//import com.roomate.app.com.roomate.app.service.UserService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.security.authentication.*;
 //import org.springframework.security.core.Authentication;

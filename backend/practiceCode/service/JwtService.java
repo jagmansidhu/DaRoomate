@@ -1,4 +1,4 @@
-//package com.roomate.app.service;
+//package com.roomate.app.com.roomate.app.service;
 //
 //import com.roomate.app.domain.Token;
 //import com.roomate.app.domain.TokenData;

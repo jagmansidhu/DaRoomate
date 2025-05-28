@@ -1,4 +1,4 @@
-//package com.roomate.app.service.Implement;
+//package com.roomate.app.com.roomate.app.service.Implement;
 //
 //import com.auth0.jwt.JWT;
 //import com.auth0.jwt.JWTCreator;
@@ -11,8 +11,8 @@
 //import com.roomate.app.enumeration.TokenType;
 //import com.roomate.app.function.TriConsumer;
 //import com.roomate.app.security.JwtConfig;
-//import com.roomate.app.service.JwtService;
-//import com.roomate.app.service.UserService;
+//import com.roomate.app.com.roomate.app.service.JwtService;
+//import com.roomate.app.com.roomate.app.service.UserService;
 //import jakarta.servlet.http.Cookie;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;

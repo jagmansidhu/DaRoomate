@@ -1,7 +1,7 @@
 //package com.roomate.app.event.listener;
 //
 //import com.roomate.app.event.UserEvent;
-//import com.roomate.app.service.EmailService;
+//import com.roomate.app.com.roomate.app.service.EmailService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.context.event.EventListener;
 //import org.springframework.stereotype.Component;

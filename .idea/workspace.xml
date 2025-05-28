@@ -5,67 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/cache/CacheConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/cache/CacheStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/AuthFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/FilterChainConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/JwtConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/security/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/JwtServiceImplement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/practiceCode/service/JwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/entities/UserEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/AddressEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/cache/CacheStore.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/constant/Constant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant/monkey.png" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/constant/monkey.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ConfirmationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/ConfirmationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/CredentialsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/CredentialsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/RequestContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/RequestContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/Response.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/RoommateAppAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/RoommateAppAuthentication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/TokenData.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/TokenData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/domain/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/domain/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dto/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dtorequest/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dtorequest/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dtorequest/UserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/dtorequest/UserRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/Auditable.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/Auditable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/ConfirmationEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/ConfirmationEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/CredentialEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/CredentialEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/RoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/RoleEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/entity/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/EventType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/LoginType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/LoginType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/Permissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/Permissions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/TokenType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/enumeration/converter/RoleConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/enumeration/converter/RoleConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/event/UserEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/event/UserEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/event/listener/UserEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/event/listener/UserEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/exception/ApiException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/exception/ApiException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/function/TriConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/function/TriConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/ConfirmationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/ConfirmationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/CredentialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/CredentialRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/RoleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/ApiAuthenticationProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/AuthFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/FilterChainConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/JwtConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/EmailServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/EmailServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/JwtServiceImplement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/Implement/UserServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/UserServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JwtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/EmailUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/RequestUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/util/UserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/util/UserUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/backend/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/controller/ConfirmationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/ConfirmationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/controller/CredentialsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/CredentialsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/event/listener/UserEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/event/listener/UserEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/repository/ConfirmationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/ConfirmationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/repository/CredentialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/CredentialRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/security/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/security/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/Implement/EmailServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/EmailServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/Implement/JwtServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/JwtServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/Implement/UserServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/Implement/UserServiceImplement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/entities/UserEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +224,7 @@
       <workItem from="1747259421748" duration="56319000" />
       <workItem from="1747842518446" duration="51508000" />
       <workItem from="1748291158071" duration="3687000" />
-      <workItem from="1748363130660" duration="5906000" />
+      <workItem from="1748363130660" duration="7438000" />
     </task>
     <servers />
   </component>

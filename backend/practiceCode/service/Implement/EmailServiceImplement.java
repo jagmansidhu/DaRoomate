@@ -1,7 +1,7 @@
-//package com.roomate.app.service.Implement;
+//package com.roomate.app.com.roomate.app.service.Implement;
 //
 //import com.roomate.app.exception.ApiException;
-//import com.roomate.app.service.EmailService;
+//import com.roomate.app.com.roomate.app.service.EmailService;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Value;

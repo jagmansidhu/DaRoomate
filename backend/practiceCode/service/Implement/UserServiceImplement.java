@@ -1,4 +1,4 @@
-//package com.roomate.app.service.Implement;
+//package com.roomate.app.com.roomate.app.service.Implement;
 //
 ////import com.roomate.app.cache.CacheStore;
 //import com.roomate.app.domain.RequestContext;
@@ -12,11 +12,11 @@
 //import com.roomate.app.enumeration.Permissions;
 //import com.roomate.app.event.UserEvent;
 //import com.roomate.app.exception.ApiException;
-//import com.roomate.app.repository.ConfirmationRepository;
-//import com.roomate.app.repository.CredentialRepository;
-//import com.roomate.app.repository.RoleRepository;
-//import com.roomate.app.repository.UserRepository;
-//import com.roomate.app.service.UserService;
+//import com.roomate.app.com.roomate.app.repository.ConfirmationRepository;
+//import com.roomate.app.com.roomate.app.repository.CredentialRepository;
+//import com.roomate.app.com.roomate.app.repository.RoleRepository;
+//import com.roomate.app.com.roomate.app.repository.UserRepository;
+//import com.roomate.app.com.roomate.app.service.UserService;
 //import jakarta.transaction.Transactional;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;

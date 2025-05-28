@@ -1,8 +1,8 @@
-//package com.roomate.app.controller;
+//package com.roomate.app.com.roomate.app.controller;
 //
 //import com.roomate.app.domain.Response;
 //import com.roomate.app.dtorequest.UserRequest;
-//import com.roomate.app.service.UserService;
+//import com.roomate.app.com.roomate.app.service.UserService;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
