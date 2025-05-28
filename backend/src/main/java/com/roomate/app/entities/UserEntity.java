@@ -1,9 +1,12 @@
 package com.roomate.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,7 +15,6 @@ import lombok.Setter;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @NotNull
     private Long id;
     @NotNull
     private String firstName;
@@ -24,7 +26,11 @@ public class UserEntity {
     private String phone;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
+    @JsonIgnore
     private AddressEntity address;
+    @ManyToMany(targetEntity = RolesEntity.class)
+    @JsonIgnore
+    private Set<RolesEntity> roles;
 
     protected UserEntity() {}
 
@@ -33,6 +39,7 @@ public class UserEntity {
         this.lastName = lastName;
         this.email = mail;
         this.phone = phone;
+
     }
 
     @Override

@@ -22,8 +22,8 @@ public class StartOneApplication {
 	public CommandLineRunner demo(UserRepository repository) {
 		return (args) -> {
 			// save a few customers
-			repository.save(new UserEntity("Jack", "Bauer", "Chese@gmail.com", " "));
-			repository.save(new UserEntity("Chloe", "O'Brian", "Obrian@gmail.com", "1234567890"));
+//			repository.save(new UserEntity("Jack", "Bauer", "Chese@gmail.com", " "));
+//			repository.save(new UserEntity("Chloe", "O'Brian", "Obrian@gmail.com", "1234567890"));
 		};
 	}
 }
