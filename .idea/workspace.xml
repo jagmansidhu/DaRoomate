@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/LoginDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/RegisterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/RegisterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RegisterServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RegisterServiceImplementation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,11 +18,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="HTML File" />
         <option value="Record" />
         <option value="Enum" />
         <option value="Interface" />
+        <option value="Kotlin Class" />
         <option value="Class" />
       </list>
     </option>
@@ -44,6 +42,10 @@
     &quot;accountId&quot;: &quot;7118550c-bc2a-4e78-841b-2c2fb156d0fe&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -85,6 +87,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "editor.preferences.completion",
     "vue.rearranger.settings.migration": "true"
@@ -110,7 +113,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.StartOneApplication2">
+  <component name="RunManager" selected="JavaScript Debug.Debug Application">
     <configuration name="RegisterControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -184,6 +187,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
     <configuration name="StartOneApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="payrollDemo.StartOneApplication" />
@@ -215,6 +221,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JavaScript Debug.Debug Application" />
       <item itemvalue="JUnit.RegisterControllerTest" />
       <item itemvalue="JUnit.RegisterControllerTest.getUserByUserIdTest" />
       <item itemvalue="JUnit.RegisterControllerTest.testGetAllUsers" />
@@ -254,7 +261,7 @@
       <workItem from="1747259421748" duration="56319000" />
       <workItem from="1747842518446" duration="51508000" />
       <workItem from="1748291158071" duration="3687000" />
-      <workItem from="1748363130660" duration="33087000" />
+      <workItem from="1748363130660" duration="35052000" />
     </task>
     <servers />
   </component>
