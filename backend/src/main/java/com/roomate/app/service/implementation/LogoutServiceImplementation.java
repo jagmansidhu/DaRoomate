@@ -17,11 +17,20 @@ public class LogoutServiceImplementation implements LogoutService {
     }
 
     @Override
-    public void logoutUser(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        logoutHandler.logout(request, response, authentication);
+    public boolean logoutUser(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated() &&
+                !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()))) {
+            logoutHandler.logout(request, response, authentication);
 
-        request.getSession().removeAttribute("SPRING_SECURITY_CONTEXT");
-        request.getSession().invalidate();
-        SecurityContextHolder.clearContext();
+            if (request.getSession(false) != null) {
+                request.getSession().removeAttribute("SPRING_SECURITY_CONTEXT");
+                request.getSession().invalidate();
+            }
+            SecurityContextHolder.clearContext();
+            return true;
+        } else {
+
+            return false;
+        }
     }
 }

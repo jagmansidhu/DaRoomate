@@ -25,11 +25,12 @@ public class LogoutController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        try {
-            logoutServiceImplementation.logoutUser(request, response, authentication);
+        boolean loggedOut = logoutServiceImplementation.logoutUser(request, response, authentication);
+
+        if (loggedOut) {
             return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No one to logout");
+        } else {
+            return new ResponseEntity<>("No active session to log out or already logged out.", HttpStatus.OK);
         }
     }
 }
