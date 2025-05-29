@@ -2,10 +2,13 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.repository.UserRepository;
+import com.roomate.app.security.JwtAuthenticationFilter;
+import com.roomate.app.security.JwtTokenUtil;
 import com.roomate.app.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,31 +24,36 @@ public class LoginServiceImplementation implements LoginService {
     @Autowired
     private final AuthenticationManager authenticationManager;
 
-    public LoginServiceImplementation(UserRepository userRepository, AuthenticationManager authenticationManager) {
+    @Autowired
+    private final JwtTokenUtil jwtTokenUtil;
+
+    public LoginServiceImplementation(UserRepository userRepository, AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @Override
     public ResponseEntity<String> login(LoginDto loginDto, HttpServletRequest request) {
 
-        System.out.println("Attempt login with: " + loginDto.getEmail() + " / " + loginDto.getPassword());
-
-        Authentication authenticationRequest =
-                UsernamePasswordAuthenticationToken.unauthenticated(
+        UsernamePasswordAuthenticationToken authenticationRequest =
+                new UsernamePasswordAuthenticationToken(
                         loginDto.getEmail(),
                         loginDto.getPassword()
                 );
+
         try {
-            Authentication authentication = this.authenticationManager.authenticate(authenticationRequest);
+            Authentication authentication = authenticationManager.authenticate(authenticationRequest);
             System.out.println("Authentication SUCCESS for user: " + authentication.getName());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            HttpSession session = request.getSession();
-            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            return ResponseEntity.ok().build();
+
+            String token = jwtTokenUtil.generateToken(authentication.getName());
+
+            return ResponseEntity.ok(token);
+
         } catch (org.springframework.security.core.AuthenticationException e) {
             System.err.println("Authentication FAILED for user: " + loginDto.getEmail() + " - Error: " + e.getMessage());
-            throw e;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
 }

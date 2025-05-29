@@ -18,7 +18,7 @@ public class LoginController {
 
     private final LoginServiceImplementation loginService;
 
-    public LoginController(AuthenticationManager authenticationManager, LoginServiceImplementation loginService, UserRepository userRepository) {
+    public LoginController(LoginServiceImplementation loginService) {
         this.loginService = loginService;
     }
 
