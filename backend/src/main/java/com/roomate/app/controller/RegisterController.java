@@ -30,6 +30,7 @@ public class RegisterController {
         return registerService.register(user);
     }
 
+//    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     @ResponseBody
     public List<UserDto> all() {
