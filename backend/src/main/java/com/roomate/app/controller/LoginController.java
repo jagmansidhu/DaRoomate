@@ -19,13 +19,8 @@ public class LoginController {
 
     private final LoginServiceImplementation loginService;
 
-    private final UserRepository userRepository;
-
-    private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
     public LoginController(AuthenticationManager authenticationManager, LoginServiceImplementation loginService, UserRepository userRepository) {
         this.loginService = loginService;
-        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
