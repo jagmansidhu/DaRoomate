@@ -26,7 +26,7 @@ const Register = () => {
                 firstName,
                 lastName,
                 email,
-                password,
+                password
             });
             setMessage(response.data);
             setIsError(false);
