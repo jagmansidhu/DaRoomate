@@ -35,7 +35,8 @@ public class SecurityConfig {
                         exceptionHandling
                                 .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
                 .authorizeHttpRequests((auth) ->
-                        auth.requestMatchers(HttpMethod.GET, "public_resource").permitAll() //potentially change "public_resource" this to /api/public/**
+                        auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "public_resource").permitAll() //potentially change "public_resource" this to /api/public/**
                                 .requestMatchers("/user/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(s -> s
@@ -49,7 +50,11 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/user/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowCredentials(true)
+                        .allowedHeaders("*");
+
             }
         };
     }

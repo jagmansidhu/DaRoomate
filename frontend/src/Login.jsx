@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Route, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -29,7 +29,7 @@ const Login = () => {
             }
             setEmail('');
             setPassword('');
-            navigate("/home");
+            navigate("/dashboard");
         } catch (err) {
             console.error('Login error:', err.response ? err.response.data : err.message);
             setMessages(err.response && err.response.data ? err.response.data : 'An unexpected error occurred.');
