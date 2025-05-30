@@ -13,18 +13,16 @@ public class UserDto {
     private String lastName;
     private String email;
     private String phone;
-    private String password;
 
     public UserDto() {
     }
 
-    public UserDto(Long id, String firstName, String lastName, String email, String phone, String password) {
+    public UserDto(Long id, String firstName, String lastName, String email, String phone) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.password = password;
     }
 
 }

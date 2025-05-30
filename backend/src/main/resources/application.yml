@@ -26,7 +26,11 @@ spring:
         globally_quoted_identifiers: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
         formate_sql: true
-#  sql:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-jkluq6f22lia7dmr.us.auth0.com/
 #    init:
 #      mode: never #says if we should run data files
 #      continue-on-error: false
@@ -62,3 +66,4 @@ server:
     path: /user/error
     whitelabel:
       enabled: false
+

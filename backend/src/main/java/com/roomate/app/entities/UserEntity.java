@@ -14,17 +14,15 @@ import java.util.Set;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @Column(unique = true, nullable = false)
+    private String authId;
     private String firstName;
-    @NotNull
     private String lastName;
     @NotNull
     @Column(unique = true)
     private String email;
-    @NotNull
-    private String password;
     private String phone;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
@@ -36,19 +34,23 @@ public class UserEntity {
 
     public UserEntity() {}
 
-    public UserEntity(String firstName, String lastName, String mail, String password, String phone) {
+    public UserEntity(String authId, String firstName, String lastName, String email, String phone) {
+        this.authId = authId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = mail;
-        this.password = password;
+        this.email = email;
         this.phone = phone;
+    }
 
+    public UserEntity(String authId, String email) {
+        this.authId = authId;
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s', email='%s', phone='%s']",
-                id, firstName, lastName, email, phone);
+                "UserEntity[id=%d, authId='%s', firstName='%s', lastName='%s', email='%s', phone='%s']",
+                id, authId, firstName, lastName, email, phone);
     }
 }
