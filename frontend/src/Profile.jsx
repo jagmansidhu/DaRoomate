@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
 // axios.defaults.baseURL = 'https://localhost:8085';
-const Dashboard = () => {
+const Profile = () => {
     const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
@@ -47,7 +47,7 @@ const Dashboard = () => {
     if (isLoading || apiLoading) {
         return (
             <div>
-                <h1>Dashboard</h1>
+                <h1>Profile</h1>
                 <p>Loading data...</p>
             </div>
         );
@@ -56,7 +56,7 @@ const Dashboard = () => {
     if (error) {
         return (
             <div>
-                <h1>Dashboard</h1>
+                <h1>Profile</h1>
                 <p style={{ color: 'red' }}>Error: {error.message}. Please try logging in again.</p>
                 {accessToken && (
                     <>
@@ -72,19 +72,19 @@ const Dashboard = () => {
     if (!isAuthenticated) {
         return (
             <div>
-                <h1>Dashboard</h1>
-                <p>You need to be logged in to view the dashboard.</p>
+                <h1>Profile</h1>
+                <p>You need to be logged in to view the Profile.</p>
             </div>
         );
     }
 
     return (
         <div>
-            <h1>Dashboard Data</h1>
+            <h1>Profile Data</h1>
             <p>Welcome, {user.name || user.email}!</p>
             <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
     );
 };
 
-export default Dashboard;
+export default Profile;
