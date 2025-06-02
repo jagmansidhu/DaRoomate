@@ -2,10 +2,10 @@ import React from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import {Auth0Provider} from '@auth0/auth0-react';
-import Login from './Login';
-import Dashboard from './Dashboard';
-import Profile from './Profile';
-import Home from './Home';
+import Login from './webpages/Login';
+import Dashboard from './webpages/Dashboard';
+import Profile from './webpages/Profile';
+import Home from './webpages/Home';
 
 const LoggedOutNavbar = () => (
     <nav style={{backgroundColor: '#f0f0f0', padding: '10px'}}>

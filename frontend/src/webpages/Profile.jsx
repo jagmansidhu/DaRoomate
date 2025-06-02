@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'https://localhost:8085';
 const Profile = () => {
     const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
     const [data, setData] = useState(null);
@@ -79,7 +78,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div className="profile">
             <h1>Profile Data</h1>
             <p>Welcome, {user.name || user.email}!</p>
             <pre>{JSON.stringify(data, null, 2)}</pre>

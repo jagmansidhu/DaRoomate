@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
-// axios.defaults.baseURL = 'https://localhost:8085';
 const Dashboard = () => {
     const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
     const [data, setData] = useState(null);
@@ -42,7 +41,7 @@ const Dashboard = () => {
         };
 
         fetchProtectedData();
-    }, [getAccessTokenSilently, isAuthenticated, isLoading]);
+    })
 
     if (isLoading || apiLoading) {
         return (
