@@ -6,6 +6,9 @@ import Login from './webpages/Login';
 import Dashboard from './webpages/Dashboard';
 import Profile from './webpages/Profile';
 import Home from './webpages/Home';
+import useProfileCompletionRedirect from "./component/userProfileRedirection";
+import CompleteProfile from "./webpages/completeProfile";
+import PrivateRoute from "./component/privateRoute";
 
 const LoggedOutNavbar = () => (
     <nav style={{backgroundColor: '#f0f0f0', padding: '10px'}}>
@@ -29,6 +32,8 @@ const LoggedInNavbar = () => (
 function AppContent() {
     const {isAuthenticated, isLoading} = useAuth0();
 
+    useProfileCompletionRedirect();
+
     if (isLoading) {
         return <div>Loading authentication status...</div>;
     }
@@ -42,10 +47,19 @@ function AppContent() {
                 <Route
                     path="/dashboard"
                     element={isAuthenticated ? <Dashboard/> : <Login/>}
+                    // element={<PrivateRoute element={Dashboard}/>}
                 />
                 <Route
                     path="/profile"
                     element={isAuthenticated ? <Profile/> : <Login/>}
+
+                    // element={<PrivateRoute component={Profile}/>}
+                />
+                <Route
+                    path="/complete-profile"
+                    element={isAuthenticated ? <CompleteProfile/> : <Login/>}
+
+                    // element={<PrivateRoute component={CompleteProfile} />}
                 />
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/logout" element={<LogoutPage/>}/>
@@ -54,8 +68,10 @@ function AppContent() {
     );
 }
 
-
 export default function App() {
+
+    const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
+
     return (
         <Auth0Provider
             domain={process.env.REACT_APP_AUTH0_DOMAIN}
@@ -63,7 +79,7 @@ export default function App() {
             authorizationParams={{
                 redirect_uri: window.location.origin,
                 audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                scope: 'openid profile email'
+                scope: `openid profile email ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete`,
             }}
             cacheLocation="localstorage"
         >
@@ -73,7 +89,6 @@ export default function App() {
         </Auth0Provider>
     );
 }
-
 
 const LogoutPage = () => {
     const {logout} = useAuth0();

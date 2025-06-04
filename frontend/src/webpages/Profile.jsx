@@ -1,34 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
     const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
     const [apiLoading, setApiLoading] = useState(true);
     const [accessToken, setAccessToken] = useState(null);
 
+    const navigate = useNavigate();
+
+    // const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
     useEffect(() => {
-        const fetchProtectedData = async () => {
-            if (!isAuthenticated || isLoading) {
-                setApiLoading(false);
+        const checkProfileAndFetchData = async () => {
+            if (isLoading) {
+                setApiLoading(true);
                 return;
             }
 
+            if (!isAuthenticated) {
+                setApiLoading(false);
+                return;
+            }
+            //
+            // const isProfileComplete = user?.[`${CUSTOM_CLAIM_NAMESPACE}isProfileComplete`];
+            //
+            // if (isProfileComplete === false) {
+            //     console.log("Profile is incomplete. Redirecting from Profile page.");
+            //     navigate('/complete-profile');
+            //     setApiLoading(false);
+            //     return;
+            // }
+
             try {
-                const accessToken = await getAccessTokenSilently({
+                const fetchedAccessToken = await getAccessTokenSilently({
                     authorizationParams: {
                         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
                         scope: 'read:data',
                     },
                 });
-                setAccessToken(accessToken);
+                setAccessToken(fetchedAccessToken);
 
                 const response = await axios.get('http://localhost:8085/api/secret_resource', {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${fetchedAccessToken}`,
                     },
                 });
                 setData(response.data);
@@ -40,8 +60,8 @@ const Profile = () => {
             }
         };
 
-        fetchProtectedData();
-    }, [getAccessTokenSilently, isAuthenticated, isLoading]);
+        checkProfileAndFetchData();
+    }, [getAccessTokenSilently, isAuthenticated, isLoading, user, navigate]);
 
     if (isLoading || apiLoading) {
         return (
@@ -64,7 +84,6 @@ const Profile = () => {
                     </>
                 )}
             </div>
-
         );
     }
 
@@ -81,7 +100,16 @@ const Profile = () => {
         <div className="profile">
             <h1>Profile Data</h1>
             <p>Welcome, {user.name || user.email}!</p>
+            {/*{user[`${CUSTOM_CLAIM_NAMESPACE}firstName`] && <p>Phone: {user[`${CUSTOM_CLAIM_NAMESPACE}firstName`]}</p>}*/}
+            {/*{user[`${CUSTOM_CLAIM_NAMESPACE}lastNames`] && <p>Address: {user[`${CUSTOM_CLAIM_NAMESPACE}lastName`]}</p>}*/}
+            {/*{user[`${CUSTOM_CLAIM_NAMESPACE}phoneNumber`] && <p>Phone: {user[`${CUSTOM_CLAIM_NAMESPACE}phoneNumber`]}</p>}*/}
+            {/*{user[`${CUSTOM_CLAIM_NAMESPACE}address`] && <p>Address: {user[`${CUSTOM_CLAIM_NAMESPACE}address`]}</p>}*/}
+
+            <h3>Protected API Data:</h3>
             <pre>{JSON.stringify(data, null, 2)}</pre>
+
+            <h3>Auth0 User Object (for debugging):</h3>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
         </div>
     );
 };
