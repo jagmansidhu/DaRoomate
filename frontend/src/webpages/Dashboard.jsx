@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, {useEffect, useState} from 'react';
+import {useAuth0} from '@auth0/auth0-react';
 import axios from 'axios';
 
 const Dashboard = () => {
-    const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
+    const {getAccessTokenSilently, user, isLoading, isAuthenticated} = useAuth0();
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [apiLoading, setApiLoading] = useState(true);
@@ -56,11 +56,11 @@ const Dashboard = () => {
         return (
             <div>
                 <h1>Dashboard</h1>
-                <p style={{ color: 'red' }}>Error: {error.message}. Please try logging in again.</p>
+                <p style={{color: 'red'}}>Error: {error.message}. Please try logging in again.</p>
                 {accessToken && (
                     <>
                         <h3>Access Token (for debugging):</h3>
-                        <textarea value={accessToken} readOnly rows="5" cols="80" style={{ wordWrap: 'break-word' }} />
+                        <textarea value={accessToken} readOnly rows="5" cols="80" style={{wordWrap: 'break-word'}}/>
                     </>
                 )}
             </div>

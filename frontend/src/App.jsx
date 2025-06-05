@@ -43,9 +43,9 @@ const LoggedInNavbar = () => {
 };
 
 const LogoutPage = () => {
-    const { logout } = useAuth0();
+    const {logout} = useAuth0();
     useEffect(() => {
-        logout({ logoutParams: { returnTo: window.location.origin } });
+        logout({logoutParams: {returnTo: window.location.origin}});
     }, [logout]);
     return (
         <div>

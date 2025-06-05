@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useAuth0} from '@auth0/auth0-react';
+import {useNavigate} from 'react-router-dom';
 
 const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
 const CompleteProfile = () => {
-    const { user, isLoading, getAccessTokenSilently } = useAuth0();
+    const {user, isLoading, getAccessTokenSilently} = useAuth0();
     const navigate = useNavigate();
     const [phone, setPhone] = useState(user?.user_metadata?.phone || '');
     // const [address, setAddress] = useState(user?.user_metadata?.address || '');
@@ -52,9 +52,6 @@ const CompleteProfile = () => {
             setSuccess(true);
             navigate('/profile');
 
-            console.log(accessToken);
-
-
         } catch (err) {
             console.error('Error updating profile:', err);
             setError('Failed to update profile. Please try again.');
@@ -83,8 +80,8 @@ const CompleteProfile = () => {
             <h1>Complete Your Profile</h1>
             <p>Please provide a few more details to continue.</p>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>Profile updated successfully!</p>}
+            {error && <p style={{color: 'red'}}>{error}</p>}
+            {success && <p style={{color: 'green'}}>Profile updated successfully!</p>}
 
             <form onSubmit={handleSubmit}>
                 <div>
@@ -128,9 +125,9 @@ const CompleteProfile = () => {
                 {/*</div>*/}
                 <div>
 
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Saving...' : 'Complete Profile'}
-                </button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Saving...' : 'Complete Profile'}
+                    </button>
                 </div>
 
             </form>

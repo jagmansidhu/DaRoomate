@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const useProfileCompletionRedirect = () => {
-    const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
     const navigate = useNavigate();
     const location = useLocation();
     const hasCheckedProfile = useRef(false);
