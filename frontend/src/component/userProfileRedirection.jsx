@@ -1,12 +1,11 @@
 import {useEffect, useRef} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 const useProfileCompletionRedirect = () => {
-    const {user, isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
+    const {isAuthenticated, isLoading, getAccessTokenSilently} = useAuth0();
     const navigate = useNavigate();
-    const location = useLocation();
     const hasCheckedProfile = useRef(false);
 
     useEffect(() => {
@@ -32,9 +31,9 @@ const useProfileCompletionRedirect = () => {
                 const isProfileComplete = response.data.isComplete;
                 console.log("Profile completion status from backend:", isProfileComplete);
 
-                if (!isProfileComplete && location.pathname !== '/complete-profile') {
+                if (!isProfileComplete && window.location.pathname !== '/complete-profile') {
                     navigate('/complete-profile');
-                } else if (isProfileComplete && location.pathname === '/complete-profile') {
+                } else if (isProfileComplete && window.location.pathname === '/complete-profile') {
                     navigate('/dashboard');
                 }
                 hasCheckedProfile.current = true;
@@ -48,7 +47,7 @@ const useProfileCompletionRedirect = () => {
             checkProfileAndRedirect();
         }
 
-    }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently, location.pathname]);
+    }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently, window.location.pathname]);
 };
 
 export default useProfileCompletionRedirect;

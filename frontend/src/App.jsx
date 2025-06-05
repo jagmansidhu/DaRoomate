@@ -57,6 +57,8 @@ const LogoutPage = () => {
 
 function AppContent() {
     const {isAuthenticated, isLoading} = useAuth0();
+    const hideNavbarPaths = ['/complete-profile'];
+    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname);
 
     useProfileCompletionRedirect();
 
@@ -66,7 +68,7 @@ function AppContent() {
 
     return (
         <div>
-            {isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>}
+            {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>)}
 
             <Routes>
                 <Route path="/" element={<Home/>}/>
