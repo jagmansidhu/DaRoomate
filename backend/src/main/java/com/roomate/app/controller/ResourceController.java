@@ -8,6 +8,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class ResourceController {
@@ -23,6 +26,16 @@ public class ResourceController {
         UserEntity updateUser = userService.updateUserProfile(userId, updatedDetails);
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
+    }
+
+    @GetMapping("/profile-status")
+    public ResponseEntity<Map<String, Boolean>> getProfileCompletionStatus(@AuthenticationPrincipal Jwt jwt) {
+        String auth0UserId = jwt.getSubject();
+        boolean isComplete = userService.isProfileCompleteInDatabase(auth0UserId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isComplete", isComplete);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/public_resource")

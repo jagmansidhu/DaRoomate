@@ -3,18 +3,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
 const useProfileCompletionRedirect = () => {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
     const [apiCallMade, setApiCallMade] = useState(false);
+    const [isProfileComplete, setIsProfileComplete] = useState(false);
+    // const [accessToken, setAccessToken] = useState(false);
+
 
     useEffect(() => {
         const checkProfileAndProvision = async () => {
-            if (isLoading || !isAuthenticated || apiCallMade) {
-                return;
-            }
 
             try {
                 const accessToken = await getAccessTokenSilently({
@@ -23,6 +22,7 @@ const useProfileCompletionRedirect = () => {
                         scope: 'read:data',
                     },
                 });
+                // setAccessToken(accessToken);
 
                 await axios.get('http://localhost:8085/api/create_or_find_user', {
                     headers: {
@@ -35,16 +35,34 @@ const useProfileCompletionRedirect = () => {
                 console.error("Error provisioning user in backend via /api/create_or_find_user:", provisioningError);
                 setApiCallMade(true);
             }
-            const isProfileComplete = user?.[`${CUSTOM_CLAIM_NAMESPACE}isProfileComplete`];
 
-            if (isProfileComplete === false) {
-                console.log("Profile is incomplete. Redirecting...");
-                navigate('/complete-profile');
-            } else if (isProfileComplete === true) {
-                console.log("Profile is complete. Staying on current page or redirecting to dashboard.");
-                if (window.location.pathname === '/complete-profile') {
-                    navigate('/dashboard');
+            try {
+                const accessToken = await getAccessTokenSilently({
+                    authorizationParams: {
+                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+                        scope: 'read:data',
+                    },
+                });
+
+                const response = await axios.get('http://localhost:8085/api/profile-status', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setIsProfileComplete(response.data.isComplete);
+                console.log("Profile completion status from backend:", response.data.isComplete)
+                if (isProfileComplete === false) {
+                    console.log("Profile is incomplete. Redirecting...");
+                    navigate('/complete-profile');
+                } else if (isProfileComplete === true) {
+                    console.log("Profile is complete. Staying on current page or redirecting to dashboard.");
+                    if (window.location.pathname === '/complete-profile') {
+                        navigate('/dashboard');
+                    }
                 }
+            } catch (error) {
+                console.error(error);
+                setApiCallMade(true);
             }
         };
 

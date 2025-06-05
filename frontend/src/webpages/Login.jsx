@@ -6,7 +6,7 @@ const Login = () => {
 
     useEffect(() => {
         loginWithRedirect({
-            appState: { returnTo: "/" }
+            appState: { returnTo: "/dashboard" },
         });
     }, [loginWithRedirect]);
 

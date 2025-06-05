@@ -3,6 +3,7 @@ package com.roomate.app.service.implementation;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.UserService;
+import jakarta.validation.constraints.Null;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findByAuthId(authId);
     }
 
+
     public UserEntity updateUserProfile(String authId, UserEntity updatedDetails) {
         UserEntity user = userRepository.findByAuthId(authId)
                 .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
@@ -49,4 +51,14 @@ public class UserServiceImplementation implements UserService {
         return userRepository.save(user);
     }
 
+    public boolean isProfileCompleteInDatabase(String authId) {
+        UserEntity user = userRepository.findByAuthId(authId)
+                .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
+
+        boolean firstNameProvided = user.getFirstName() != null && !user.getFirstName().isEmpty();
+        boolean lastNameProvided = user.getLastName() != null && !user.getLastName().isEmpty();
+        boolean phoneProvided = user.getPhone() != null && !user.getPhone().isEmpty();
+
+        return firstNameProvided & lastNameProvided & phoneProvided;
+    }
 }

@@ -23,7 +23,6 @@ const CompleteProfile = () => {
         setSuccess(false);
 
         try {
-
             const accessToken = await getAccessTokenSilently({
                 audience: process.env.REACT_APP_AUTH0_AUDIENCE,
                 scope: "update:profile",
@@ -52,6 +51,9 @@ const CompleteProfile = () => {
 
             setSuccess(true);
             navigate('/profile');
+
+            console.log(accessToken);
+
 
         } catch (err) {
             console.error('Error updating profile:', err);
@@ -124,10 +126,16 @@ const CompleteProfile = () => {
                 {/*        required*/}
                 {/*    />*/}
                 {/*</div>*/}
+                <div>
+
                 <button type="submit" disabled={loading}>
                     {loading ? 'Saving...' : 'Complete Profile'}
                 </button>
+                </div>
+
             </form>
+
+
         </div>
     );
 };

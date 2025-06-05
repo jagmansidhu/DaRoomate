@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import {Auth0Provider} from '@auth0/auth0-react';
@@ -10,28 +10,55 @@ import useProfileCompletionRedirect from "./component/userProfileRedirection";
 import CompleteProfile from "./webpages/completeProfile";
 
 const LoggedOutNavbar = () => (
-    <nav style={{backgroundColor: '#f0f0f0', padding: '10px'}}>
-        <ul style={{listStyleType: 'none', margin: 0, padding: 0, display: 'flex', gap: '20px'}}>
+    <nav>
+        <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/login">Login</Link></li>
         </ul>
     </nav>
 );
 
-const LoggedInNavbar = () => (
-    <nav style={{backgroundColor: '#e0e0e0', padding: '10px'}}>
-        <ul style={{listStyleType: 'none', margin: 0, padding: 0, display: 'flex', gap: '20px'}}>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-        </ul>
-    </nav>
-);
+const LoggedInNavbar = () => {
+    const {logout} = useAuth0();
+
+    const handleLogout = () => {
+        logout({logoutParams: {returnTo: window.location.origin}});
+    };
+
+    return (
+        <nav>
+            <ul>
+                <li><Link to="/dashboard">Dashboard</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
+                <li>
+                    <button
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    );
+};
+
+const LogoutPage = () => {
+    const { logout } = useAuth0();
+    useEffect(() => {
+        logout({ logoutParams: { returnTo: window.location.origin } });
+    }, [logout]);
+    return (
+        <div>
+            <h2>Logging out...</h2>
+        </div>
+    );
+};
+
 
 function AppContent() {
     const {isAuthenticated, isLoading} = useAuth0();
 
-    useProfileCompletionRedirect();
+    // useProfileCompletionRedirect();
 
     if (isLoading) {
         return <div>Loading authentication status...</div>;
@@ -88,11 +115,3 @@ export default function App() {
         </Auth0Provider>
     );
 }
-
-const LogoutPage = () => {
-    const {logout} = useAuth0();
-    React.useEffect(() => {
-        logout({logoutParams: {returnTo: window.location.origin}});
-    }, [logout]);
-    return <h2>Logging out...</h2>;
-};

@@ -6,13 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/component/userProfileRedirection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/userProfileRedirection.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/completeProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/completeProfile.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -272,7 +271,7 @@
       <workItem from="1748291158071" duration="3687000" />
       <workItem from="1748363130660" duration="95255000" />
       <workItem from="1749064176985" duration="9551000" />
-      <workItem from="1749155474523" duration="2416000" />
+      <workItem from="1749155474523" duration="7708000" />
     </task>
     <servers />
   </component>
