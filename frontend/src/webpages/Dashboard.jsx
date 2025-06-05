@@ -26,7 +26,7 @@ const Dashboard = () => {
                 });
                 setAccessToken(accessToken);
 
-                const response = await axios.get('http://localhost:8085/api/secret_resource', {
+                const response = await axios.get('http://localhost:8085/api/create_or_find_user', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

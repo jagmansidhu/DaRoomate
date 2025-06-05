@@ -30,17 +30,17 @@ public class ResourceController {
         return ResponseEntity.ok("This is a public resource from Spring Boot.");
     }
 
-    @GetMapping("/secret_resource")
-    public ResponseEntity<String> getSecretResource(@AuthenticationPrincipal Jwt jwt) {
+    @GetMapping("/create_or_find_user")
+    public ResponseEntity<String> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject();
-        String userEmail = jwt.getClaimAsString("email");
+        String email = jwt.getClaimAsString("email");
         String firstName = jwt.getClaimAsString("first_name");
         String lastName = jwt.getClaimAsString("last_name");
 
-        UserEntity currentUser = userService.findOrCreateUserByAuthId(userId, userEmail, firstName, lastName);
+        UserEntity currentUser = userService.findOrCreateUserByAuthId(userId, email, firstName, lastName);
 
         return ResponseEntity.ok("This is a secret resource accessed by user: " + firstName +
-                " (Auth0 UID: " + userId + ", Local DB ID: " + currentUser.getId() + ", Email: " + userEmail + ")");
+                " (Auth0 UID: " + userId + ", Local DB ID: " + currentUser.getId() + ", Email: " + email + ")");
     }
 
      @PutMapping("/profile")

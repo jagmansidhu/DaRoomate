@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 
 const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
@@ -24,15 +24,15 @@ const useProfileCompletionRedirect = () => {
                     },
                 });
 
-                await axios.get('http://localhost:8085/api/secret_resource', {
+                await axios.get('http://localhost:8085/api/create_or_find_user', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("User provisioned/found in backend via /api/secret_resource.");
+                console.log("User provisioned/found in backend via /api/create_or_find_user.");
                 setApiCallMade(true);
             } catch (provisioningError) {
-                console.error("Error provisioning user in backend via /api/secret_resource:", provisioningError);
+                console.error("Error provisioning user in backend via /api/create_or_find_user:", provisioningError);
                 setApiCallMade(true);
             }
             const isProfileComplete = user?.[`${CUSTOM_CLAIM_NAMESPACE}isProfileComplete`];

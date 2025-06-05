@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
 const CompleteProfile = () => {
-    const { user, isLoading } = useAuth0();
+    const { user, isLoading, getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const [phoneNumber, setPhoneNumber] = useState(user?.user_metadata?.phoneNumber || '');
-    const [address, setAddress] = useState(user?.user_metadata?.address || '');
+    const [phone, setPhone] = useState(user?.user_metadata?.phone || '');
+    // const [address, setAddress] = useState(user?.user_metadata?.address || '');
     const [firstName, setFirstName] = useState(user?.user_metadata?.firstName || '');
     const [lastName, setLastName] = useState(user?.user_metadata?.lastName || '');
 
@@ -23,7 +23,32 @@ const CompleteProfile = () => {
         setSuccess(false);
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const accessToken = await getAccessTokenSilently({
+                audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+                scope: "update:profile",
+            });
+
+            const response = await fetch('http://localhost:8085/api/additional_info', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    firstName,
+                    lastName,
+                    phone,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update profile.');
+            }
+
+            setSuccess(true);
+            navigate('/dashboard');
 
             setSuccess(true);
             navigate('/profile');
@@ -85,20 +110,20 @@ const CompleteProfile = () => {
                     <input
                         type="text"
                         id="phoneNumber"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="address">Address:</label>
-                    <textarea
-                        id="address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label htmlFor="address">Address:</label>*/}
+                {/*    <textarea*/}
+                {/*        id="address"*/}
+                {/*        value={address}*/}
+                {/*        onChange={(e) => setAddress(e.target.value)}*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <button type="submit" disabled={loading}>
                     {loading ? 'Saving...' : 'Complete Profile'}
                 </button>

@@ -6,7 +6,7 @@ const Login = () => {
 
     useEffect(() => {
         loginWithRedirect({
-            appState: { returnTo: "/additional-info" }
+            appState: { returnTo: "/" }
         });
     }, [loginWithRedirect]);
 

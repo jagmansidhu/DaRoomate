@@ -40,7 +40,7 @@ public class UserServiceImplementation implements UserService {
 
     public UserEntity updateUserProfile(String authId, UserEntity updatedDetails) {
         UserEntity user = userRepository.findByAuthId(authId)
-                .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId)); // Or a more specific exception
+                .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
 
         user.setFirstName(updatedDetails.getFirstName());
         user.setLastName(updatedDetails.getLastName());

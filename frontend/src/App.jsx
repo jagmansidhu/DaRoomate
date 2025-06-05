@@ -8,7 +8,6 @@ import Profile from './webpages/Profile';
 import Home from './webpages/Home';
 import useProfileCompletionRedirect from "./component/userProfileRedirection";
 import CompleteProfile from "./webpages/completeProfile";
-import PrivateRoute from "./component/privateRoute";
 
 const LoggedOutNavbar = () => (
     <nav style={{backgroundColor: '#f0f0f0', padding: '10px'}}>
