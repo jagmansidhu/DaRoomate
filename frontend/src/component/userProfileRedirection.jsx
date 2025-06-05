@@ -1,39 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useRef} from 'react';
+import {useAuth0} from '@auth0/auth0-react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-
 
 const useProfileCompletionRedirect = () => {
     const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const [apiCallMade, setApiCallMade] = useState(false);
-    const [isProfileComplete, setIsProfileComplete] = useState(false);
-    // const [accessToken, setAccessToken] = useState(false);
-
+    const location = useLocation();
+    const hasCheckedProfile = useRef(false);
 
     useEffect(() => {
-        const checkProfileAndProvision = async () => {
-
-            try {
-                const accessToken = await getAccessTokenSilently({
-                    authorizationParams: {
-                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: 'read:data',
-                    },
-                });
-                // setAccessToken(accessToken);
-
-                await axios.get('http://localhost:8085/api/create_or_find_user', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                console.log("User provisioned/found in backend via /api/create_or_find_user.");
-                setApiCallMade(true);
-            } catch (provisioningError) {
-                console.error("Error provisioning user in backend via /api/create_or_find_user:", provisioningError);
-                setApiCallMade(true);
+        const checkProfileAndRedirect = async () => {
+            if (!isAuthenticated || isLoading || hasCheckedProfile.current) {
+                return;
             }
 
             try {
@@ -49,25 +28,27 @@ const useProfileCompletionRedirect = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                setIsProfileComplete(response.data.isComplete);
-                console.log("Profile completion status from backend:", response.data.isComplete)
-                if (isProfileComplete === false) {
-                    console.log("Profile is incomplete. Redirecting...");
+
+                const isProfileComplete = response.data.isComplete;
+                console.log("Profile completion status from backend:", isProfileComplete);
+
+                if (!isProfileComplete && location.pathname !== '/complete-profile') {
                     navigate('/complete-profile');
-                } else if (isProfileComplete === true) {
-                    console.log("Profile is complete. Staying on current page or redirecting to dashboard.");
-                    if (window.location.pathname === '/complete-profile') {
-                        navigate('/dashboard');
-                    }
+                } else if (isProfileComplete && location.pathname === '/complete-profile') {
+                    navigate('/dashboard');
                 }
+                hasCheckedProfile.current = true;
+
             } catch (error) {
-                console.error(error);
-                setApiCallMade(true);
+                console.error("Error checking profile status:", error);
             }
         };
 
-        checkProfileAndProvision();
-    }, [isAuthenticated, isLoading, user, navigate, getAccessTokenSilently, apiCallMade]);
+        if (isAuthenticated && !isLoading) {
+            checkProfileAndRedirect();
+        }
+
+    }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently, location.pathname]);
 };
 
 export default useProfileCompletionRedirect;

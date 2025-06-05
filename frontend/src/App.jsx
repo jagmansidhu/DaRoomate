@@ -58,7 +58,7 @@ const LogoutPage = () => {
 function AppContent() {
     const {isAuthenticated, isLoading} = useAuth0();
 
-    // useProfileCompletionRedirect();
+    useProfileCompletionRedirect();
 
     if (isLoading) {
         return <div>Loading authentication status...</div>;
