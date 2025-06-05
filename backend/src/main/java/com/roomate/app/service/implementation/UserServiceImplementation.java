@@ -44,8 +44,8 @@ public class UserServiceImplementation implements UserService {
         UserEntity user = userRepository.findByAuthId(authId)
                 .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
 
-        user.setFirstName(updatedDetails.getFirstName());
-        user.setLastName(updatedDetails.getLastName());
+        user.setFirstName(updatedDetails.getFirstName().toLowerCase());
+        user.setLastName(updatedDetails.getLastName().toUpperCase());
         user.setPhone(updatedDetails.getPhone());
 
         return userRepository.save(user);
