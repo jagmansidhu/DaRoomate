@@ -17,6 +17,7 @@ public class UserServiceImplementation implements UserService {
         this.userRepository = userRepository;
     }
 
+    // EFFECTS : Creates a new user if user is not alreedy in database and then return user
     @Override
     @Transactional
     public UserEntity findOrCreateUserByAuthId(String authId, String email, String firstName, String lastName) {
@@ -35,6 +36,7 @@ public class UserServiceImplementation implements UserService {
         }
     }
 
+    // EFFECTS : Updates user profile with new First name, Last name, and Phone num
     @Override
     public UserEntity updateUserProfile(String authId, UserEntity updatedDetails) {
         UserEntity user = userRepository.findByAuthId(authId)
@@ -47,6 +49,7 @@ public class UserServiceImplementation implements UserService {
         return userRepository.save(user);
     }
 
+    // Effects : Determines if profile is complete in the database
     @Override
     public boolean isProfileCompleteInDatabase(String authId) {
         UserEntity user = userRepository.findByAuthId(authId)
