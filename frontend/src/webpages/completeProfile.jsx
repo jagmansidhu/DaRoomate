@@ -124,15 +124,11 @@ const CompleteProfile = () => {
                 {/*    />*/}
                 {/*</div>*/}
                 <div>
-
                     <button type="submit" disabled={loading}>
                         {loading ? 'Saving...' : 'Complete Profile'}
                     </button>
                 </div>
-
             </form>
-
-
         </div>
     );
 };

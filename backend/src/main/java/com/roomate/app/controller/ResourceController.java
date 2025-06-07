@@ -20,6 +20,7 @@ public class ResourceController {
         this.userService = userService;
     }
 
+    // EFFECTS : Adds additional information : First Name, Last Name, and Phone Number to user
     @PutMapping("/additional_info")
     public ResponseEntity<?> addAdditionalInfo(@AuthenticationPrincipal Jwt jwt, @RequestBody UserEntity updatedDetails) {
         String userId = jwt.getSubject();
@@ -28,6 +29,7 @@ public class ResourceController {
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
+    // EFFECTS : Determines if user information has been inputted and complete
     @GetMapping("/profile-status")
     public ResponseEntity<Map<String, Boolean>> getProfileCompletionStatus(@AuthenticationPrincipal Jwt jwt) {
         String auth0UserId = jwt.getSubject();
@@ -38,11 +40,7 @@ public class ResourceController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/public_resource")
-    public ResponseEntity<String> getPublicResource() {
-        return ResponseEntity.ok("This is a public resource from Spring Boot.");
-    }
-
+    // EFFECTS : Checks if user exists and return user, if no user create the user
     @GetMapping("/create_or_find_user")
     public ResponseEntity<String> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject();
@@ -55,31 +53,5 @@ public class ResourceController {
         return ResponseEntity.ok("This is a secret resource accessed by user: " + firstName +
                 " (Auth0 UID: " + userId + ", Local DB ID: " + currentUser.getId() + ", Email: " + email + ")");
     }
-
-     @PutMapping("/profile")
-     public ResponseEntity<UserEntity> updateProfile(@AuthenticationPrincipal Jwt jwt, @RequestBody UserEntity updatedDetails) {
-         String userId= jwt.getSubject();
-         UserEntity updatedUser = userService.updateUserProfile(userId, updatedDetails);
-         return ResponseEntity.ok(updatedUser);
-     }
-
-//    @PostMapping("/provision-user")
-//    public ResponseEntity<UserEntity> provisionUser(@AuthenticationPrincipal Jwt jwt) {
-//        String userId = jwt.getSubject();
-//        String userEmail = jwt.getClaimAsString("email");
-//        String firstName = jwt.getClaimAsString("given_name");
-//        String lastName = jwt.getClaimAsString("family_name");
-//
-//        if (firstName == null && jwt.getClaimAsString("name") != null) {
-//            String fullName = jwt.getClaimAsString("name");
-//            String[] parts = fullName.split(" ", 2);
-//            firstName = parts.length > 0 ? parts[0] : null;
-//            lastName = parts.length > 1 ? parts[1] : null;
-//        }
-//
-//
-//        UserEntity currentUser = userService.findOrCreateUserByAuthId(userId, userEmail, firstName, lastName);
-//        return new ResponseEntity<>(currentUser, HttpStatus.OK);
-//    }
 
 }

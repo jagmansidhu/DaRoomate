@@ -3,7 +3,6 @@ package com.roomate.app.service.implementation;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.UserService;
-import jakarta.validation.constraints.Null;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +17,7 @@ public class UserServiceImplementation implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
     @Transactional
     public UserEntity findOrCreateUserByAuthId(String authId, String email, String firstName, String lastName) {
         Optional<UserEntity> existingUser = userRepository.findByAuthId(authId);
@@ -35,11 +35,7 @@ public class UserServiceImplementation implements UserService {
         }
     }
 
-    public Optional<UserEntity> findUserByauthId(String authId) {
-        return userRepository.findByAuthId(authId);
-    }
-
-
+    @Override
     public UserEntity updateUserProfile(String authId, UserEntity updatedDetails) {
         UserEntity user = userRepository.findByAuthId(authId)
                 .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
@@ -51,6 +47,7 @@ public class UserServiceImplementation implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
     public boolean isProfileCompleteInDatabase(String authId) {
         UserEntity user = userRepository.findByAuthId(authId)
                 .orElseThrow(() -> new RuntimeException("User not found for Auth0 ID: " + authId));
