@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/dockerTest/compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application-test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/RestAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/RestAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/docker/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker/compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/StartOneApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/StartOneApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,52 +68,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;JUnit.RegisterControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Coverage&quot;,
-    &quot;JUnit.UserServiceTest.getUserByUserIdTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.UserServiceTest.testGetAllUsers.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testRegisterUser.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Debug Application.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.StartOneApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.StartOneApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.StartOneApplication2.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jagman/IdeaProjects/ProjectStart/backend/src/main/java/com/roomate/app/constant&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.RegisterControllerTest.executor": "Run",
+    "JUnit.UserRepositoryTest.executor": "Run",
+    "JUnit.UserRepositoryTest.getByAuthIdTest.executor": "Coverage",
+    "JUnit.UserRepositoryTest.newUserTestAdded.executor": "Run",
+    "JUnit.UserServiceTest.executor": "Coverage",
+    "JUnit.UserServiceTest.getUserByUserIdTest.executor": "Debug",
+    "JUnit.UserServiceTest.testGetAllUsers.executor": "Run",
+    "JUnit.UserServiceTest.testRegisterUser.executor": "Run",
+    "JavaScript Debug.Debug Application.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.StartOneApplication (1).executor": "Run",
+    "Spring Boot.StartOneApplication.executor": "Run",
+    "Spring Boot.StartOneApplication2.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/jagman/IdeaProjects/ProjectStart/backend/dockerTest",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.roomate.app.security" />
       <recent name="com.roomate.app.Exception" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/dockerTest" />
       <recent name="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant" />
       <recent name="$PROJECT_DIR$/backend/docker" />
     </key>
@@ -116,7 +129,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.StartOneApplication2">
+  <component name="RunManager" selected="JUnit.UserRepositoryTest">
     <configuration name="RegisterControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -142,22 +155,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterControllerTest.getUserByUserIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="demo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.RegisterControllerTest" />
-      <option name="METHOD_NAME" value="getUserByUserIdTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="RegisterControllerTest.testGetAllUsers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -174,31 +171,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterControllerTest.testRegisterUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
+          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.RegisterControllerTest" />
-      <option name="METHOD_NAME" value="testRegisterUser" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
-      <method v="2" />
-    </configuration>
-    <configuration name="StartOneApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+    <configuration name="UserRepositoryTest.getByAuthIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="payrollDemo.StartOneApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="payrollDemo.*" />
+          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.roomate.app.repository.UserRepository" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -207,9 +203,32 @@
         <option name="region" />
         <option name="useCurrentConnection" value="false" />
       </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
+      <option name="METHOD_NAME" value="getByAuthIdTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="UserRepositoryTest.newUserTestAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
+      <option name="METHOD_NAME" value="newUserTestAdded" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
     </configuration>
     <configuration name="StartOneApplication2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="demo" />
@@ -225,20 +244,20 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.Debug Application" />
+      <item itemvalue="JUnit.UserRepositoryTest" />
+      <item itemvalue="JUnit.UserRepositoryTest.getByAuthIdTest" />
+      <item itemvalue="JUnit.UserRepositoryTest.newUserTestAdded" />
       <item itemvalue="JUnit.RegisterControllerTest" />
-      <item itemvalue="JUnit.RegisterControllerTest.getUserByUserIdTest" />
       <item itemvalue="JUnit.RegisterControllerTest.testGetAllUsers" />
-      <item itemvalue="JUnit.RegisterControllerTest.testRegisterUser" />
       <item itemvalue="Spring Boot.StartOneApplication2" />
-      <item itemvalue="Spring Boot.StartOneApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserRepositoryTest" />
+        <item itemvalue="JUnit.UserRepositoryTest.getByAuthIdTest" />
+        <item itemvalue="JUnit.UserRepositoryTest.newUserTestAdded" />
         <item itemvalue="JUnit.RegisterControllerTest" />
         <item itemvalue="JUnit.RegisterControllerTest.testGetAllUsers" />
-        <item itemvalue="JUnit.RegisterControllerTest.testRegisterUser" />
-        <item itemvalue="JUnit.RegisterControllerTest.getUserByUserIdTest" />
-        <item itemvalue="Spring Boot.StartOneApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -266,7 +285,7 @@
       <workItem from="1748291158071" duration="3687000" />
       <workItem from="1748363130660" duration="95255000" />
       <workItem from="1749064176985" duration="9551000" />
-      <workItem from="1749155474523" duration="18032000" />
+      <workItem from="1749155474523" duration="22332000" />
     </task>
     <servers />
   </component>
@@ -304,6 +323,9 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ProjectStart$UserRepositoryTest_getByAuthIdTest.ic" NAME="UserRepositoryTest.getByAuthIdTest Coverage Results" MODIFIED="1749341757477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.example.demo.repositoryTest.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/ProjectStart$UserServiceTest.ic" NAME="UserServiceTest Coverage Results" MODIFIED="1748457448545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.example.demo.serviceTest.*</FILTER>
       <FILTER>com.roomate.app.controller.UserController</FILTER>

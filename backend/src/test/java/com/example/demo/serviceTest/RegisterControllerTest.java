@@ -1,6 +1,5 @@
 package com.example.demo.serviceTest;
 
-import com.example.demo.StartOneApplicationTests;
 import com.roomate.app.StartOneApplication;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;

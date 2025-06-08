@@ -1,0 +1,15 @@
+#Database
+POSTGRESQL_USERNAME: user1
+POSTGRESQL_PASSWORD: fortnite_battlepass2
+POSTGRESQL_HOST: localhost
+POSTGRESQL_PORT: 5432
+POSTGRESQL_DATABASE: appDatabaseTest
+
+#Server
+CONTAINER_PORT: 8085
+ACTIVE_PROFILE: dev
+
+AUTH_DOMAIN: https://dev-jkluq6f22lia7dmr.us.auth0.com/
+
+
+
