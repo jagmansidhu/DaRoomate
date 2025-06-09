@@ -13,10 +13,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class ResourceController {
+public class UserController {
     private final UserServiceImplementation userService;
 
-    public ResourceController(UserServiceImplementation userService) {
+    public UserController(UserServiceImplementation userService) {
         this.userService = userService;
     }
 
@@ -48,10 +48,14 @@ public class ResourceController {
         String firstName = jwt.getClaimAsString("first_name");
         String lastName = jwt.getClaimAsString("last_name");
 
-        UserEntity currentUser = userService.findOrCreateUserByAuthId(userId, email, firstName, lastName);
+        if (userService.userExists(userId, email)) {
+            userService.getUserByAuthId(userId);
+            return ResponseEntity.ok("User found in database");
+        }
 
-        return ResponseEntity.ok("This is a secret resource accessed by user: " + firstName +
-                " (Auth0 UID: " + userId + ", Local DB ID: " + currentUser.getId() + ", Email: " + email + ")");
+        userService.createUserByAuthID(userId, email, firstName, lastName);
+
+        return ResponseEntity.ok("User created");
     }
 
 }

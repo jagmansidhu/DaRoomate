@@ -5,18 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/dockerTest/compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application-test.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/docker/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker/compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/StartOneApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/StartOneApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/resourceTest/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,13 +70,18 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.RegisterControllerTest.executor": "Run",
-    "JUnit.UserRepositoryTest.executor": "Run",
+    "JUnit.UserRepositoryTest.executor": "Coverage",
     "JUnit.UserRepositoryTest.getByAuthIdTest.executor": "Coverage",
     "JUnit.UserRepositoryTest.newUserTestAdded.executor": "Run",
-    "JUnit.UserServiceTest.executor": "Coverage",
+    "JUnit.UserServiceTest.createUserTest.executor": "Run",
+    "JUnit.UserServiceTest.executor": "Run",
     "JUnit.UserServiceTest.getUserByUserIdTest.executor": "Debug",
+    "JUnit.UserServiceTest.isUserCompleteCompleted.executor": "Run",
+    "JUnit.UserServiceTest.isUserCompleteIncompletedTest.executor": "Run",
     "JUnit.UserServiceTest.testGetAllUsers.executor": "Run",
     "JUnit.UserServiceTest.testRegisterUser.executor": "Run",
+    "JUnit.UserServiceTest.updateUserTest.executor": "Run",
+    "JUnit.UserServiceTest.userExistsTrueTest.executor": "Run",
     "JavaScript Debug.Debug Application.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
@@ -129,8 +131,8 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserRepositoryTest">
-    <configuration name="RegisterControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.UserServiceTest">
+    <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
         <pattern>
@@ -138,7 +140,7 @@
           <option name="ENABLED" value="true" />
         </pattern>
         <pattern>
-          <option name="PATTERN" value="com.roomate.app.controller.RegisterController" />
+          <option name="PATTERN" value="com.roomate.app.service.implementation.UserServiceImplementation" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -148,14 +150,14 @@
         <option name="useCurrentConnection" value="false" />
       </extension>
       <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.RegisterControllerTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterControllerTest.testGetAllUsers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceTest.isUserCompleteCompleted" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
         <pattern>
@@ -164,64 +166,56 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.RegisterControllerTest" />
-      <option name="METHOD_NAME" value="testGetAllUsers" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
+      <option name="METHOD_NAME" value="isUserCompleteCompleted" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceTest.isUserCompleteIncompletedTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
+          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserRepositoryTest.getByAuthIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="demo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-        <pattern>
-          <option name="PATTERN" value="com.roomate.app.repository.UserRepository" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-        <option name="credential" />
-        <option name="region" />
-        <option name="useCurrentConnection" value="false" />
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
-      <option name="METHOD_NAME" value="getByAuthIdTest" />
+      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
+      <option name="METHOD_NAME" value="isUserCompleteIncompletedTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserRepositoryTest.newUserTestAdded" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserServiceTest.updateUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
+          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
-      <option name="METHOD_NAME" value="newUserTestAdded" />
+      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
+      <option name="METHOD_NAME" value="updateUserTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceTest.userExistsTrueTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
+      <option name="METHOD_NAME" value="userExistsTrueTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -244,20 +238,20 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.Debug Application" />
-      <item itemvalue="JUnit.UserRepositoryTest" />
-      <item itemvalue="JUnit.UserRepositoryTest.getByAuthIdTest" />
-      <item itemvalue="JUnit.UserRepositoryTest.newUserTestAdded" />
-      <item itemvalue="JUnit.RegisterControllerTest" />
-      <item itemvalue="JUnit.RegisterControllerTest.testGetAllUsers" />
+      <item itemvalue="JUnit.UserServiceTest" />
+      <item itemvalue="JUnit.UserServiceTest.isUserCompleteCompleted" />
+      <item itemvalue="JUnit.UserServiceTest.isUserCompleteIncompletedTest" />
+      <item itemvalue="JUnit.UserServiceTest.updateUserTest" />
+      <item itemvalue="JUnit.UserServiceTest.userExistsTrueTest" />
       <item itemvalue="Spring Boot.StartOneApplication2" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UserRepositoryTest" />
-        <item itemvalue="JUnit.UserRepositoryTest.getByAuthIdTest" />
-        <item itemvalue="JUnit.UserRepositoryTest.newUserTestAdded" />
-        <item itemvalue="JUnit.RegisterControllerTest" />
-        <item itemvalue="JUnit.RegisterControllerTest.testGetAllUsers" />
+        <item itemvalue="JUnit.UserServiceTest" />
+        <item itemvalue="JUnit.UserServiceTest.updateUserTest" />
+        <item itemvalue="JUnit.UserServiceTest.isUserCompleteIncompletedTest" />
+        <item itemvalue="JUnit.UserServiceTest.isUserCompleteCompleted" />
+        <item itemvalue="JUnit.UserServiceTest.userExistsTrueTest" />
       </list>
     </recent_temporary>
   </component>
@@ -285,7 +279,7 @@
       <workItem from="1748291158071" duration="3687000" />
       <workItem from="1748363130660" duration="95255000" />
       <workItem from="1749064176985" duration="9551000" />
-      <workItem from="1749155474523" duration="22332000" />
+      <workItem from="1749155474523" duration="27487000" />
     </task>
     <servers />
   </component>
@@ -326,9 +320,12 @@
     <SUITE FILE_PATH="coverage/ProjectStart$UserRepositoryTest_getByAuthIdTest.ic" NAME="UserRepositoryTest.getByAuthIdTest Coverage Results" MODIFIED="1749341757477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.example.demo.repositoryTest.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ProjectStart$UserServiceTest.ic" NAME="UserServiceTest Coverage Results" MODIFIED="1748457448545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/ProjectStart$UserServiceTest.ic" NAME="UserServiceTest Coverage Results" MODIFIED="1749504087274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.example.demo.serviceTest.*</FILTER>
-      <FILTER>com.roomate.app.controller.UserController</FILTER>
+      <FILTER>com.roomate.app.service.implementation.UserServiceImplementation</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/ProjectStart$UserRepositoryTest.ic" NAME="UserRepositoryTest Coverage Results" MODIFIED="1749501581642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.example.demo.repositoryTest.*</FILTER>
     </SUITE>
   </component>
 </project>

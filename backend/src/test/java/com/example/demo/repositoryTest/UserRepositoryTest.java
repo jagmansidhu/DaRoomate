@@ -24,6 +24,8 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    private UserEntity userEntity;
+
     @AfterEach
     void deleteAll() {
         userRepository.deleteAll();
@@ -31,7 +33,7 @@ public class UserRepositoryTest {
 
     @Test
     void newUserTestAdded() {
-        UserEntity userEntity = new UserEntity("!23", "TESTING", "LASTTESTING", "TESTTT@AMOUNGUS.ca", "12345");
+        userEntity = new UserEntity("!23", "TESTING", "LASTTESTING", "TESTTT@AMOUNGUS.ca", "12345");
         UserEntity insertedUser = userRepository.save(userEntity);
 
         Optional<UserEntity> findUser = userRepository.findById(insertedUser.getId());
@@ -42,7 +44,7 @@ public class UserRepositoryTest {
 
     @Test
     void getByAuthIdTest() {
-        UserEntity userEntity = new UserEntity("!23", "TESTING", "LASTTESTING", "TESTTT@AMOUNGUS.ca", "12345");
+        userEntity = new UserEntity("!23", "TESTING", "LASTTESTING", "TESTTT@AMOUNGUS.ca", "12345");
         UserEntity insertedUser = userRepository.save(userEntity);
 
         Optional<UserEntity> findUser = userRepository.findById(insertedUser.getId());

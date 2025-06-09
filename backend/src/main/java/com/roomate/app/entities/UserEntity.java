@@ -43,6 +43,19 @@ public class UserEntity {
         this.phone = phone;
     }
 
+    public UserEntity(String authId, String email, String firstName, String lastName) {
+        this.authId = authId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public UserEntity(String firstName, String lastName, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phoneNumber;
+    }
+
     public UserEntity(String authId, String email) {
         this.authId = authId;
         this.email = email;

@@ -17,23 +17,29 @@ public class UserServiceImplementation implements UserService {
         this.userRepository = userRepository;
     }
 
+    // EFFECTS :Checks if User currently exists in db
+    public boolean userExists(String authId, String email) {
+        return userRepository.existsByEmail(email) && userRepository.existsByAuthId(authId);
+    }
+
+    //REQUIRES : UserExists before calling
+    // EFFECTS : finds and returns user from database
+    public UserEntity getUserByAuthId(String authId) {
+        return userRepository.findByAuthId(authId).get();
+    }
+
     // EFFECTS : Creates a new user if user is not alreedy in database and then return user
     @Override
     @Transactional
-    public UserEntity findOrCreateUserByAuthId(String authId, String email, String firstName, String lastName) {
-        Optional<UserEntity> existingUser = userRepository.findByAuthId(authId);
+    public UserEntity createUserByAuthID(String authId, String email, String firstName, String lastName) {
 
-        if (existingUser.isPresent()) {
-            return existingUser.get();
-        } else {
-            UserEntity newUser = new UserEntity();
-            newUser.setAuthId(authId);
-            newUser.setEmail(email);
-            newUser.setFirstName(firstName);
-            newUser.setLastName(lastName);
+        UserEntity newUser = new UserEntity();
+        newUser.setAuthId(authId);
+        newUser.setEmail(email);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
 
-            return userRepository.save(newUser);
-        }
+        return userRepository.save(newUser);
     }
 
     // EFFECTS : Updates user profile with new First name, Last name, and Phone num
