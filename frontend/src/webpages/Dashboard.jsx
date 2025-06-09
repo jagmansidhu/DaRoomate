@@ -52,22 +52,6 @@ const Dashboard = () => {
         );
     }
 
-    if (error) {
-        return (
-            <div>
-                <h1>Dashboard</h1>
-                <p style={{color: 'red'}}>Error: {error.message}. Please try logging in again.</p>
-                {accessToken && (
-                    <>
-                        <h3>Access Token (for debugging):</h3>
-                        <textarea value={accessToken} readOnly rows="5" cols="80" style={{wordWrap: 'break-word'}}/>
-                    </>
-                )}
-            </div>
-
-        );
-    }
-
     if (!isAuthenticated) {
         return (
             <div>
@@ -81,7 +65,6 @@ const Dashboard = () => {
         <div>
             <h1>Dashboard Data</h1>
             <p>Welcome, {user.name || user.email}!</p>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
     );
 };

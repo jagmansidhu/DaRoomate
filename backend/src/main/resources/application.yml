@@ -31,34 +31,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${AUTH_DOMAIN}
-#    init:
-#      mode: never #says if we should run data files
-#      continue-on-error: false
-#      schema-locations: classpath:/data/schema.sql
-#      data-locations: classpath:/data/data.sql
-#  servlet:
-#    multipart:
-#      enabled: true
-#      max-file-size: 1000MB
-#      max-request-size: 1000MB
-#  mail:
-#    host: ${EMAIL_HOST}
-#    port: ${EMAIL_PORT}
-#    username: ${EMAIL_ID}
-#    password: ${EMAIL_PASSWORD}
-#    default-encoding: UTF-8
-#    properties:
-#      mail:
-#        smtp:
-#          writetimeout: 10000
-#          connectiontimeout: 10000
-#          timeout: 10000
-#          auth: true
-#          starttls:
-#            enable: true
-#            required: true
-#    verify:
-#      host: ${VERIFY_EMAIL_HOST}
+
+auth0:
+  domain: ${AUTH_DOMAIN}
+  client-id: ${AUTH_CLIENT}
+  client-secret: ${AUTH_SECRET}
 
 server:
   port: ${CONTAINER_PORT:8080}
@@ -66,4 +43,34 @@ server:
     path: /user/error
     whitelabel:
       enabled: false
+
+
+      #    init:
+      #      mode: never #says if we should run data files
+      #      continue-on-error: false
+      #      schema-locations: classpath:/data/schema.sql
+      #      data-locations: classpath:/data/data.sql
+      #  servlet:
+      #    multipart:
+      #      enabled: true
+      #      max-file-size: 1000MB
+      #      max-request-size: 1000MB
+      #  mail:
+      #    host: ${EMAIL_HOST}
+      #    port: ${EMAIL_PORT}
+      #    username: ${EMAIL_ID}
+      #    password: ${EMAIL_PASSWORD}
+      #    default-encoding: UTF-8
+      #    properties:
+      #      mail:
+      #        smtp:
+      #          writetimeout: 10000
+      #          connectiontimeout: 10000
+      #          timeout: 10000
+      #          auth: true
+      #          starttls:
+      #            enable: true
+      #            required: true
+      #    verify:
+      #      host: ${VERIFY_EMAIL_HOST}
 

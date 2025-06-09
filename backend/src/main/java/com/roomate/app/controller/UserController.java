@@ -49,7 +49,7 @@ public class UserController {
         String lastName = jwt.getClaimAsString("last_name");
 
         if (userService.userExists(userId, email)) {
-            userService.getUserByAuthId(userId);
+            userService.getUserEntityByAuthID(userId);
             return ResponseEntity.ok("User found in database");
         }
 

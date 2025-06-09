@@ -8,6 +8,9 @@ import Profile from './webpages/Profile';
 import Home from './webpages/Home';
 import useProfileCompletionRedirect from "./component/userProfileRedirection";
 import CompleteProfile from "./webpages/completeProfile";
+import Personal from "./webpages/profileRed/Personal";
+import PasswordReset from "./webpages/profileRed/PasswordReset";
+
 
 const LoggedOutNavbar = () => (
     <nav>
@@ -69,25 +72,27 @@ function AppContent() {
     return (
         <div>
             {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>)}
-
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route
                     path="/dashboard"
                     element={isAuthenticated ? <Dashboard/> : <Login/>}
-                    // element={<PrivateRoute element={Dashboard}/>}
                 />
                 <Route
                     path="/profile"
                     element={isAuthenticated ? <Profile/> : <Login/>}
-
-                    // element={<PrivateRoute component={Profile}/>}
                 />
                 <Route
                     path="/complete-profile"
                     element={isAuthenticated ? <CompleteProfile/> : <Login/>}
-
-                    // element={<PrivateRoute component={CompleteProfile} />}
+                />
+                <Route
+                    path="/update-personal"
+                    element={isAuthenticated ? <Personal/> : <Login/>}
+                />
+                <Route
+                    path="/password-reset"
+                    element={isAuthenticated ? <PasswordReset/> : <Login/>}
                 />
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/logout" element={<LogoutPage/>}/>

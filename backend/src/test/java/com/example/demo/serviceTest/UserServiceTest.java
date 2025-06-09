@@ -65,7 +65,7 @@ public class UserServiceTest {
         userEntity = new UserEntity("!23", "TESTTT@AMOUNGUS.ca", "", "");
         UserEntity insertedUser = userRepository.save(userEntity);
 
-        UserEntity findUser = userService.getUserByAuthId("!23");
+        UserEntity findUser = userService.getUserEntityByAuthID("!23");
 
         assertThat(insertedUser).isEqualTo(findUser);
     }

@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Address.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/PasswordReset.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Personal.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ResourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/repositoryTest/UserRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/RegisterControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/resourceTest/UserControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styling/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +139,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UserServiceTest">
+  <component name="RunManager" selected="Spring Boot.StartOneApplication2">
     <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -279,7 +287,7 @@
       <workItem from="1748291158071" duration="3687000" />
       <workItem from="1748363130660" duration="95255000" />
       <workItem from="1749064176985" duration="9551000" />
-      <workItem from="1749155474523" duration="27487000" />
+      <workItem from="1749155474523" duration="33107000" />
     </task>
     <servers />
   </component>
@@ -320,7 +328,7 @@
     <SUITE FILE_PATH="coverage/ProjectStart$UserRepositoryTest_getByAuthIdTest.ic" NAME="UserRepositoryTest.getByAuthIdTest Coverage Results" MODIFIED="1749341757477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.example.demo.repositoryTest.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ProjectStart$UserServiceTest.ic" NAME="UserServiceTest Coverage Results" MODIFIED="1749504087274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/ProjectStart$UserServiceTest.ic" NAME="UserServiceTest Coverage Results" MODIFIED="1749505152157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>com.example.demo.serviceTest.*</FILTER>
       <FILTER>com.roomate.app.service.implementation.UserServiceImplementation</FILTER>
     </SUITE>
