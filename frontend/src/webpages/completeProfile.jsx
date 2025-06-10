@@ -47,9 +47,6 @@ const CompleteProfile = () => {
             }
 
             setSuccess(true);
-            navigate('/dashboard');
-
-            setSuccess(true);
             navigate('/profile');
 
         } catch (err) {

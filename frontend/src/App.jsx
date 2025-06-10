@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import {useAuth0} from '@auth0/auth0-react';
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import {Auth0Provider} from '@auth0/auth0-react';
+import React, {useEffect, useState} from 'react';
+import {Auth0Provider, useAuth0} from '@auth0/auth0-react';
+import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
 import Login from './webpages/Login';
 import Dashboard from './webpages/Dashboard';
 import Profile from './webpages/Profile';
@@ -9,13 +8,12 @@ import Home from './webpages/Home';
 import useProfileCompletionRedirect from "./component/userProfileRedirection";
 import CompleteProfile from "./webpages/completeProfile";
 import Personal from "./webpages/profileRed/Personal";
-import PasswordReset from "./webpages/profileRed/PasswordReset";
-
+import VerificationPopup from "./component/VerificationPopup";
 
 const LoggedOutNavbar = () => (
     <nav>
         <ul>
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/home">Home</Link></li>
             <li><Link to="/login">Login</Link></li>
         </ul>
     </nav>
@@ -57,11 +55,11 @@ const LogoutPage = () => {
     );
 };
 
-
 function AppContent() {
     const {isAuthenticated, isLoading} = useAuth0();
     const hideNavbarPaths = ['/complete-profile'];
-    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname);
+    const [isPopupShowing, setIsPopupShowing] = useState(false);
+    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || isPopupShowing;
 
     useProfileCompletionRedirect();
 
@@ -73,7 +71,7 @@ function AppContent() {
         <div>
             {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>)}
             <Routes>
-                <Route path="/" element={<Home/>}/>
+                <Route path="/home" element={<Home/>}/>
                 <Route
                     path="/dashboard"
                     element={isAuthenticated ? <Dashboard/> : <Login/>}
@@ -90,13 +88,12 @@ function AppContent() {
                     path="/update-personal"
                     element={isAuthenticated ? <Personal/> : <Login/>}
                 />
-                <Route
-                    path="/password-reset"
-                    element={isAuthenticated ? <PasswordReset/> : <Login/>}
-                />
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/logout" element={<LogoutPage/>}/>
             </Routes>
+
+            <VerificationPopup onPopupVisibilityChange={setIsPopupShowing} />
+
         </div>
     );
 }

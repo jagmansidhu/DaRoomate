@@ -65,9 +65,7 @@ const Personal = () => {
 
     return (
         <div>
-            <h1>Complete Your Profile</h1>
-            <p>Please provide a few more details to continue.</p>
-
+            <h1>Change Your Info</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
             {success && <p style={{color: 'green'}}>Profile updated successfully!</p>}
 
@@ -79,7 +77,6 @@ const Personal = () => {
                         id="firstName"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        required
                     />
                 </div>
                 <div>
@@ -89,7 +86,6 @@ const Personal = () => {
                         id="LastName"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        required
                     />
                 </div>
                 <div>
@@ -99,12 +95,11 @@ const Personal = () => {
                         id="phoneNumber"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        required
                     />
                 </div>
                 <div>
                     <button type="submit" disabled={loading}>
-                        {loading ? 'Saving...' : 'Complete Profile'}
+                        {loading ? 'Saving...' : 'Complete'}
                     </button>
                 </div>
             </form>

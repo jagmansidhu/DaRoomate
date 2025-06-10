@@ -5,23 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Address.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/PasswordReset.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Personal.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/component/VerificationPopup.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/demo/serviceTest/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application-test.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styling/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/completeProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/completeProfile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/profileRed/PasswordReset.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/PasswordReset.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Personal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRed/Personal.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +71,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.RegisterControllerTest.executor": "Run",
-    "JUnit.UserRepositoryTest.executor": "Coverage",
+    "JUnit.UserRepositoryTest.executor": "Run",
     "JUnit.UserRepositoryTest.getByAuthIdTest.executor": "Coverage",
     "JUnit.UserRepositoryTest.newUserTestAdded.executor": "Run",
     "JUnit.UserServiceTest.createUserTest.executor": "Run",
@@ -90,6 +83,7 @@
     "JUnit.UserServiceTest.testRegisterUser.executor": "Run",
     "JUnit.UserServiceTest.updateUserTest.executor": "Run",
     "JUnit.UserServiceTest.userExistsTrueTest.executor": "Run",
+    "JUnit.demo in demo.executor": "Run",
     "JavaScript Debug.Debug Application.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
@@ -104,7 +98,7 @@
     "Spring Boot.StartOneApplication2.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jagman/IdeaProjects/ProjectStart/backend/dockerTest",
+    "last_opened_file_path": "/Users/jagman/IdeaProjects/ProjectStart/backend/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -127,6 +121,7 @@
       <recent name="com.roomate.app.Exception" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/src/main/resources" />
       <recent name="$PROJECT_DIR$/backend/dockerTest" />
       <recent name="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/constant" />
       <recent name="$PROJECT_DIR$/backend/docker" />
@@ -140,6 +135,21 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.StartOneApplication2">
+    <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.repositoryTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.repositoryTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.repositoryTest.UserRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
       <extension name="coverage">
@@ -161,22 +171,6 @@
       <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserServiceTest.isUserCompleteCompleted" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="demo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
-      <option name="METHOD_NAME" value="isUserCompleteCompleted" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -213,18 +207,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserServiceTest.userExistsTrueTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="demo in demo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="demo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.demo.serviceTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.demo.serviceTest" />
-      <option name="MAIN_CLASS_NAME" value="com.example.demo.serviceTest.UserServiceTest" />
-      <option name="METHOD_NAME" value="userExistsTrueTest" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/backend/src/test/java/com/example/demo" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -246,20 +232,20 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.Debug Application" />
+      <item itemvalue="JUnit.UserRepositoryTest" />
       <item itemvalue="JUnit.UserServiceTest" />
-      <item itemvalue="JUnit.UserServiceTest.isUserCompleteCompleted" />
       <item itemvalue="JUnit.UserServiceTest.isUserCompleteIncompletedTest" />
       <item itemvalue="JUnit.UserServiceTest.updateUserTest" />
-      <item itemvalue="JUnit.UserServiceTest.userExistsTrueTest" />
+      <item itemvalue="JUnit.demo in demo" />
       <item itemvalue="Spring Boot.StartOneApplication2" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.UserServiceTest" />
+        <item itemvalue="JUnit.UserRepositoryTest" />
+        <item itemvalue="JUnit.demo in demo" />
         <item itemvalue="JUnit.UserServiceTest.updateUserTest" />
         <item itemvalue="JUnit.UserServiceTest.isUserCompleteIncompletedTest" />
-        <item itemvalue="JUnit.UserServiceTest.isUserCompleteCompleted" />
-        <item itemvalue="JUnit.UserServiceTest.userExistsTrueTest" />
       </list>
     </recent_temporary>
   </component>
@@ -287,7 +273,7 @@
       <workItem from="1748291158071" duration="3687000" />
       <workItem from="1748363130660" duration="95255000" />
       <workItem from="1749064176985" duration="9551000" />
-      <workItem from="1749155474523" duration="33107000" />
+      <workItem from="1749155474523" duration="39443000" />
     </task>
     <servers />
   </component>

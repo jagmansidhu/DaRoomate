@@ -39,9 +39,15 @@ public class UserServiceImplementation implements UserService {
     public UserEntity updateUserProfile(String authId, UserEntity updatedDetails) {
         UserEntity user = getUserEntityByAuthID(authId);
 
-        user.setFirstName(updatedDetails.getFirstName().toLowerCase());
-        user.setLastName(updatedDetails.getLastName().toUpperCase());
-        user.setPhone(updatedDetails.getPhone());
+        if (!updatedDetails.getFirstName().isEmpty()) {
+            user.setFirstName(updatedDetails.getFirstName().toLowerCase());
+        }
+        if (!updatedDetails.getLastName().isEmpty()) {
+            user.setLastName(updatedDetails.getLastName().toLowerCase());
+        }
+        if (!updatedDetails.getPhone().isEmpty()) {
+            user.setPhone(updatedDetails.getPhone().toLowerCase());
+        }
 
         return userRepository.save(user);
     }

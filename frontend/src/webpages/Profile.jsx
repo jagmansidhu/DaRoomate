@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Personal from "./profileRed/Personal";
 
 const Profile = () => {
     const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
@@ -70,8 +71,16 @@ const Profile = () => {
 
     return (
         <div className="profile">
-            <h1>Profile Data</h1>
-            <p>Welcome, {user.firstName || user.email}!</p>
+            <h1>Profile</h1>
+            <h2>Login Info</h2>
+            <p>Email</p>
+            <p>Password</p>
+            <button onClick={() => navigate('/reset-password')}>Change Login</button>
+            <h2>Personal Info</h2>
+            <p>FirstName</p>
+            <p>LastName</p>
+            <p>Phone</p>
+            <button onClick={() => navigate('/update-personal')}>Change Personal</button>
 
         </div>
     );
