@@ -42,20 +42,19 @@ public class UserController {
 
     // EFFECTS : Checks if user exists and return user, if no user create the user
     @GetMapping("/create_or_find_user")
-    public ResponseEntity<String> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<UserEntity> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject();
         String email = jwt.getClaimAsString("email");
         String firstName = jwt.getClaimAsString("first_name");
         String lastName = jwt.getClaimAsString("last_name");
 
         if (userService.userExists(userId, email)) {
-            userService.getUserEntityByAuthID(userId);
-            return ResponseEntity.ok("User found in database");
+            return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
         }
 
         userService.createUserByAuthID(userId, email, firstName, lastName);
 
-        return ResponseEntity.ok("User created");
+        return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
     }
 
 }
