@@ -47,7 +47,7 @@ const useProfileCompletionRedirect = () => {
             checkProfileAndRedirect();
         }
 
-    }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently, window.location.pathname]);
+    }, [isAuthenticated, isLoading, navigate, getAccessTokenSilently]);
 };
 
 export default useProfileCompletionRedirect;

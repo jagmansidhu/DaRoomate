@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // EFFECTS : Adds additional information : First Name, Last Name, and Phone Number to user
+    // EFFECTS : Adds additional information: First Name, Last Name, and Phone Number to user
     @PutMapping("/additional_info")
     public ResponseEntity<?> addAdditionalInfo(@AuthenticationPrincipal Jwt jwt, @RequestBody UserEntity updatedDetails) {
         String userId = jwt.getSubject();

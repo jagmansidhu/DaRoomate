@@ -66,9 +66,9 @@ const Profile = () => {
             <p>Password : ********</p>
             <button onClick={() => navigate('/reset-password')}>Change Login</button>
             <h2>Personal Info</h2>
-            <p>FirstName : {data.firstName || 'na'}</p>
-            <p>LastName : {data.lastName || 'na'}</p>
-            <p>Phone : {data.phone || 'na'}</p>
+            <p>FirstName : {data?.firstName || 'na'}</p>
+            <p>LastName : {data?.lastName || 'na'}</p>
+            <p>Phone : {data?.phone || 'na'}</p>
             <button onClick={() => navigate('/update-personal')}>Change Personal</button>
 
         </div>

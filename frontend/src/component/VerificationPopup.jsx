@@ -25,11 +25,7 @@ const VerificationPopup = ({ onPopupVisibilityChange }) => {
         if (urlError === 'access_denied' && urlErrorDescription) {
             if (urlErrorDescription.includes('Please verify your email')) {
                 errorToDisplay = 'Your email address is not verified. Please check your inbox for the verification link to complete your login.';
-            } else {
-                errorToDisplay = urlErrorDescription || 'Access denied due to an unknown reason.';
             }
-        } else if (auth0SDKError) {
-            errorToDisplay = auth0SDKError.message || 'An unexpected authentication error occurred.';
         }
 
         if (errorToDisplay) {

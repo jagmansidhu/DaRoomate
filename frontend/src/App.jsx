@@ -6,9 +6,10 @@ import Dashboard from './webpages/Dashboard';
 import Profile from './webpages/Profile';
 import Home from './webpages/Home';
 import useProfileCompletionRedirect from "./component/userProfileRedirection";
-import CompleteProfile from "./webpages/completeProfile";
-import Personal from "./webpages/profileRed/Personal";
+import CompleteProfile from "./webpages/CompleteProfile";
+import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
+import Message from "./webpages/Message";
 
 const LoggedOutNavbar = () => (
     <nav>
@@ -79,6 +80,10 @@ function AppContent() {
                 <Route
                     path="/profile"
                     element={isAuthenticated ? <Profile/> : <Login/>}
+                />
+                <Route
+                    path="/chat"
+                    element={isAuthenticated ? <Message/> : <Login/>}
                 />
                 <Route
                     path="/complete-profile"

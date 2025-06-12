@@ -21,6 +21,7 @@ public class ProfileController {
         this.userService = userService;
     }
 
+    // EFFECTS : Updates User Email
     @PutMapping("/updateEmail")
     public ResponseEntity<?> updateEmail(@AuthenticationPrincipal Jwt jwt, @RequestBody String updatedDetails) {
         String userId = jwt.getSubject();

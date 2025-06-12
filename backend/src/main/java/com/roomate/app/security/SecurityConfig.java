@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!test")
+//@Profile("!test")
 public class SecurityConfig {
 
     // EFFECTS : Defines who can access what and how unauthorized attempts are handled.
@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/user/register", "/user/login").permitAll()
                         .requestMatchers("/public_resource").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

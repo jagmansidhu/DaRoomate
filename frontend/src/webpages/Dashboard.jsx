@@ -9,7 +9,6 @@ const Dashboard = () => {
     const [apiLoading, setApiLoading] = useState(true);
     const [accessToken, setAccessToken] = useState(null);
 
-
     useEffect(() => {
         const fetchProtectedData = async () => {
             if (!isAuthenticated || isLoading) {
@@ -17,31 +16,35 @@ const Dashboard = () => {
                 return;
             }
 
-            try {
-                const accessToken = await getAccessTokenSilently({
-                    authorizationParams: {
-                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: 'read:data',
-                    },
-                });
-                setAccessToken(accessToken);
+            async function getToken() {
+                try {
+                    const accessToken = await getAccessTokenSilently({
+                        authorizationParams: {
+                            audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+                            scope: 'read:data',
+                        },
+                    });
+                    setAccessToken(accessToken);
 
-                const response = await axios.get('http://localhost:8085/api/create_or_find_user', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setData(response.data);
-            } catch (err) {
-                console.error('Error fetching protected resource:', err);
-                setError(err);
-            } finally {
-                setApiLoading(false);
+                    const response = await axios.get('http://localhost:8085/api/create_or_find_user', {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    setData(response.data);
+                } catch (err) {
+                    console.error('Error fetching protected resource:', err);
+                    setError(err);
+                } finally {
+                    setApiLoading(false);
+                }
             }
+
+            await getToken();
         };
 
         fetchProtectedData();
-    })
+    },[getAccessTokenSilently, isAuthenticated, isLoading, user, setAccessToken]);
 
     if (isLoading || apiLoading) {
         return (
