@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class UserDto {
-    private Long id;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -17,12 +17,9 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Long id, String firstName, String lastName, String email, String phone) {
+    public UserDto(String id,String email) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
-        this.phone = phone;
     }
 
 }

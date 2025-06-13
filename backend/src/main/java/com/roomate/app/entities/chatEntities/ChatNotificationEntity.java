@@ -1,24 +1,17 @@
-package com.roomate.app.dto;
+package com.roomate.app.entities.chatEntities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-
-import java.lang.annotation.Documented;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessageDto {
-    @Id
+public class ChatNotificationEntity {
     private String id;
-    private String chatId;
     private String senderId;
     private String recipientId;
     private String content;
-    private Date timestamp;
 }
