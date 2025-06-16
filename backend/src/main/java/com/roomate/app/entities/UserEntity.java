@@ -1,11 +1,13 @@
 package com.roomate.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.roomate.app.entities.friendEntity.FriendEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,6 +34,16 @@ public class UserEntity {
     @ManyToMany(targetEntity = RolesEntity.class)
     @JsonIgnore
     private Set<RolesEntity> roles;
+    @OneToMany(mappedBy = "requester", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<FriendEntity> sentFriendRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "addressee", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<FriendEntity> receivedFriendRequests = new HashSet<>();
+
 
     public UserEntity() {}
 
