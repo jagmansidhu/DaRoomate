@@ -1,8 +1,6 @@
 package com.roomate.app.service.implementation;
 
-import com.auth0.exception.APIException;
 import com.roomate.app.entities.UserEntity;
-import com.roomate.app.entities.chatEntities.MessageEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
 import com.roomate.app.entities.friendEntity.FriendEnum;
 import com.roomate.app.repository.FriendRepository;
@@ -10,9 +8,7 @@ import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.FriendService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
