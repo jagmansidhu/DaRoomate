@@ -10,6 +10,7 @@ import CompleteProfile from "./webpages/CompleteProfile";
 import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Message from "./webpages/Message";
+import Friends from "./webpages/Friends";
 
 const LoggedOutNavbar = () => (
     <nav>
@@ -33,6 +34,7 @@ const LoggedInNavbar = () => {
                 <li><Link to="/dashboard">Dashboard</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li><Link to="/chat">Chat</Link></li>
+                <li><Link to="/friends">Friends</Link></li>
                 <li>
                     <button
                         onClick={handleLogout}
@@ -85,6 +87,10 @@ function AppContent() {
                 <Route
                     path="/chat"
                     element={isAuthenticated ? <Message/> : <Login/>}
+                />
+                <Route
+                    path="/friends"
+                    element={isAuthenticated ? <Friends/> : <Login/>}
                 />
                 <Route
                     path="/complete-profile"

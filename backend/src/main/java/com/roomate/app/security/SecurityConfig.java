@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/public_resource").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/friend/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

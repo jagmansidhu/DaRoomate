@@ -52,6 +52,7 @@ public class FriendServiceImplt implements FriendService {
         Optional<FriendEntity> reverseRequest = friendRepository
                 .findByRequesterAndAddressee(receiver.getId(), sender.getId());
 
+        System.out.println(reverseRequest.isPresent());
         if (reverseRequest.isPresent()) {
             FriendEntity reverse = reverseRequest.get();
             if (reverse.getStatus() == FriendEnum.PENDING) {
@@ -62,7 +63,8 @@ public class FriendServiceImplt implements FriendService {
             }
         }
 
-        FriendEntity friendRequest = new FriendEntity(sender, receiver);
+        FriendEntity friendRequest = new FriendEntity(sender, receiver, FriendEnum.PENDING);
+        System.out.println(friendRequest.getAddressee() + "BESNA");
         return friendRepository.save(friendRequest);
     }
 

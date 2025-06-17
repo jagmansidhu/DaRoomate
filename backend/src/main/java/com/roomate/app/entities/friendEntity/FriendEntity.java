@@ -51,9 +51,6 @@ public class FriendEntity {
         }
     }
 
-    public FriendEntity(UserEntity sender, UserEntity receiver) {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

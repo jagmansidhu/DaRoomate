@@ -1,12 +1,9 @@
 package com.roomate.app.service;
 
-import com.auth0.jwt.JWT;
 import com.roomate.app.entities.UserEntity;
-import com.roomate.app.entities.chatEntities.MessageEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FriendService {
     FriendEntity sendFriendRequest(String authId, String friendEmail);

@@ -19,19 +19,26 @@ import java.util.Map;
 @RequestMapping("/api/friend/")
 public class FriendController {
 
+    private final UserRepository userRepository;
     FriendService friendService;
 
-    public FriendController(FriendService friendService) {
+    public FriendController(FriendService friendService, UserRepository userRepository) {
         this.friendService = friendService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/addFriend")
     public ResponseEntity<?> addFriend(@AuthenticationPrincipal Jwt jwt, @RequestBody Map<String, String> request) {
         String authId = jwt.getSubject();
+
+        if (request == null) {
+            return ResponseEntity.badRequest().build();
+        }
         String friendEmail = request.get("email");
 
         try {
             FriendEntity friendRequest = friendService.sendFriendRequest(authId, friendEmail);
+            System.out.println(friendRequest.getId() + "BESNA");
             return ResponseEntity.ok(friendRequest);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
