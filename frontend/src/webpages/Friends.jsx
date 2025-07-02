@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Send, UserPlus, Check, X, AlertCircle } from 'lucide-react';
+import React, {useEffect, useState} from 'react';
+import {useAuth0} from '@auth0/auth0-react';
 
-const SendFriendRequest = () => {
-    const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+const Friend = () => {
+    const {getAccessTokenSilently, isAuthenticated, isLoading} = useAuth0();
     const [email, setEmail] = useState('');
+    const [friendRequests, setFriendRequests] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [message, setMessage] = useState({ type: '', text: '' });
+    const [isFetchingRequests, setIsFetchingRequests] = useState(true);
+    const [message, setMessage] = useState({type: '', text: ''});
 
     const sendFriendRequest = async (e) => {
         e.preventDefault();
 
         if (!email.trim()) {
-            setMessage({ type: 'error', text: 'Please enter an email address' });
+            setMessage({type: 'error', text: 'Please enter an email address'});
             return;
         }
 
-        // Basic email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            setMessage({ type: 'error', text: 'Please enter a valid email address' });
+            setMessage({type: 'error', text: 'Please enter a valid email address'});
             return;
         }
 
         setIsSubmitting(true);
-        setMessage({ type: '', text: '' });
+        setMessage({type: '', text: ''});
 
         try {
             const token = await getAccessTokenSilently();
@@ -35,11 +35,10 @@ const SendFriendRequest = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({email})
             });
 
             if (response.ok) {
-                const friendRequest = await response.json();
                 setMessage({
                     type: 'success',
                     text: `Friend request sent successfully to ${email}!`
@@ -70,31 +69,62 @@ const SendFriendRequest = () => {
         }
     };
 
-    // Show loading state while Auth0 is initializing
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center p-6">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            </div>
-        );
-    }
+    const getPendingFriendRequest = async (e) => {
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('http://localhost:8085/api/friend/request/pending', {
+                method: 'Get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-    // Show message if user is not authenticated
-    if (!isAuthenticated) {
-        return (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <div className="flex items-center">
-                    <AlertCircle className="h-5 w-5 text-yellow-600 mr-2" />
-                    <p className="text-yellow-800">Please log in to send friend requests.</p>
-                </div>
-            </div>
-        );
+            if (response.ok) {
+                const data = await response.json();
+                setFriendRequests(data);
+                setMessage({ type: 'success', text: 'Friend requests loaded successfully!' });
+            } else {
+                if (response.status === 400) {
+                    setMessage({
+                        type: 'error',
+                        text: 'Unable to send friend request. Please check the email and try again.'
+                    });
+                } else {
+                    setMessage({
+                        type: 'error',
+                        text: 'An error occurred while sending the friend request.'
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error sending friend request:', error);
+            setMessage({
+                type: 'error',
+                text: 'Network error. Please check your connection and try again.'
+            });
+        } finally {
+            setIsFetchingRequests(false);
+        }
+
+    };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            getPendingFriendRequest();
+        }
+        else {
+            setFriendRequests([]); // Clear requests if not authenticated
+        }
+    }, [isAuthenticated, getAccessTokenSilently]); // Dependencies: re-run if isAuthenticated or getAccessTokenSilently changes
+
+    if (isLoading) {
+        return <p>Loading authentication...</p>;
     }
 
     return (
         <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center mb-4">
-                <UserPlus className="h-6 w-6 text-blue-600 mr-2" />
                 <h2 className="text-xl font-semibold text-gray-800">Send Friend Request</h2>
             </div>
 
@@ -131,7 +161,6 @@ const SendFriendRequest = () => {
                         </>
                     ) : (
                         <>
-                            <Send className="h-4 w-4 mr-2" />
                             Send Friend Request
                         </>
                     )}
@@ -146,11 +175,6 @@ const SendFriendRequest = () => {
                         : 'bg-red-50 border border-red-200'
                 }`}>
                     <div className="flex items-center">
-                        {message.type === 'success' ? (
-                            <Check className="h-5 w-5 text-green-600 mr-2" />
-                        ) : (
-                            <X className="h-5 w-5 text-red-600 mr-2" />
-                        )}
                         <p className={`text-sm ${
                             message.type === 'success' ? 'text-green-800' : 'text-red-800'
                         }`}>
@@ -159,8 +183,49 @@ const SendFriendRequest = () => {
                     </div>
                 </div>
             )}
+            <div>
+                <div className="flex items-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800">Pending Friend Requests</h2>
+                </div>
+
+                {isFetchingRequests ? (
+                    <div>
+                        <p>Loading requests...</p>
+                    </div>
+                ) : friendRequests.length === 0 ? (
+                    <p className="text-gray-600 italic">No pending friend requests.</p>
+                ) : (
+                    <ul className="space-y-3">
+                        {friendRequests.map((request) => (
+                            <li key={request.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
+                                <p className="text-gray-800 font-medium">
+                                    {request.senderUsername || request.senderEmail || `User ID: ${request.senderId}`}
+                                </p>
+                                {/*<div className="flex space-x-2">*/}
+                                {/*    <button*/}
+                                {/*        onClick={() => handleAcceptRequest(request.id, request.senderId)}*/}
+                                {/*        className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"*/}
+                                {/*        title="Accept Request"*/}
+                                {/*    >*/}
+                                {/*        <Check className="h-5 w-5"/>*/}
+                                {/*    </button>*/}
+                                {/*    <button*/}
+                                {/*        onClick={() => handleDeclineRequest(request.id)}*/}
+                                {/*        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"*/}
+                                {/*        title="Decline Request"*/}
+                                {/*    >*/}
+                                {/*        <X className="h-5 w-5"/>*/}
+                                {/*    </button>*/}
+                                {/*</div>*/}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
+
     );
+
 };
 
-export default SendFriendRequest;
+export default Friend;

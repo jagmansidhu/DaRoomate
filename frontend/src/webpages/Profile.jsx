@@ -11,6 +11,8 @@ const Profile = () => {
     const [accessToken, setAccessToken] = useState(null);
 
     const navigate = useNavigate();
+    const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
+
 
 
     useEffect(() => {
@@ -28,7 +30,7 @@ const Profile = () => {
                 const fetchedAccessToken = await getAccessTokenSilently({
                     authorizationParams: {
                         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: 'read:data',
+                        scope: `openid profile email offline_access ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data`,
                     },
                 });
 

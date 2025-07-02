@@ -28,6 +28,8 @@ public class FriendServiceImplt implements FriendService {
     public FriendEntity sendFriendRequest(String authId, String friendEmail) {
         UserEntity sender = getSender(authId);
         UserEntity receiver = userRepository.findByEmail(friendEmail);
+        System.out.println(sender.getEmail());
+        System.out.println(receiver.getEmail());
 
         if (sender.getId().equals(receiver.getId())) {
             throw new IllegalArgumentException("Cannot send friend request to yourself");
@@ -109,6 +111,8 @@ public class FriendServiceImplt implements FriendService {
     @Transactional
     public List<FriendEntity> getPendingFriendRequests(String authId) {
         UserEntity user = getSender(authId);
+
+        System.out.println(user.getEmail());
 
         return friendRepository.findByUserIdAndStatus(user.getId(), FriendEnum.PENDING)
                 .stream()
