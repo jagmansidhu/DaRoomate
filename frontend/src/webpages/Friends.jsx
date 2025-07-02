@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
+import { Check, X, UserMinus } from 'lucide-react';
 
 const Friend = () => {
     const {getAccessTokenSilently, isAuthenticated, isLoading} = useAuth0();
     const [email, setEmail] = useState('');
     const [friendRequests, setFriendRequests] = useState([]);
+    const [friendsList, setFriendsList] = useState([]); // New state for friends list
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isFetchingRequests, setIsFetchingRequests] = useState(true);
+    const [isFetchingFriends, setIsFetchingFriends] = useState(true); // New state for friends loading
     const [message, setMessage] = useState({type: '', text: ''});
 
     const sendFriendRequest = async (e) => {
@@ -44,19 +47,14 @@ const Friend = () => {
                     text: `Friend request sent successfully to ${email}!`
                 });
                 setEmail('');
+                getPendingFriendRequest();
 
             } else {
-                if (response.status === 400) {
-                    setMessage({
-                        type: 'error',
-                        text: 'Unable to send friend request. Please check the email and try again.'
-                    });
-                } else {
-                    setMessage({
-                        type: 'error',
-                        text: 'An error occurred while sending the friend request.'
-                    });
-                }
+                const errorData = await response.json();
+                setMessage({
+                    type: 'error',
+                    text: errorData.message || 'An error occurred while sending the friend request.'
+                });
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
@@ -69,11 +67,12 @@ const Friend = () => {
         }
     };
 
-    const getPendingFriendRequest = async (e) => {
+    const getPendingFriendRequest = async () => {
+        setIsFetchingRequests(true);
         try {
             const token = await getAccessTokenSilently();
             const response = await fetch('http://localhost:8085/api/friend/request/pending', {
-                method: 'Get',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -85,38 +84,150 @@ const Friend = () => {
                 setFriendRequests(data);
                 setMessage({ type: 'success', text: 'Friend requests loaded successfully!' });
             } else {
-                if (response.status === 400) {
-                    setMessage({
-                        type: 'error',
-                        text: 'Unable to send friend request. Please check the email and try again.'
-                    });
-                } else {
-                    setMessage({
-                        type: 'error',
-                        text: 'An error occurred while sending the friend request.'
-                    });
-                }
+                const errorData = await response.json();
+                setMessage({
+                    type: 'error',
+                    text: errorData.message || 'Failed to load friend requests.'
+                });
+                setFriendRequests([]);
             }
         } catch (error) {
-            console.error('Error sending friend request:', error);
+            console.error('Error fetching pending friend requests:', error);
             setMessage({
                 type: 'error',
                 text: 'Network error. Please check your connection and try again.'
             });
+            setFriendRequests([]);
         } finally {
             setIsFetchingRequests(false);
         }
-
     };
+
+    const handleAcceptRequest = async (requestId) => {
+        setMessage({type: '', text: ''});
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch(`http://localhost:8085/api/friend/accept/${requestId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                setMessage({type: 'success', text: 'Friend request accepted!'});
+                getPendingFriendRequest(); // Refresh the list of pending requests
+                getFriendsList(); // Refresh the list of friends
+            } else {
+                const errorData = await response.json();
+                setMessage({type: 'error', text: errorData.message || 'Failed to accept friend request.'});
+            }
+        } catch (error) {
+            console.error('Error accepting friend request:', error);
+            setMessage({type: 'error', text: 'Network error. Please try again.'});
+        }
+    };
+
+    const handleDeclineRequest = async (requestId) => {
+        setMessage({type: '', text: ''});
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch(`http://localhost:8085/api/friend/reject/${requestId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                setMessage({type: 'success', text: 'Friend request declined!'});
+                getPendingFriendRequest(); // Refresh the list
+            } else {
+                const errorData = await response.json();
+                setMessage({type: 'error', text: errorData.message || 'Failed to decline friend request.'});
+            }
+        } catch (error) {
+            console.error('Error declining friend request:', error);
+            setMessage({type: 'error', text: 'Network error. Please try again.'});
+        }
+    };
+
+    // New function to fetch the list of current friends
+    const getFriendsList = async () => {
+        setIsFetchingFriends(true);
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('http://localhost:8085/api/friend/getfriends', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setFriendsList(data);
+                setMessage({ type: 'success', text: 'Friends list loaded successfully!' });
+            } else {
+                const errorData = await response.json();
+                setMessage({
+                    type: 'error',
+                    text: errorData.message || 'Failed to load friends list.'
+                });
+                setFriendsList([]);
+            }
+        } catch (error) {
+            console.error('Error fetching friends list:', error);
+            setMessage({
+                type: 'error',
+                text: 'Network error. Please check your connection and try again.'
+            });
+            setFriendsList([]);
+        } finally {
+            setIsFetchingFriends(false);
+        }
+    };
+
+    // New function to remove a friend
+    const handleRemoveFriend = async (friendEmail) => {
+        setMessage({type: '', text: ''});
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('http://localhost:8085/api/friend/remove', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ email: friendEmail }) // Send friend's email to remove
+            });
+
+            if (response.ok) {
+                setMessage({type: 'success', text: `Friend ${friendEmail} removed successfully!`});
+                getFriendsList(); // Refresh the list of friends
+            } else {
+                const errorData = await response.json();
+                setMessage({type: 'error', text: errorData.message || 'Failed to remove friend.'});
+            }
+        } catch (error) {
+            console.error('Error removing friend:', error);
+            setMessage({type: 'error', text: 'Network error. Please try again.'});
+        }
+    };
+
 
     useEffect(() => {
         if (isAuthenticated) {
             getPendingFriendRequest();
-        }
-        else {
+            getFriendsList(); // Call getFriendsList on mount/auth change
+        } else {
             setFriendRequests([]);
+            setFriendsList([]); // Clear friends list if not authenticated
+            setIsFetchingRequests(false);
+            setIsFetchingFriends(false); // Ensure friends loading state is false
         }
-    }, [isAuthenticated, getAccessTokenSilently]);
+    }, [isAuthenticated, getAccessTokenSilently]); // Depend on isAuthenticated and getAccessTokenSilently
 
     if (isLoading) {
         return <p>Loading authentication...</p>;
@@ -152,11 +263,11 @@ const Friend = () => {
                 <button
                     onClick={sendFriendRequest}
                     disabled={isSubmitting || !email.trim()}
-
+                    className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isSubmitting ? (
                         <>
-                            <div></div>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                             Sending...
                         </>
                     ) : (
@@ -182,9 +293,9 @@ const Friend = () => {
                     </div>
                 </div>
             )}
-            <div>
-                <div>
-                    <h2>Pending Friend Requests</h2>
+            <div className="mt-8">
+                <div className="flex items-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800">Pending Friend Requests</h2>
                 </div>
 
                 {isFetchingRequests ? (
@@ -196,35 +307,67 @@ const Friend = () => {
                 ) : (
                     <ul className="space-y-3">
                         {friendRequests.map((request) => (
-                            <li key={request.id}>
-                                <p>
+                            <li key={request.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
+                                <p className="text-gray-800 font-medium">
                                     {request.requester?.firstName} {request.requester?.lastName} ({request.requester?.email})
                                 </p>
-                                {/*<div className="flex space-x-2">*/}
-                                {/*    <button*/}
-                                {/*        onClick={() => handleAcceptRequest(request.id, request.senderId)}*/}
-                                {/*        className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"*/}
-                                {/*        title="Accept Request"*/}
-                                {/*    >*/}
-                                {/*        <Check className="h-5 w-5"/>*/}
-                                {/*    </button>*/}
-                                {/*    <button*/}
-                                {/*        onClick={() => handleDeclineRequest(request.id)}*/}
-                                {/*        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"*/}
-                                {/*        title="Decline Request"*/}
-                                {/*    >*/}
-                                {/*        <X className="h-5 w-5"/>*/}
-                                {/*    </button>*/}
-                                {/*</div>*/}
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleAcceptRequest(request.id)}
+                                        className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+                                        title="Accept Request"
+                                    >
+                                        <Check className="h-5 w-5"/>
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeclineRequest(request.id)}
+                                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+                                        title="Decline Request"
+                                    >
+                                        <X className="h-5 w-5"/>
+                                    </button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+
+            {/* New section for Friends List */}
+            <div className="mt-8">
+                <div className="flex items-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800">My Friends</h2>
+                </div>
+
+                {isFetchingFriends ? (
+                    <div>
+                        <p>Loading friends...</p>
+                    </div>
+                ) : friendsList.length === 0 ? (
+                    <p className="text-gray-600 italic">You have no friends yet.</p>
+                ) : (
+                    <ul className="space-y-3">
+                        {friendsList.map((friend) => (
+                            <li key={friend.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
+                                <p className="text-gray-800 font-medium">
+                                    {friend.firstName} {friend.lastName} ({friend.email})
+                                </p>
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleRemoveFriend(friend.email)}
+                                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+                                        title="Remove Friend"
+                                    >
+                                        <UserMinus className="h-5 w-5"/>
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
         </div>
-
     );
-
 };
 
 export default Friend;

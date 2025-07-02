@@ -1,5 +1,6 @@
 package com.roomate.app.service.implementation;
 
+import com.roomate.app.dto.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
 import com.roomate.app.entities.friendEntity.FriendEnum;
@@ -8,6 +9,7 @@ import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.FriendService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -127,18 +129,20 @@ public class FriendServiceImplt implements FriendService {
 
     @Override
     @Transactional
-    public List<UserEntity> getFriends(String authId) {
+    public List<UserDto> getFriends(String authId) {
         UserEntity user = getSender(authId);
 
         List<FriendEntity> friendships = friendRepository.findByUserIdAndStatus(user.getId(), FriendEnum.ACCEPTED);
 
         return friendships.stream()
                 .map(friendship -> {
+                    UserDto friendUser;
                     if (friendship.getRequester().getId().equals(user.getId())) {
-                        return friendship.getAddressee();
+                        friendUser = new UserDto(friendship.getAddressee().getId(),friendship.getAddressee().getFirstName(), friendship.getAddressee().getLastName(), friendship.getAddressee().getEmail());
                     } else {
-                        return friendship.getRequester();
+                        friendUser = new UserDto(friendship.getAddressee().getId(), friendship.getRequester().getFirstName(), friendship.getRequester().getLastName(), friendship.getRequester().getEmail());
                     }
+                    return friendUser;
                 })
                 .collect(Collectors.toList());
     }

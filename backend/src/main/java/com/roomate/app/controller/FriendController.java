@@ -1,6 +1,7 @@
 package com.roomate.app.controller;
 
 import com.auth0.jwt.JWT;
+import com.roomate.app.dto.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
 import com.roomate.app.repository.FriendRepository;
@@ -79,7 +80,7 @@ public class FriendController {
     }
 
     @GetMapping("/getfriends")
-    public ResponseEntity<List<UserEntity>> getFriends(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<List<UserDto>> getFriends(@AuthenticationPrincipal Jwt jwt) {
         String authId = jwt.getSubject();
 
         return ResponseEntity.ok(friendService.getFriends(authId));

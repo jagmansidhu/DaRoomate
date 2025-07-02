@@ -1,5 +1,6 @@
 package com.roomate.app.service;
 
+import com.roomate.app.dto.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
 
@@ -10,7 +11,7 @@ public interface FriendService {
     void acceptFriendRequest(Long requestId, String authId);
     void rejectFriendRequest(Long requestId, String authId);
     List<FriendEntity> getPendingFriendRequests(String authId);
-    List<UserEntity> getFriends(String authId);
+    List<UserDto> getFriends(String authId);
     void removeFriend(String authId, String friendEmail);
     boolean areFriends(String authId, String friendEmail);
 }
