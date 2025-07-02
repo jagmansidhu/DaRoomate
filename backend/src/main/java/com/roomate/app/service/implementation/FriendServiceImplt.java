@@ -112,12 +112,17 @@ public class FriendServiceImplt implements FriendService {
     public List<FriendEntity> getPendingFriendRequests(String authId) {
         UserEntity user = getSender(authId);
 
-        System.out.println(user.getEmail());
-
-        return friendRepository.findByUserIdAndStatus(user.getId(), FriendEnum.PENDING)
+        List<FriendEntity> receivedPendingRequests = friendRepository.findByUserIdAndStatus(user.getId(), FriendEnum.PENDING)
                 .stream()
                 .filter(request -> request.getAddressee().getId().equals(user.getId()))
                 .collect(Collectors.toList());
+
+        receivedPendingRequests.forEach(request -> {
+            request.getRequester().getEmail();
+            request.getAddressee().getEmail();
+        });
+
+        return receivedPendingRequests;
     }
 
     @Override

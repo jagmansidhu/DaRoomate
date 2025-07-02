@@ -114,9 +114,9 @@ const Friend = () => {
             getPendingFriendRequest();
         }
         else {
-            setFriendRequests([]); // Clear requests if not authenticated
+            setFriendRequests([]);
         }
-    }, [isAuthenticated, getAccessTokenSilently]); // Dependencies: re-run if isAuthenticated or getAccessTokenSilently changes
+    }, [isAuthenticated, getAccessTokenSilently]);
 
     if (isLoading) {
         return <p>Loading authentication...</p>;
@@ -152,11 +152,11 @@ const Friend = () => {
                 <button
                     onClick={sendFriendRequest}
                     disabled={isSubmitting || !email.trim()}
-                    className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+
                 >
                     {isSubmitting ? (
                         <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            <div></div>
                             Sending...
                         </>
                     ) : (
@@ -167,7 +167,6 @@ const Friend = () => {
                 </button>
             </div>
 
-            {/* Message Display */}
             {message.text && (
                 <div className={`mt-4 p-3 rounded-md ${
                     message.type === 'success'
@@ -184,8 +183,8 @@ const Friend = () => {
                 </div>
             )}
             <div>
-                <div className="flex items-center mb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">Pending Friend Requests</h2>
+                <div>
+                    <h2>Pending Friend Requests</h2>
                 </div>
 
                 {isFetchingRequests ? (
@@ -197,9 +196,9 @@ const Friend = () => {
                 ) : (
                     <ul className="space-y-3">
                         {friendRequests.map((request) => (
-                            <li key={request.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
-                                <p className="text-gray-800 font-medium">
-                                    {request.senderUsername || request.senderEmail || `User ID: ${request.senderId}`}
+                            <li key={request.id}>
+                                <p>
+                                    {request.requester?.firstName} {request.requester?.lastName} ({request.requester?.email})
                                 </p>
                                 {/*<div className="flex space-x-2">*/}
                                 {/*    <button*/}
