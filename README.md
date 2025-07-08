@@ -1,8 +1,8 @@
-# ProjectStart
+# DaRoomate
 
 ## Overview
 
-ProjectStart is a full-stack web application featuring a Spring Boot backend and a React frontend. It provides user authentication, profile management, friend connections, and real-time messaging using WebSockets. The backend uses PostgreSQL for data storage and supports OAuth2/JWT authentication (with Auth0 integration). Docker Compose is used for local development and testing environments.
+DaRoomate is a full-stack web application for roomates featuring a Spring Boot backend and a React frontend. It provides user authentication, profile management, friend/roomate connections, and real-time messaging using WebSockets. The backend uses PostgreSQL for data storage and supports OAuth2/JWT authentication (with Auth0 integration). Docker Compose is used for local development and testing environments.
 
 ---
 
