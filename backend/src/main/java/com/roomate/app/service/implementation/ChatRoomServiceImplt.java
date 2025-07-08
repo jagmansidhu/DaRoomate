@@ -13,44 +13,44 @@ public class ChatRoomServiceImplt {
 
     private final ChatRoomRepository chatRoomRepository;
 
-    public Optional<String> getChatRoomId(
-            String senderId,
-            String recipientId,
-            boolean createNewRoomIfNotExists
-    ) {
-        return chatRoomRepository
-                .findBySenderIdAndRecipientId(senderId, recipientId)
+//    public Optional<String> getChatRoomId(
+//            String senderId,
+//            String recipientId,
+//            boolean createNewRoomIfNotExists
+//    ) {
+//        return chatRoomRepository
+//                .findBySenderIdAndRecipientId(senderId, recipientId)
+//                .map(ChatRoomEntity::getChatId)
+//                .or(() -> {
+//                    if (createNewRoomIfNotExists) {
+//                        var chatId = createChatId(senderId, recipientId, createNewRoomIfNotExists);
+//                        return Optional.of(chatId);
+//                    }
+//
+//                    return Optional.empty();
+//                });
+//    }
+
+    public Optional<String> getChatRoomId(String userA, String userB, boolean createNewRoomIfNotExists) {
+        String chatId = generateStableChatId(userA, userB);
+
+        return chatRoomRepository.findByChatId(chatId)
                 .map(ChatRoomEntity::getChatId)
                 .or(() -> {
                     if (createNewRoomIfNotExists) {
-                        var chatId = createChatId(senderId, recipientId);
+                        ChatRoomEntity room = ChatRoomEntity.builder()
+                                .chatId(chatId)
+                                .senderId(userA)
+                                .recipientId(userB)
+                                .build();
+                        chatRoomRepository.save(room);
                         return Optional.of(chatId);
                     }
-
                     return Optional.empty();
                 });
     }
 
-    private String createChatId(String senderId, String recipientId) {
-        var chatId = String.format("%s_%s", senderId, recipientId);
-
-        ChatRoomEntity senderRecipient = ChatRoomEntity
-                .builder()
-                .chatId(chatId)
-                .senderId(senderId)
-                .recipientId(recipientId)
-                .build();
-
-        ChatRoomEntity recipientSender = ChatRoomEntity
-                .builder()
-                .chatId(chatId)
-                .senderId(recipientId)
-                .recipientId(senderId)
-                .build();
-
-        chatRoomRepository.save(senderRecipient);
-        chatRoomRepository.save(recipientSender);
-
-        return chatId;
+    private String generateStableChatId(String a, String b) {
+        return a.compareTo(b) < 0 ? a + "_" + b : b + "_" + a;
     }
 }

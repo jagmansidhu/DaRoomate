@@ -30,6 +30,9 @@ public class MessageController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload MessageEntity chatMessage) {
+        if (!isValidEmail(chatMessage.getSenderId()) || !isValidEmail(chatMessage.getRecipientId())) {
+            throw new IllegalArgumentException("Malformed sender or recipient email");
+        }
 
         System.out.println("DEBUG: Entering processMessage in MessageController.");
         System.out.println("DEBUG: Message received - Sender: " + chatMessage.getSenderId() +
@@ -46,6 +49,10 @@ public class MessageController {
                         savedMsg.getContent()
                 )
         );
+    }
+
+    private boolean isValidEmail(String senderId) {
+        return senderId != null && senderId.contains("@") && !senderId.contains("_");
     }
 
     @GetMapping("/{senderId}/{recipientId}")
