@@ -53,7 +53,7 @@ const Friend = () => {
                 const errorData = await response.json();
                 setMessage({
                     type: 'error',
-                    text: errorData.message || 'An error occurred while sending the friend request.'
+                    text: errorData.message || errorData.error || 'An error occurred while sending the friend request.'
                 });
             }
         } catch (error) {
@@ -116,8 +116,8 @@ const Friend = () => {
 
             if (response.ok) {
                 setMessage({type: 'success', text: 'Friend request accepted!'});
-                getPendingFriendRequest(); // Refresh the list of pending requests
-                getFriendsList(); // Refresh the list of friends
+                getPendingFriendRequest();
+                getFriendsList();
             } else {
                 const errorData = await response.json();
                 setMessage({type: 'error', text: errorData.message || 'Failed to accept friend request.'});
@@ -141,7 +141,7 @@ const Friend = () => {
 
             if (response.ok) {
                 setMessage({type: 'success', text: 'Friend request declined!'});
-                getPendingFriendRequest(); // Refresh the list
+                getPendingFriendRequest();
             } else {
                 const errorData = await response.json();
                 setMessage({type: 'error', text: errorData.message || 'Failed to decline friend request.'});
@@ -152,7 +152,6 @@ const Friend = () => {
         }
     };
 
-    // New function to fetch the list of current friends
     const getFriendsList = async () => {
         setIsFetchingFriends(true);
         try {
@@ -200,7 +199,7 @@ const Friend = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ email: friendEmail }) // Send friend's email to remove
+                body: JSON.stringify({ email: friendEmail })
             });
 
             if (response.ok) {
@@ -220,14 +219,14 @@ const Friend = () => {
     useEffect(() => {
         if (isAuthenticated) {
             getPendingFriendRequest();
-            getFriendsList(); // Call getFriendsList on mount/auth change
+            getFriendsList();
         } else {
             setFriendRequests([]);
-            setFriendsList([]); // Clear friends list if not authenticated
+            setFriendsList([]);
             setIsFetchingRequests(false);
-            setIsFetchingFriends(false); // Ensure friends loading state is false
+            setIsFetchingFriends(false);
         }
-    }, [isAuthenticated, getAccessTokenSilently]); // Depend on isAuthenticated and getAccessTokenSilently
+    }, [isAuthenticated, getAccessTokenSilently]);
 
     if (isLoading) {
         return <p>Loading authentication...</p>;
@@ -333,7 +332,6 @@ const Friend = () => {
                 )}
             </div>
 
-            {/* New section for Friends List */}
             <div className="mt-8">
                 <div className="flex items-center mb-4">
                     <h2 className="text-xl font-semibold text-gray-800">My Friends</h2>

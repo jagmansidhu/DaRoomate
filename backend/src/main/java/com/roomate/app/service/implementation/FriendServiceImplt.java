@@ -9,7 +9,6 @@ import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.FriendService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +29,12 @@ public class FriendServiceImplt implements FriendService {
     public FriendEntity sendFriendRequest(String authId, String friendEmail) {
         UserEntity sender = getSender(authId);
         UserEntity receiver = userRepository.findByEmail(friendEmail);
-        System.out.println(sender.getEmail());
-        System.out.println(receiver.getEmail());
 
-        if (sender.getId().equals(receiver.getId())) {
+        if(receiver == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+
+        if (sender.getAuthId().equals(receiver.getAuthId())) {
             throw new IllegalArgumentException("Cannot send friend request to yourself");
         }
 
@@ -56,7 +57,6 @@ public class FriendServiceImplt implements FriendService {
         Optional<FriendEntity> reverseRequest = friendRepository
                 .findByRequesterAndAddressee(receiver.getId(), sender.getId());
 
-        System.out.println(reverseRequest.isPresent());
         if (reverseRequest.isPresent()) {
             FriendEntity reverse = reverseRequest.get();
             if (reverse.getStatus() == FriendEnum.PENDING) {
@@ -68,7 +68,6 @@ public class FriendServiceImplt implements FriendService {
         }
 
         FriendEntity friendRequest = new FriendEntity(sender, receiver, FriendEnum.PENDING);
-        System.out.println(friendRequest.getAddressee() + "BESNA");
         return friendRepository.save(friendRequest);
     }
 

@@ -1,10 +1,7 @@
 package com.roomate.app.controller;
 
-import com.auth0.jwt.JWT;
 import com.roomate.app.dto.UserDto;
-import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.friendEntity.FriendEntity;
-import com.roomate.app.repository.FriendRepository;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.FriendService;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +18,10 @@ import java.util.Map;
 @RequestMapping("/api/friend/")
 public class FriendController {
 
-    private final UserRepository userRepository;
     FriendService friendService;
 
-    public FriendController(FriendService friendService, UserRepository userRepository) {
+    public FriendController(FriendService friendService) {
         this.friendService = friendService;
-        this.userRepository = userRepository;
     }
 
     @PostMapping("/addFriend")
@@ -39,10 +35,11 @@ public class FriendController {
 
         try {
             FriendEntity friendRequest = friendService.sendFriendRequest(authId, friendEmail);
-            System.out.println(friendRequest.getId() + "BESNA");
             return ResponseEntity.ok(friendRequest);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            Map<String, String> error = new HashMap<>();
+            error.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
         }
     }
 
@@ -67,7 +64,10 @@ public class FriendController {
         try {
             friendService.rejectFriendRequest(requestId, authId);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
