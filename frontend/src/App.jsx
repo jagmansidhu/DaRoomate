@@ -11,124 +11,198 @@ import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Message from "./webpages/Message";
 import Friends from "./webpages/Friends";
+import './styling/App.css';
 
-const LoggedOutNavbar = () => (
-    <nav>
-        <ul>
-            <li><Link to="/home">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-        </ul>
-    </nav>
-);
+const ThemeContext = React.createContext();
+
+export const useTheme = () => {
+  const context = React.useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
+
+const ThemeProvider = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+const LoggedOutNavbar = () => {
+  const { toggleTheme, isDarkMode } = useTheme();
+  
+  return (
+    <header className="App-header">
+      <div className="header-content">
+        <Link to="/home" className="logo">
+          <div className="logo-icon">D</div>
+          <span>DaROOmate</span>
+        </Link>
+        <nav className="nav">
+          <Link to="/home" className="nav-link">Home</Link>
+          <Link to="/login" className="nav-link">Login</Link>
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? "☀️" : "🌙"}
+          </button>
+        </nav>
+      </div>
+    </header>
+  );
+};
 
 const LoggedInNavbar = () => {
-    const {logout} = useAuth0();
+  const {logout} = useAuth0();
+  const { toggleTheme, isDarkMode } = useTheme();
 
-    const handleLogout = () => {
-        logout({logoutParams: {returnTo: window.location.origin}});
-    };
+  const handleLogout = () => {
+    logout({logoutParams: {returnTo: window.location.origin}});
+  };
 
-    return (
-        <nav>
-            <ul>
-                <li><Link to="/dashboard">Dashboard</Link></li>
-                <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/chat">Chat</Link></li>
-                <li><Link to="/friends">Friends</Link></li>
-                <li>
-                    <button
-                        onClick={handleLogout}
-                    >
-                        Logout
-                    </button>
-                </li>
-            </ul>
+  return (
+    <header className="App-header">
+      <div className="header-content">
+        <Link to="/dashboard" className="logo">
+          <div className="logo-icon">D</div>
+          <span>DaROOmate</span>
+        </Link>
+        <nav className="nav">
+          <Link to="/dashboard" className="nav-link">Dashboard</Link>
+          <Link to="/profile" className="nav-link">Profile</Link>
+          <Link to="/chat" className="nav-link">Chat</Link>
+          <Link to="/friends" className="nav-link">Friends</Link>
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? "☀️" : "🌙"}
+          </button>
+          <button
+            onClick={handleLogout}
+            className="btn btn-secondary"
+          >
+            Logout
+          </button>
         </nav>
-    );
+      </div>
+    </header>
+  );
 };
 
 const LogoutPage = () => {
-    const {logout} = useAuth0();
-    useEffect(() => {
-        logout({logoutParams: {returnTo: window.location.origin}});
-    }, [logout]);
-    return (
-        <div>
-            <h2>Logging out...</h2>
-        </div>
-    );
+  const {logout} = useAuth0();
+  useEffect(() => {
+    logout({logoutParams: {returnTo: window.location.origin}});
+  }, [logout]);
+  return (
+    <div className="loading">
+      <div className="spinner"></div>
+      <span>Logging out...</span>
+    </div>
+  );
 };
 
 function AppContent() {
-    const {isAuthenticated, isLoading} = useAuth0();
-    const hideNavbarPaths = ['/complete-profile'];
-    const [isPopupShowing, setIsPopupShowing] = useState(false);
-    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || isPopupShowing;
+  const {isAuthenticated, isLoading} = useAuth0();
+  const hideNavbarPaths = ['/complete-profile'];
+  const [isPopupShowing, setIsPopupShowing] = useState(false);
+  const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || isPopupShowing;
 
-    useProfileCompletionRedirect();
+  useProfileCompletionRedirect();
 
-    if (isLoading) {
-        return <div>Loading authentication status...</div>;
-    }
-
+  if (isLoading) {
     return (
-        <div>
-            {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>)}
-            <Routes>
-                <Route path="/home" element={<Home/>}/>
-                <Route
-                    path="/dashboard"
-                    element={isAuthenticated ? <Dashboard/> : <Login/>}
-                />
-                <Route
-                    path="/profile"
-                    element={isAuthenticated ? <Profile/> : <Login/>}
-                />
-                <Route
-                    path="/chat"
-                    element={isAuthenticated ? <Message/> : <Login/>}
-                />
-                <Route
-                    path="/friends"
-                    element={isAuthenticated ? <Friends/> : <Login/>}
-                />
-                <Route
-                    path="/complete-profile"
-                    element={isAuthenticated ? <CompleteProfile/> : <Login/>}
-                />
-                <Route
-                    path="/update-personal"
-                    element={isAuthenticated ? <Personal/> : <Login/>}
-                />
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/logout" element={<LogoutPage/>}/>
-            </Routes>
-
-            <VerificationPopup onPopupVisibilityChange={setIsPopupShowing} />
-
-        </div>
+      <div className="loading">
+        <div className="spinner"></div>
+        <span>Loading authentication status...</span>
+      </div>
     );
+  }
+
+  return (
+    <div className="App">
+      {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar/> : <LoggedOutNavbar/>)}
+      <main className="main-content">
+        <div className="content-wrapper">
+          <Routes>
+            <Route path="/home" element={<Home/>}/>
+            <Route
+              path="/dashboard"
+              element={isAuthenticated ? <Dashboard/> : <Login/>}
+            />
+            <Route
+              path="/profile"
+              element={isAuthenticated ? <Profile/> : <Login/>}
+            />
+            <Route
+              path="/chat"
+              element={isAuthenticated ? <Message/> : <Login/>}
+            />
+            <Route
+              path="/friends"
+              element={isAuthenticated ? <Friends/> : <Login/>}
+            />
+            <Route
+              path="/complete-profile"
+              element={isAuthenticated ? <CompleteProfile/> : <Login/>}
+            />
+            <Route
+              path="/update-personal"
+              element={isAuthenticated ? <Personal/> : <Login/>}
+            />
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/logout" element={<LogoutPage/>}/>
+          </Routes>
+        </div>
+      </main>
+
+      <VerificationPopup onPopupVisibilityChange={setIsPopupShowing} />
+    </div>
+  );
 }
 
 export default function App() {
 
-    const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
+  const CUSTOM_CLAIM_NAMESPACE = 'https://daroomate.org/';
 
-    return (
-        <Auth0Provider
-            domain={process.env.REACT_APP_AUTH0_DOMAIN}
-            clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-            authorizationParams={{
-                redirect_uri: window.location.origin,
-                audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                scope: `openid profile email offline_access ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data`,
-            }}
-            useRefreshTokens={true}
-            cacheLocation="localstorage"
-        >
-            <Router>
-                <AppContent/>
-            </Router>
-        </Auth0Provider>
-    );
+  return (
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        scope: `openid profile email offline_access ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data`,
+      }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+    >
+      <ThemeProvider>
+        <Router>
+          <AppContent/>
+        </Router>
+      </ThemeProvider>
+    </Auth0Provider>
+  );
 }

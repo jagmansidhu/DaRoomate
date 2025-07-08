@@ -6,10 +6,10 @@ const Friend = () => {
     const {getAccessTokenSilently, isAuthenticated, isLoading} = useAuth0();
     const [email, setEmail] = useState('');
     const [friendRequests, setFriendRequests] = useState([]);
-    const [friendsList, setFriendsList] = useState([]); // New state for friends list
+    const [friendsList, setFriendsList] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isFetchingRequests, setIsFetchingRequests] = useState(true);
-    const [isFetchingFriends, setIsFetchingFriends] = useState(true); // New state for friends loading
+    const [isFetchingFriends, setIsFetchingFriends] = useState(true);
     const [message, setMessage] = useState({type: '', text: ''});
 
     const sendFriendRequest = async (e) => {
@@ -233,14 +233,14 @@ const Friend = () => {
     }
 
     return (
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Send Friend Request</h2>
+        <div>
+            <div>
+                <h2>Send Friend Request</h2>
             </div>
 
-            <div className="space-y-4">
+            <div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="email">
                         Friend's Email Address
                     </label>
                     <input
@@ -249,7 +249,6 @@ const Friend = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter email address"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         disabled={isSubmitting}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
@@ -262,11 +261,10 @@ const Friend = () => {
                 <button
                     onClick={sendFriendRequest}
                     disabled={isSubmitting || !email.trim()}
-                    className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isSubmitting ? (
                         <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            <div></div>
                             Sending...
                         </>
                     ) : (
@@ -283,7 +281,7 @@ const Friend = () => {
                         ? 'bg-green-50 border border-green-200'
                         : 'bg-red-50 border border-red-200'
                 }`}>
-                    <div className="flex items-center">
+                    <div>
                         <p className={`text-sm ${
                             message.type === 'success' ? 'text-green-800' : 'text-red-800'
                         }`}>
@@ -292,9 +290,9 @@ const Friend = () => {
                     </div>
                 </div>
             )}
-            <div className="mt-8">
-                <div className="flex items-center mb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">Pending Friend Requests</h2>
+            <div>
+                <div>
+                    <h2>Pending Friend Requests</h2>
                 </div>
 
                 {isFetchingRequests ? (
@@ -306,21 +304,19 @@ const Friend = () => {
                 ) : (
                     <ul className="space-y-3">
                         {friendRequests.map((request) => (
-                            <li key={request.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
-                                <p className="text-gray-800 font-medium">
+                            <li key={request.id}>
+                                <p>
                                     {request.requester?.firstName} {request.requester?.lastName} ({request.requester?.email})
                                 </p>
-                                <div className="flex space-x-2">
+                                <div>
                                     <button
                                         onClick={() => handleAcceptRequest(request.id)}
-                                        className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
                                         title="Accept Request"
                                     >
                                         <Check className="h-5 w-5"/>
                                     </button>
                                     <button
                                         onClick={() => handleDeclineRequest(request.id)}
-                                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
                                         title="Decline Request"
                                     >
                                         <X className="h-5 w-5"/>
@@ -332,9 +328,9 @@ const Friend = () => {
                 )}
             </div>
 
-            <div className="mt-8">
-                <div className="flex items-center mb-4">
-                    <h2 className="text-xl font-semibold text-gray-800">My Friends</h2>
+            <div>
+                <div>
+                    <h2>My Friends</h2>
                 </div>
 
                 {isFetchingFriends ? (
@@ -342,18 +338,17 @@ const Friend = () => {
                         <p>Loading friends...</p>
                     </div>
                 ) : friendsList.length === 0 ? (
-                    <p className="text-gray-600 italic">You have no friends yet.</p>
+                    <p>You have no friends yet.</p>
                 ) : (
                     <ul className="space-y-3">
                         {friendsList.map((friend) => (
-                            <li key={friend.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 shadow-sm">
-                                <p className="text-gray-800 font-medium">
+                            <li key={friend.id}>
+                                <p>
                                     {friend.firstName} {friend.lastName} ({friend.email})
                                 </p>
-                                <div className="flex space-x-2">
+                                <div>
                                     <button
                                         onClick={() => handleRemoveFriend(friend.email)}
-                                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
                                         title="Remove Friend"
                                     >
                                         <UserMinus className="h-5 w-5"/>
