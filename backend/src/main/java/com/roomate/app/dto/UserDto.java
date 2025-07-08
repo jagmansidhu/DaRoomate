@@ -19,7 +19,7 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(String authId,String email) {
+    public UserDto(String authId, String email) {
         this.authId = authId;
         this.email = email;
     }
@@ -30,4 +30,13 @@ public class UserDto {
         this.lastName = lastName;
         this.email = email;
     }
+
+//    public UserDto(String id) {
+//        this.id = Long.parseLong(id);
+//    }
+
+    public UserDto(String email) {
+        this.email = email;
+    }
+
 }

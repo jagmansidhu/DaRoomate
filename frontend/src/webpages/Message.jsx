@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
+import {Stomp} from "@stomp/stompjs";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-import { FaPaperPlane, FaTrash, FaImage, FaFile, FaTimesCircle } from 'react-icons/fa';
+import {useAuth0} from "@auth0/auth0-react";
+import {FaFile, FaImage, FaPaperPlane, FaTimesCircle, FaTrash} from 'react-icons/fa';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8085';
 
@@ -50,7 +50,7 @@ const Message = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const allUsersResponse = await axios.get(`${API_BASE_URL}/api/chat/users`, {
+                const allUsersResponse = await axios.get(`${API_BASE_URL}/api/messages/users/${user.email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const allChattableUsers = allUsersResponse.data.filter(u => u.email !== user.email);
@@ -102,7 +102,6 @@ const Message = () => {
     }, [selectedRecipient, user]);
 
 
-    // --- Fetch Messages for Selected Recipient ---
     useEffect(() => {
         if (!user || !user.email || !selectedRecipient || !accessToken) return;
 
@@ -235,7 +234,7 @@ const Message = () => {
                 stompClientRef.current.disconnect();
             }
         };
-    }, [user, accessToken, selectedRecipient]);
+    }, [user, accessToken]);
 
     const handleFileSelect = (event) => {
         const file = event.target.files[0];

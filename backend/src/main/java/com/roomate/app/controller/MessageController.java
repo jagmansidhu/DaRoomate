@@ -12,19 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/")
+@RequestMapping("/api/messages/")
 public class MessageController {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -33,6 +30,7 @@ public class MessageController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload MessageEntity chatMessage) {
+
         System.out.println("DEBUG: Entering processMessage in MessageController.");
         System.out.println("DEBUG: Message received - Sender: " + chatMessage.getSenderId() +
                 ", Recipient: " + chatMessage.getRecipientId() +
@@ -50,33 +48,33 @@ public class MessageController {
         );
     }
 
-    @GetMapping("/messages/{senderId}/{recipientId}")
+    @GetMapping("/{senderId}/{recipientId}")
     public ResponseEntity<List<MessageEntity>> findChatMessages(
             @PathVariable String senderId,
             @PathVariable String recipientId) {
         return ResponseEntity.ok(chatMessageService.findMessageEntitys(senderId, recipientId));
     }
 
-    @GetMapping("/messages/unread/{userId}")
+    @GetMapping("/unread/{userId}")
     public ResponseEntity<Long> countUnreadMessages(@PathVariable String userId) {
         return ResponseEntity.ok(chatMessageService.countUnreadMessages(userId));
     }
 
-    @PutMapping("/messages/read/{messageId}")
+    @PutMapping("/read/{messageId}")
     public ResponseEntity<Void> markMessageAsRead(@PathVariable String messageId) {
         chatMessageService.markMessageAsRead(messageId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/messages/chats/{userId}")
+    @GetMapping("/chats/{userId}")
     public ResponseEntity<List<String>> findUserChats(@PathVariable String userId) {
         return ResponseEntity.ok(chatMessageService.findUserChats(userId));
     }
 
-    @GetMapping("/chat/users")
-    public ResponseEntity<List<UserDto>> getAllChatUsers() {
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<UserDto>> getAllChatUsers(@PathVariable String userId) {
         try {
-            List<UserDto> users = chatMessageService.findAllChatUsers();
+            List<UserDto> users = chatMessageService.findAllFriends(userId);
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching all chat users", e);
@@ -84,7 +82,7 @@ public class MessageController {
     }
 
 
-    @DeleteMapping("/messages/{messageId}")
+    @DeleteMapping("/{messageId}")
     public ResponseEntity<Void> deleteMessage(@PathVariable String messageId) {
         chatMessageService.deleteMessage(messageId);
         return ResponseEntity.ok().build();

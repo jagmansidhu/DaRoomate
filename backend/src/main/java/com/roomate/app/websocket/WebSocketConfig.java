@@ -1,4 +1,4 @@
-package com.roomate.app.WebSocket;
+package com.roomate.app.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
