@@ -62,27 +62,21 @@ const Message = () => {
 
                 const combinedPartnersMap = new Map();
                 allChattableUsers.forEach(u => combinedPartnersMap.set(u.email, u));
-                existingChatPartners.forEach(email => {
-                    if (typeof email === 'string' && email !== user.email && !combinedPartnersMap.has(email)) {
-                        combinedPartnersMap.set(email, { email });
+                existingChatPartners.forEach(chatId => {
+                    const [emailA, emailB] = chatId.split("_");
+                    const partnerEmail = user.email === emailA ? emailB : emailA;
+
+                    if (
+                        partnerEmail &&
+                        partnerEmail.includes("@") &&
+                        !combinedPartnersMap.has(partnerEmail)
+                    ) {
+                        combinedPartnersMap.set(partnerEmail, { email: partnerEmail });
                     }
                 });
 
+
                 console.log("All chat partners final list:", Array.from(combinedPartnersMap.keys()));
-
-
-                //
-                // const combinedPartnersMap = new Map();
-                //
-                // existingChatPartners.forEach(email => {
-                //     if (typeof email === 'string') {
-                //         combinedPartnersMap.set(email, { email });
-                //     }
-                // });
-                //
-                // allChattableUsers.forEach(u => {
-                //     combinedPartnersMap.set(u.email, u);
-                // });
 
 
                 setAvailableChatPartners(Array.from(combinedPartnersMap.values()));
