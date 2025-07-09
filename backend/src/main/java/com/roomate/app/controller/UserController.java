@@ -1,6 +1,9 @@
 package com.roomate.app.controller;
 
 import com.roomate.app.entities.UserEntity;
+import com.roomate.app.entities.roleEntity.RolesEntity;
+import com.roomate.app.repository.RoleRepository;
+import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.implementation.UserServiceImplementation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +13,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
     private final UserServiceImplementation userService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserController(UserServiceImplementation userService) {
+    public UserController(UserServiceImplementation userService, UserRepository userRepository, RoleRepository roleRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     // EFFECTS : Adds additional information: First Name, Last Name, and Phone Number to user
@@ -52,7 +60,11 @@ public class UserController {
             return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
         }
 
-        userService.createUserByAuthID(userId, email, firstName, lastName);
+        UserEntity user = userService.createUserByAuthID(userId, email, firstName, lastName);
+
+        roleRepository.findByName("ROLE_ROOMMATE").ifPresent(role -> user.setRoles(Set.of(role)));
+
+        userRepository.save(user);
 
         return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
     }

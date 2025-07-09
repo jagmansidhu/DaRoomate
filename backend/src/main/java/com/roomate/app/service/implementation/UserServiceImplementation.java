@@ -1,18 +1,26 @@
 package com.roomate.app.service.implementation;
 
 import com.roomate.app.entities.UserEntity;
+import com.roomate.app.entities.roleEntity.RoleEnum;
+import com.roomate.app.entities.roleEntity.RolesEntity;
+import com.roomate.app.repository.RoleRepository;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserServiceImplementation(UserRepository userRepository) {
+    public UserServiceImplementation(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     // EFFECTS :Checks if User currently exists in db

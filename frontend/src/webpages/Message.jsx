@@ -62,22 +62,11 @@ const Message = () => {
 
                 const combinedPartnersMap = new Map();
                 allChattableUsers.forEach(u => combinedPartnersMap.set(u.email, u));
-                existingChatPartners.forEach(chatId => {
-                    const [emailA, emailB] = chatId.split("_");
-                    const partnerEmail = user.email === emailA ? emailB : emailA;
-
-                    if (
-                        partnerEmail &&
-                        partnerEmail.includes("@") &&
-                        !combinedPartnersMap.has(partnerEmail)
-                    ) {
-                        combinedPartnersMap.set(partnerEmail, { email: partnerEmail });
+                existingChatPartners.forEach(email => {
+                    if (typeof email === 'string' && !combinedPartnersMap.has(email)) {
+                        combinedPartnersMap.set(email, { email: email });
                     }
                 });
-
-
-                console.log("All chat partners final list:", Array.from(combinedPartnersMap.keys()));
-
 
                 setAvailableChatPartners(Array.from(combinedPartnersMap.values()));
 
@@ -156,7 +145,6 @@ const Message = () => {
 
         const socket = new SockJS(`${API_BASE_URL}/ws`);
         const stompClient = Stomp.over(socket);
-        stompClient.reconnectDelay = 5000;
         stompClientRef.current = stompClient;
 
         stompClient.connect({}, () => {

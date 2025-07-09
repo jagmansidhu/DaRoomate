@@ -2,6 +2,7 @@ package com.roomate.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.roomate.app.entities.friendEntity.FriendEntity;
+import com.roomate.app.entities.roleEntity.RolesEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -31,19 +32,17 @@ public class UserEntity {
     @JoinColumn(name = "addressId", referencedColumnName = "id")
     @JsonIgnore
     private AddressEntity address;
-    @ManyToMany(targetEntity = RolesEntity.class)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<RolesEntity> roles;
+    private Set<RolesEntity> roles = new HashSet<>();
     @OneToMany(mappedBy = "requester", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<FriendEntity> sentFriendRequests = new HashSet<>();
-
     @OneToMany(mappedBy = "addressee", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<FriendEntity> receivedFriendRequests = new HashSet<>();
-
 
     public UserEntity() {}
 

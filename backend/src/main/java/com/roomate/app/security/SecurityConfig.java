@@ -35,6 +35,14 @@ public class SecurityConfig {
                         .requestMatchers("/public_resource").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
+
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/dashboard/**").hasAnyRole("HEAD_ROOMMATE", "ADMIN")
+                        .requestMatchers("/assistant/**").hasAnyRole("ASSISTANT_ROOMMATE", "HEAD_ROOMMATE", "ADMIN")
+                        .requestMatchers("/view/**").hasAnyRole("ROOMMATE", "ASSISTANT_ROOMMATE", "HEAD_ROOMMATE", "ADMIN")
+
+
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 );
 
