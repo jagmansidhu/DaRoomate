@@ -51,12 +51,12 @@ const LoggedOutNavbar = () => {
   return (
     <header className="App-header">
       <div className="header-content">
-        <Link to="/home" className="logo">
+        <Link to="/" className="logo">
           <div className="logo-icon">D</div>
           <span>DaROOmate</span>
         </Link>
         <nav className="nav">
-          <Link to="/home" className="nav-link">Home</Link>
+          <Link to="/" className="nav-link">Home</Link>
           <Link to="/login" className="nav-link">Login</Link>
           <button
             onClick={toggleTheme}
@@ -146,6 +146,7 @@ function AppContent() {
       <main className="main-content">
         <div className="content-wrapper">
           <Routes>
+            <Route path="/" element={<Home/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route
               path="/dashboard"

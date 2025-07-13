@@ -8,7 +8,7 @@ import {FaFile, FaImage, FaPaperPlane, FaTimesCircle, FaTrash} from 'react-icons
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8085';
 
 const Message = () => {
-    const { getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
+    const {getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
 
     const [error, setError] = useState(null);
     const [apiLoading, setApiLoading] = useState(true);
