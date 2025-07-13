@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Auth0Provider, useAuth0} from '@auth0/auth0-react';
-import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from 'react-router-dom';
 import Login from './webpages/Login';
 import Dashboard from './webpages/Dashboard';
 import Profile from './webpages/Profile';
@@ -125,11 +125,20 @@ const LogoutPage = () => {
 
 function AppContent() {
   const {isAuthenticated, isLoading} = useAuth0();
+  const navigate = useNavigate();
   const hideNavbarPaths = ['/complete-profile'];
   const [isPopupShowing, setIsPopupShowing] = useState(false);
   const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || isPopupShowing;
 
   useProfileCompletionRedirect();
+
+  // Redirect authenticated users from home page to dashboard
+  useEffect(() => {
+    if (isAuthenticated && !isLoading && window.location.pathname === '/') {
+      // Check if user is on the home page and redirect to dashboard
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   if (isLoading) {
     return (
