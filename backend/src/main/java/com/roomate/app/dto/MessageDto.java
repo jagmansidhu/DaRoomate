@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.lang.annotation.Documented;
 import java.util.Date;
 
 @Data

@@ -11,6 +11,7 @@ import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Message from "./webpages/Message";
 import Friends from "./webpages/Friends";
+import Rooms from "./webpages/Rooms";
 import './styling/App.css';
 
 const ThemeContext = React.createContext();
@@ -89,6 +90,7 @@ const LoggedInNavbar = () => {
         <nav className="nav">
           <Link to="/dashboard" className="nav-link">Dashboard</Link>
           <Link to="/profile" className="nav-link">Profile</Link>
+          <Link to="/rooms" className="nav-link">Rooms</Link>
           <Link to="/chat" className="nav-link">Chat</Link>
           <Link to="/friends" className="nav-link">Friends</Link>
           <button
@@ -172,6 +174,10 @@ function AppContent() {
             <Route
               path="/friends"
               element={isAuthenticated ? <Friends/> : <Login/>}
+            />
+            <Route
+              path="/rooms"
+              element={isAuthenticated ? <Rooms/> : <Login/>}
             />
             <Route
               path="/complete-profile"

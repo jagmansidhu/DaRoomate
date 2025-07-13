@@ -5,11 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoomController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/CreateRoomRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RoomDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RoomMemberDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UpdateMemberRoleRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/room/RoomEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/room/RoomMemberEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/room/RoomMemberEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoomMemberRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoomRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/RoomService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RoomServiceImplt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/db/migration/V3__create_rooms_tables.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/StartOneApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/MessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/MessageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styling/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styling/Home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Message.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +37,9 @@
         <option value="HTML File" />
         <option value="Record" />
         <option value="Kotlin Class" />
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -276,7 +291,7 @@
       <workItem from="1750203138580" duration="15541000" />
       <workItem from="1751323369030" duration="14011000" />
       <workItem from="1751755968416" duration="645000" />
-      <workItem from="1751939641397" duration="33316000" />
+      <workItem from="1751939641397" duration="39365000" />
     </task>
     <servers />
   </component>
