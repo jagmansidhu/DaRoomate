@@ -48,4 +48,22 @@ public class RoomEntity {
     public RoomEntity() {
         this.createdAt = LocalDateTime.now();
     }
+
+    public RoomEntity(String name, String address, String description, String roomCode, String headRoommateId,List<RoomMemberEntity> members) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.roomCode = roomCode;
+        this.headRoommateId = headRoommateId;
+        this.members = members;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public RoomEntity(String name, String address, String description, String headRoommateId) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.headRoommateId = headRoommateId;
+        this.createdAt = LocalDateTime.now();
+    }
 }

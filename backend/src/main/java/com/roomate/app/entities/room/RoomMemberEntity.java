@@ -35,8 +35,11 @@ public class RoomMemberEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Add constructor to set joinedAt
     public RoomMemberEntity() {
+        this.joinedAt = LocalDateTime.now();
+    }
+
+    public RoomMemberEntity(RoomEntity room, UserEntity user, RoomMemberEnum role) {
         this.joinedAt = LocalDateTime.now();
     }
 }
