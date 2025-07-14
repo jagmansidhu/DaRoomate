@@ -134,7 +134,3 @@ Run these in the `frontend/` directory:
 3. Submit a pull request.
 
 ---
-
-## License
-
-This project is currently unlicensed. Add your license information here if needed.
