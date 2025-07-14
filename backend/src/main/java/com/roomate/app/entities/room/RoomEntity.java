@@ -65,5 +65,6 @@ public class RoomEntity {
         this.description = description;
         this.headRoommateId = headRoommateId;
         this.createdAt = LocalDateTime.now();
+        this.roomCode = UUID.randomUUID().toString();
     }
 }

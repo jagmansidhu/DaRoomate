@@ -18,4 +18,8 @@ public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
 
     Optional<RoomEntity> findByRoomCode(String roomCode);
     boolean existsByRoomCode(String roomCode);
+
+    RoomEntity getRoomEntityByRoomCode(String roomCode);
+
+    RoomEntity getRoomEntityById(UUID id);
 }
