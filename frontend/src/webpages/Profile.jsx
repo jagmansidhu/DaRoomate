@@ -27,12 +27,7 @@ const Profile = () => {
                 return;
             }
             try {
-                const fetchedAccessToken = await getAccessTokenSilently({
-                    authorizationParams: {
-                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: `openid profile email offline_access ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data`,
-                    },
-                });
+                const fetchedAccessToken = await getAccessTokenSilently();
 
                 const response = await axios.get('http://localhost:8085/api/create_or_find_user', {
                     headers: {
@@ -64,7 +59,7 @@ const Profile = () => {
         <div className="profile">
             <h1>Profile</h1>
             <h2>Login Info</h2>
-            <p>Email : {user.email}< /p>
+            <p>Email : {user.email}</p>
             <p>Password : ********</p>
             <button onClick={() => navigate('/reset-password')}>Change Login</button>
             <h2>Personal Info</h2>

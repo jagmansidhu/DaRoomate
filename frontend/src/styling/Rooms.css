@@ -77,22 +77,22 @@
     letter-spacing: 0.5px;
 }
 
-.role-badge.head-roommate {
+.role-badge.HEAD_ROOMMATE {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
 }
 
-.role-badge.roommate {
+.role-badge.ROOMMATE {
     background: var(--success-color);
     color: white;
 }
 
-.role-badge.assistant {
+.role-badge.ASSISTANT {
     background: var(--warning-color);
     color: white;
 }
 
-.role-badge.guest {
+.role-badge.GUEST {
     background: var(--text-muted);
     color: white;
 }

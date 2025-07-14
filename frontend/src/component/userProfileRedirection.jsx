@@ -15,12 +15,7 @@ const useProfileCompletionRedirect = () => {
             }
 
             try {
-                const accessToken = await getAccessTokenSilently({
-                    authorizationParams: {
-                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: 'read:data',
-                    },
-                });
+                        const accessToken = await getAccessTokenSilently();
 
                 const response = await axios.get('http://localhost:8085/api/profile-status', {
                     headers: {

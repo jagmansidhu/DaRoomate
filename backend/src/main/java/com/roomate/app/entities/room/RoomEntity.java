@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@ToString(exclude = "members")
 @Table(name = "room")
 public class RoomEntity {
     @Id
@@ -49,14 +51,15 @@ public class RoomEntity {
         this.createdAt = LocalDateTime.now();
     }
 
-    public RoomEntity(String name, String address, String description, String roomCode, String headRoommateId,List<RoomMemberEntity> members) {
+    public RoomEntity(String name, String address, String description, String roomCode, String headRoommateId, List<RoomMemberEntity> members) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.roomCode = roomCode;
         this.headRoommateId = headRoommateId;
-        this.members = members;
+        this.members = members != null ? members : new ArrayList<>();
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public RoomEntity(String name, String address, String description, String headRoommateId) {

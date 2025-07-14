@@ -14,7 +14,7 @@ CREATE TABLE room (
 CREATE TABLE room_member (
                              id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
                              room_id UUID NOT NULL,
-                             user_id UUID NOT NULL, -- Changed to UUID to match UserEntity
+                             user_id BIGINT NOT NULL, -- Changed to BIGINT to match users table
                              role VARCHAR(20) NOT NULL DEFAULT 'ROOMMATE',
                              joined_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                              updated_at TIMESTAMP,

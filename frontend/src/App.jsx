@@ -209,9 +209,8 @@ export default function App() {
       authorizationParams={{
         redirect_uri: window.location.origin,
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        scope: `openid profile email offline_access ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data`,
+        scope: `openid profile email ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data write:data`,
       }}
-      useRefreshTokens={true}
       cacheLocation="localstorage"
     >
       <ThemeProvider>

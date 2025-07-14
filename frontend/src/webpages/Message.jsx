@@ -38,12 +38,7 @@ const Message = () => {
             if (!isAuthenticated || isLoading) return;
 
             try {
-                const token = await getAccessTokenSilently({
-                    authorizationParams: {
-                        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                        scope: 'read:data',
-                    },
-                });
+                const token = await getAccessTokenSilently();
                 setAccessToken(token);
 
                 await axios.get(`${API_BASE_URL}/api/create_or_find_user`, {

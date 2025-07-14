@@ -4,6 +4,7 @@ import com.roomate.app.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@ToString(exclude = {"room", "user"})
 @Table(name = "room_member")
 public class RoomMemberEntity {
     @Id
@@ -22,7 +24,7 @@ public class RoomMemberEntity {
     private RoomEntity room;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity user;
 
     @Enumerated(EnumType.STRING)
@@ -40,6 +42,9 @@ public class RoomMemberEntity {
     }
 
     public RoomMemberEntity(RoomEntity room, UserEntity user, RoomMemberEnum role) {
+        this.room = room;
+        this.user = user;
+        this.role = role;
         this.joinedAt = LocalDateTime.now();
     }
 }

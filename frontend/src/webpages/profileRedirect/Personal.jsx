@@ -20,10 +20,7 @@ const Personal = () => {
         setSuccess(false);
 
         try {
-            const accessToken = await getAccessTokenSilently({
-                audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                scope: "update:profile",
-            });
+            const accessToken = await getAccessTokenSilently();
 
             const response = await fetch('http://localhost:8085/api/additional_info', {
                 method: 'PUT',

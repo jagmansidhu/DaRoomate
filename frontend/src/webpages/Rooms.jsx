@@ -11,7 +11,6 @@ const Rooms = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
-    // Form states
     const [newRoom, setNewRoom] = useState({
         name: '',
         address: '',
@@ -19,7 +18,6 @@ const Rooms = () => {
     });
     const [joinRoomCode, setJoinRoomCode] = useState('');
     
-    // Room management states
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [showRoomDetails, setShowRoomDetails] = useState(false);
     const [showRoleManagement, setShowRoleManagement] = useState(false);
@@ -31,12 +29,7 @@ const Rooms = () => {
     const fetchRooms = async () => {
         try {
             setLoading(true);
-            const accessToken = await getAccessTokenSilently({
-                authorizationParams: {
-                    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                    scope: 'read:data',
-                },
-            });
+            const accessToken = await getAccessTokenSilently();
 
             const response = await axios.get('http://localhost:8085/api/rooms', {
                 headers: {
@@ -172,7 +165,7 @@ const Rooms = () => {
                             <div className="room-header">
                                 <h3>{room.name}</h3>
                                 {isHeadRoommate(room) && (
-                                    <span className="role-badge head-roommate">Head Roommate</span>
+                                    <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>
                                 )}
                             </div>
                             <p className="room-address">{room.address}</p>
@@ -361,7 +354,6 @@ const Rooms = () => {
                 </div>
             )}
 
-            {/* Role Management Modal */}
             {showRoleManagement && selectedRoom && (
                 <RoleManagementModal 
                     room={selectedRoom}
@@ -374,7 +366,6 @@ const Rooms = () => {
     );
 };
 
-// Role Management Component
 const RoleManagementModal = ({ room, onClose, onUpdate, getAccessTokenSilently }) => {
     const [members, setMembers] = useState(room.members || []);
     const [loading, setLoading] = useState(false);
@@ -436,15 +427,15 @@ const RoleManagementModal = ({ room, onClose, onUpdate, getAccessTokenSilently }
                                             </span>
                                         </td>
                                         <td>
-                                            {member.role !== 'head_roommate' && (
+                                            {member.role !== 'HEAD_ROOMMATE' && (
                                                 <select
                                                     value={member.role}
                                                     onChange={(e) => updateMemberRole(member.id, e.target.value)}
                                                     disabled={loading}
                                                 >
-                                                    <option value="roommate">Roommate</option>
-                                                    <option value="assistant">Assistant</option>
-                                                    <option value="guest">Guest</option>
+                                                    <option value="ROOMMATE">Roommate</option>
+                                                    <option value="ASSISTANT">Assistant</option>
+                                                    <option value="GUEST">Guest</option>
                                                 </select>
                                             )}
                                         </td>

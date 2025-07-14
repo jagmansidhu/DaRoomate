@@ -15,14 +15,19 @@ import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.RoomService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImplt implements RoomService {
+    private static final Logger logger = LoggerFactory.getLogger(RoomServiceImplt.class);
+
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
@@ -48,19 +53,38 @@ public class RoomServiceImplt implements RoomService {
     @Override
     @Transactional
     public RoomDto createRoom(CreateRoomRequest request, String headRoommateId, String headRoommateName, String headRoommateEmail) throws UserApiError {
+        logger.info("Creating room with request: {}, headRoommateId: {}", request, headRoommateId);
+
         UserEntity user = userRepository.getUserEntityByAuthId(headRoommateId);
         if (user == null) {
             throw new UserApiError("Head roommate user not found with ID: " + headRoommateId);
         }
 
+        logger.info("Found user: {}", user);
+
         String roomCode = generateUniqueRoomCode();
+        logger.info("Generated room code: {}", roomCode);
 
-        RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoommateId, null);
+        RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoommateId, new ArrayList<>());
+        logger.info("Created room entity (before member): {}", room);
+
         RoomMemberEntity roomMemberEntity = new RoomMemberEntity(room, user, RoomMemberEnum.HEAD_ROOMMATE);
+        logger.info("Created room member entity: {}", roomMemberEntity);
 
+        // Add the member to the room's collection BEFORE saving the room
         room.getMembers().add(roomMemberEntity);
 
-        return convertToRoomDto(roomRepository.save(room));
+        RoomEntity savedRoom;
+        try {
+            // With CascadeType.PERSIST, saving the room will also save its new members
+            savedRoom = roomRepository.save(room);
+            logger.info("Saved room and its members: {}", savedRoom);
+        } catch (Exception e) {
+            logger.error("Error saving room or its members: {}", e.getMessage(), e);
+            throw new UserApiError("Failed to create room: " + e.getMessage());
+        }
+
+        return convertToRoomDto(savedRoom);
     }
 
     @Override
@@ -82,6 +106,7 @@ public class RoomServiceImplt implements RoomService {
         }
 
         RoomMemberEntity member = new RoomMemberEntity(room, user, RoomMemberEnum.ROOMMATE);
+
         room.getMembers().add(member);
 
         return convertToRoomDto(roomRepository.save(room));
@@ -89,10 +114,8 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     public RoomDto getRoomById(UUID roomId, String authId) throws UserApiError {
-        RoomEntity room = roomRepository.getRoomEntityById(roomId);
-        if (room == null) {
-            throw new UserApiError("Room not found with ID: " + roomId);
-        }
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
         UserEntity requestingUser = userRepository.getUserEntityByAuthId(authId);
         if (requestingUser == null || !isRoomMember(roomId, authId)) {
@@ -104,7 +127,7 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public void updateMemberRole(UUID roomId, String targetUserId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError {
+    public void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
@@ -113,13 +136,12 @@ public class RoomServiceImplt implements RoomService {
             throw new UserApiError("Only the head roommate can update member roles.");
         }
 
-        UserEntity targetUser = userRepository.getUserEntityByAuthId(targetUserId);
-        if (targetUser == null) {
-            throw new UserApiError("Target user not found with ID: " + targetUserId);
-        }
+        RoomMemberEntity member = roomMemberRepository.findById(memberId)
+                .orElseThrow(() -> new UserApiError("Member not found with ID: " + memberId));
 
-        RoomMemberEntity member = roomMemberRepository.findByRoomIdAndUserId(roomId, targetUser.getId())
-                .orElseThrow(() -> new UserApiError("Member not found in this room for user ID: " + targetUserId));
+        if (!member.getRoom().getId().equals(roomId)) {
+            throw new UserApiError("Member does not belong to the specified room.");
+        }
 
         if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
             throw new UserApiError("Cannot change the head roommate's role directly. Transfer head roommate status first.");
@@ -132,15 +154,6 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
-    public boolean isHeadRoommate(UUID roomId, String authId) {
-        RoomEntity room = roomRepository.findById(roomId).orElse(null);
-        if (room == null) {
-            return false;
-        }
-        return room.getHeadRoommateId().equals(authId);
-    }
-
-    @Override
     public boolean isRoomMember(UUID roomId, String authId) {
         UserEntity user = userRepository.getUserEntityByAuthId(authId);
         if (user == null) {
@@ -149,7 +162,6 @@ public class RoomServiceImplt implements RoomService {
         return roomMemberRepository.findByRoomIdAndUserId(roomId, user.getId()).isPresent();
     }
 
-    // Helper method to convert RoomEntity to RoomDto
     private RoomDto convertToRoomDto(RoomEntity room) {
         RoomDto dto = new RoomDto();
         dto.setId(room.getId());
@@ -179,7 +191,7 @@ public class RoomServiceImplt implements RoomService {
     private String generateUniqueRoomCode() {
         String roomCode;
         do {
-            roomCode = UUID.randomUUID().toString().substring(0, 8).toUpperCase(); // Example: 8-character code
+            roomCode = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         } while (roomRepository.existsByRoomCode(roomCode));
         return roomCode;
     }

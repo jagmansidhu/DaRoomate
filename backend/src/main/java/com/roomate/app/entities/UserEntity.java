@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "users")
 public class UserEntity {
