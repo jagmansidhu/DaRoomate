@@ -246,15 +246,7 @@ const Rooms = () => {
                                         Manage Roles
                                     </button>
                                 )}
-                                {/* Leave Room button for non-head roommates */}
-                                {!isHeadRoommate(room) && room.members?.some(m => m.userId === user?.sub) && (
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => leaveRoomFromCard(room)}
-                                    >
-                                        Leave Room
-                                    </button>
-                                )}
+                                {/* Leave Room button for non-head roommates removed */}
                             </div>
                         </div>
                     ))
@@ -414,10 +406,7 @@ const Rooms = () => {
                                         >
                                             Manage Roles
                                         </button>
-                                        <button className="btn btn-secondary">
-                                            Add Calendar
-                                        </button>
-                                        {/* Delete Room button for head roommate */}
+                                        {/* Add Calendar button removed */}
                                         <button
                                             className="btn btn-danger"
                                             onClick={deleteRoom}

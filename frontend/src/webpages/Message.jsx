@@ -106,7 +106,6 @@ const Message = () => {
                     `${API_BASE_URL}/api/messages/${user.email}/${selectedRecipient}`,
                     { headers: { Authorization: `Bearer ${accessToken}` } }
                 );
-                console.log(`FETCH: Fetched ${response.data.length} messages for chat with ${selectedRecipient}. First message ID: ${response.data.length > 0 ? response.data[0].id : 'N/A'}`);
                 setMessages(response.data);
 
                 const unreadMsgsFromRecipient = response.data.filter(
@@ -143,24 +142,14 @@ const Message = () => {
         stompClientRef.current = stompClient;
 
         stompClient.connect({}, () => {
-            console.log("STOMP Connected!");
-            console.log(`STOMP Subscribing to: /user/${user.email}/queue/messages`);
-
             stompClient.subscribe(`/user/${user.email}/queue/messages`, (messageOutput) => {
                 const msg = JSON.parse(messageOutput.body);
-                console.log("--- WS Message Received ---");
-                console.log("WS: Raw message payload:", msg);
-                console.log("WS: Recipient email for subscription (this client):", user.email);
-                console.log("WS: Sender of received message (from payload):", msg.senderId);
-                console.log("WS: Recipient of received message (from payload):", msg.recipientId);
 
                 setMessages(prevMessages => {
-                    console.log("WS: Current messages state IDs before update:", prevMessages.map(m => m.id));
                     const incomingMessageId = msg.id;
                     const isOwnMessage = msg.senderId === user.email;
 
                     if (prevMessages.some(m => m.id === incomingMessageId)) {
-                        console.log(`WS: Message ID ${incomingMessageId} already exists in state (from fetch/prev WS). Skipping add to display.`);
                         return prevMessages;
                     }
 
@@ -171,24 +160,20 @@ const Message = () => {
                                 m.recipientId === msg.recipientId &&
                                 m.content === msg.content
                             ) {
-                                console.log(`WS: Replacing optimistic message ${m.id} with real message ${incomingMessageId}.`);
                                 return msg;
                             }
                             return m;
                         });
 
                         if (updatedMessages.some(m => m.id === incomingMessageId)) {
-                            console.log("WS: Optimistic message successfully replaced. New state IDs:", updatedMessages.map(m => m.id));
                             return updatedMessages;
                         }
                     }
 
                     if (msg.recipientId === user.email && msg.senderId === selectedRecipient) {
-                        console.log(`WS: Adding new incoming message ${incomingMessageId} for currently selected recipient.`);
                         return [...prevMessages, msg];
                     }
 
-                    console.log(`WS: Message ${incomingMessageId} is for a different recipient or already handled. Not adding to current display.`);
                     return prevMessages;
                 });
 
@@ -225,7 +210,6 @@ const Message = () => {
 
         return () => {
             if (stompClientRef.current?.connected) {
-                console.log("STOMP Disconnecting...");
                 stompClientRef.current.disconnect();
             }
         };
@@ -300,7 +284,6 @@ const Message = () => {
 
             setMessages(prev => [...prev, { ...messagePayloadForBackend, id: tempFrontendId }]);
 
-            console.log("Sending STOMP message from sender client (payload to backend):", messagePayloadForBackend);
             stompClientRef.current.send("/app/chat", {}, JSON.stringify(messagePayloadForBackend));
 
             setInput("");
