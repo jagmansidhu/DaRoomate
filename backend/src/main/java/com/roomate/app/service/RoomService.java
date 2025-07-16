@@ -13,6 +13,9 @@ public interface RoomService {
     RoomDto createRoom(CreateRoomRequest request, String headRoommateId, String headRoommateName, String headRoommateEmail) throws UserApiError;
     RoomDto joinRoom(String roomCode, String authId, String userName, String userEmail) throws UserApiError;
     RoomDto getRoomById(UUID roomId, String authId) throws UserApiError;
+    void removeMemberFromRoom(UUID roomId, UUID memberId, String removerAuthId) throws UserApiError;
+    void removeRoom(UUID roomId, String authId) throws UserApiError;
     void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError;
     boolean isRoomMember(UUID roomId, String authId);
+
 }

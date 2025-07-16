@@ -31,6 +31,7 @@ public class RoomController {
             List<RoomDto> rooms = roomService.getUserRooms(authId);
             return ResponseEntity.ok(rooms);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -86,6 +87,32 @@ public class RoomController {
         try {
             String authId = jwt.getSubject();
             roomService.updateMemberRole(roomId, memberId, request, authId);
+            return ResponseEntity.ok().build();
+        } catch (UserApiError e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{roomId}/members/{memberId}")
+    public ResponseEntity<Void> removeMemberFromRoom(@PathVariable UUID roomId, @PathVariable UUID memberId, @AuthenticationPrincipal Jwt jwt) {
+        try {
+            String authId = jwt.getSubject();
+            roomService.removeMemberFromRoom(roomId, memberId, authId);
+            return ResponseEntity.ok().build();
+        } catch (UserApiError e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{roomId}/removeroom")
+    public ResponseEntity<Void> removeRoom(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
+        try {
+            String authId = jwt.getSubject();
+            roomService.removeRoom(roomId, authId);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             return ResponseEntity.badRequest().build();

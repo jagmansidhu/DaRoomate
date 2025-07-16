@@ -39,13 +39,16 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
+    @Transactional
     public List<RoomDto> getUserRooms(String authId) {
         UserEntity user = userRepository.getUserEntityByAuthId(authId);
+
         if (user == null) {
             return List.of();
         }
 
         List<RoomEntity> roomEntities = roomRepository.findByMemberUserId(user.getId());
+        System.out.println(roomEntities.getFirst().getRoomCode());
 
         return roomEntities.stream().map(this::convertToRoomDto).toList();
     }
@@ -53,30 +56,21 @@ public class RoomServiceImplt implements RoomService {
     @Override
     @Transactional
     public RoomDto createRoom(CreateRoomRequest request, String headRoommateId, String headRoommateName, String headRoommateEmail) throws UserApiError {
-        logger.info("Creating room with request: {}, headRoommateId: {}", request, headRoommateId);
-
         UserEntity user = userRepository.getUserEntityByAuthId(headRoommateId);
         if (user == null) {
             throw new UserApiError("Head roommate user not found with ID: " + headRoommateId);
         }
 
-        logger.info("Found user: {}", user);
-
         String roomCode = generateUniqueRoomCode();
-        logger.info("Generated room code: {}", roomCode);
 
         RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoommateId, new ArrayList<>());
-        logger.info("Created room entity (before member): {}", room);
 
         RoomMemberEntity roomMemberEntity = new RoomMemberEntity(room, user, RoomMemberEnum.HEAD_ROOMMATE);
-        logger.info("Created room member entity: {}", roomMemberEntity);
 
-        // Add the member to the room's collection BEFORE saving the room
         room.getMembers().add(roomMemberEntity);
 
         RoomEntity savedRoom;
         try {
-            // With CascadeType.PERSIST, saving the room will also save its new members
             savedRoom = roomRepository.save(room);
             logger.info("Saved room and its members: {}", savedRoom);
         } catch (Exception e) {
@@ -118,11 +112,49 @@ public class RoomServiceImplt implements RoomService {
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
         UserEntity requestingUser = userRepository.getUserEntityByAuthId(authId);
+
         if (requestingUser == null || !isRoomMember(roomId, authId)) {
             throw new UserApiError("User is not authorized to view this room.");
         }
 
         return convertToRoomDto(room);
+    }
+
+    @Override
+    public void removeMemberFromRoom(UUID roomId, UUID memberId, String removerAuthId) throws UserApiError {
+        RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityById(memberId)
+                .orElseThrow(() -> new UserApiError("Room member not found with ID: " + memberId));
+        RoomEntity room = roomRepository.getRoomEntityById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
+
+
+        if (!room.getHeadRoommateId().equals(removerAuthId) && !member.getUser().getAuthId().equals(removerAuthId)) {
+            throw new UserApiError("Not authorized to remove this member.");
+        }
+
+        if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
+            throw new UserApiError("Cannot remove the head roommate from the room.");
+        }
+
+        roomMemberRepository.deleteById(memberId);
+    }
+
+    @Override
+    public void removeRoom(UUID roomId, String requesterAuthId) throws UserApiError {
+        UserEntity user = userRepository.getUserEntityByAuthId(requesterAuthId);
+        RoomEntity room = roomRepository.getRoomEntityById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
+        if (user == null) {
+            throw new UserApiError("User not found with ID: " + requesterAuthId);
+        }
+
+        if (!room.getHeadRoommateId().equals(requesterAuthId)) {
+            throw new UserApiError("Not authorized to delete room.");
+        }
+
+        roomMemberRepository.deleteAllByRoomId(roomId);
+
+        roomRepository.deleteById(roomId);
     }
 
     @Override
@@ -173,17 +205,21 @@ public class RoomServiceImplt implements RoomService {
         dto.setCreatedAt(room.getCreatedAt());
         dto.setUpdatedAt(room.getUpdatedAt());
 
-        List<RoomMemberDto> memberDtos = room.getMembers().stream().map(member -> {
-            RoomMemberDto memberDto = new RoomMemberDto();
-            memberDto.setId(member.getId());
-            memberDto.setJoinedAt(member.getJoinedAt());
-            memberDto.setUserId(member.getUser().getId());
-            memberDto.setName(member.getUser().getFirstName());
-            memberDto.setRole(member.getRole());
-            return memberDto;
-        }).collect(Collectors.toList());
+        List<RoomMemberDto> memberDtos = new ArrayList<>();
+        if (room.getMembers() != null) {
+            for (RoomMemberEntity member : room.getMembers()) {
+                if (member == null || member.getUser() == null) continue;
+                RoomMemberDto memberDto = new RoomMemberDto();
+                memberDto.setId(member.getId());
+                memberDto.setJoinedAt(member.getJoinedAt());
+                memberDto.setUserId(member.getUser().getId());
+                memberDto.setName(member.getUser().getFirstName());
+                memberDto.setRole(member.getRole());
+                memberDtos.add(memberDto);
+            }
+        }
 
-        dto.setMembers(memberDtos);
+        dto.setMembers(memberDtos.isEmpty() ? null : memberDtos);
 
         return dto;
     }

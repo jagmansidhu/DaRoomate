@@ -105,6 +105,59 @@ const Rooms = () => {
         return room.headRoommateId === user?.sub;
     };
 
+    // Add deleteRoom function
+    const deleteRoom = async () => {
+        if (!selectedRoom) return;
+        if (!window.confirm('Are you sure you want to delete this room? This cannot be undone.')) return;
+        try {
+            const accessToken = await getAccessTokenSilently();
+            await axios.delete(`http://localhost:8085/api/rooms/${selectedRoom.id}/removeroom`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            setShowRoomDetails(false);
+            setRooms(rooms.filter(r => r.id !== selectedRoom.id));
+        } catch (error) {
+            console.error('Error deleting room:', error);
+            setError('Failed to delete room.');
+        }
+    };
+
+    // Add leaveRoom function
+    const leaveRoom = async (memberId) => {
+        if (!selectedRoom) return;
+        if (!window.confirm('Are you sure you want to leave this room?')) return;
+        try {
+            const accessToken = await getAccessTokenSilently();
+            await axios.delete(`http://localhost:8085/api/rooms/${selectedRoom.id}/members/${memberId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            setShowRoomDetails(false);
+            setRooms(rooms.filter(r => r.id !== selectedRoom.id));
+        } catch (error) {
+            console.error('Error leaving room:', error);
+            setError('Failed to leave room.');
+        }
+    };
+
+    // Add leaveRoomFromCard function
+    const leaveRoomFromCard = async (room) => {
+        if (!room || !user) return;
+        // Find the current user's memberId in this room
+        const member = room.members?.find(m => m.userId === user.sub);
+        if (!member) return;
+        if (!window.confirm('Are you sure you want to leave this room?')) return;
+        try {
+            const accessToken = await getAccessTokenSilently();
+            await axios.delete(`http://localhost:8085/api/rooms/${room.id}/members/${member.id}`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            setRooms(rooms.filter(r => r.id !== room.id));
+        } catch (error) {
+            console.error('Error leaving room:', error);
+            setError('Failed to leave room.');
+        }
+    };
+
     if (loading) {
         return (
             <div className="rooms-container">
@@ -191,6 +244,15 @@ const Rooms = () => {
                                         }}
                                     >
                                         Manage Roles
+                                    </button>
+                                )}
+                                {/* Leave Room button for non-head roommates */}
+                                {!isHeadRoommate(room) && room.members?.some(m => m.userId === user?.sub) && (
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => leaveRoomFromCard(room)}
+                                    >
+                                        Leave Room
                                     </button>
                                 )}
                             </div>
@@ -297,7 +359,7 @@ const Rooms = () => {
                 </div>
             )}
 
-            {/* Room Details Modal */}
+            {/* Room Details Modal (add Leave Room and Delete Room buttons) */}
             {showRoomDetails && selectedRoom && (
                 <div className="modal-overlay">
                     <div className="modal modal-large">
@@ -326,6 +388,15 @@ const Rooms = () => {
                                                 <span className="member-name">{member.name}</span>
                                                 <span className="member-role">{member.role}</span>
                                             </div>
+                                            {/* Leave Room button for current user (not head roommate) */}
+                                            {member.userId === user?.sub && member.role !== 'HEAD_ROOMMATE' && (
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => leaveRoom(member.id)}
+                                                >
+                                                    Leave Room
+                                                </button>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -345,6 +416,13 @@ const Rooms = () => {
                                         </button>
                                         <button className="btn btn-secondary">
                                             Add Calendar
+                                        </button>
+                                        {/* Delete Room button for head roommate */}
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={deleteRoom}
+                                        >
+                                            Delete Room
                                         </button>
                                     </div>
                                 </div>
@@ -373,13 +451,7 @@ const RoleManagementModal = ({ room, onClose, onUpdate, getAccessTokenSilently }
     const updateMemberRole = async (memberId, newRole) => {
         try {
             setLoading(true);
-            const accessToken = await getAccessTokenSilently({
-                authorizationParams: {
-                    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                    scope: 'write:data',
-                },
-            });
-
+            const accessToken = await getAccessTokenSilently();
             await axios.put(`http://localhost:8085/api/rooms/${room.id}/members/${memberId}/role`, 
                 { role: newRole },
                 {
@@ -388,13 +460,30 @@ const RoleManagementModal = ({ room, onClose, onUpdate, getAccessTokenSilently }
                     },
                 }
             );
-
             setMembers(members.map(member => 
                 member.id === memberId ? { ...member, role: newRole } : member
             ));
             onUpdate();
         } catch (error) {
             console.error('Error updating member role:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Add removeMember function
+    const removeMember = async (memberId) => {
+        if (!window.confirm('Are you sure you want to remove this member from the room?')) return;
+        try {
+            setLoading(true);
+            const accessToken = await getAccessTokenSilently();
+            await axios.delete(`http://localhost:8085/api/rooms/${room.id}/members/${memberId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            setMembers(members.filter((m) => m.id !== memberId));
+            onUpdate();
+        } catch (error) {
+            console.error('Error removing member:', error);
         } finally {
             setLoading(false);
         }
@@ -428,15 +517,25 @@ const RoleManagementModal = ({ room, onClose, onUpdate, getAccessTokenSilently }
                                         </td>
                                         <td>
                                             {member.role !== 'HEAD_ROOMMATE' && (
-                                                <select
-                                                    value={member.role}
-                                                    onChange={(e) => updateMemberRole(member.id, e.target.value)}
-                                                    disabled={loading}
-                                                >
-                                                    <option value="ROOMMATE">Roommate</option>
-                                                    <option value="ASSISTANT">Assistant</option>
-                                                    <option value="GUEST">Guest</option>
-                                                </select>
+                                                <>
+                                                    <select
+                                                        value={member.role}
+                                                        onChange={(e) => updateMemberRole(member.id, e.target.value)}
+                                                        disabled={loading}
+                                                    >
+                                                        <option value="ROOMMATE">Roommate</option>
+                                                        <option value="ASSISTANT">Assistant</option>
+                                                        <option value="GUEST">Guest</option>
+                                                    </select>
+                                                    <button
+                                                        className="btn btn-danger"
+                                                        style={{ marginLeft: '8px' }}
+                                                        onClick={() => removeMember(member.id)}
+                                                        disabled={loading}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </>
                                             )}
                                         </td>
                                     </tr>
