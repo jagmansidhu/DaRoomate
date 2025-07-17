@@ -16,24 +16,12 @@ public class UserDto {
     private String email;
     private String phone;
 
-    public UserDto() {
-    }
-
-    public UserDto(String authId, String email) {
-        this.authId = authId;
-        this.email = email;
-    }
-
     public UserDto(Long id, String firstName, String lastName, @NotNull String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
-
-//    public UserDto(String id) {
-//        this.id = Long.parseLong(id);
-//    }
 
     public UserDto(String email) {
         this.email = email;

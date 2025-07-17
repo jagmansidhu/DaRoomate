@@ -1,5 +1,6 @@
 package com.roomate.app.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,14 @@ public class RoomDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<RoomMemberDto> members;
+
+    public RoomDto(@NotNull String roomCode) {
+        this.roomCode = roomCode;
+    }
+
+    public RoomDto() {
+
+    }
 }
 
 

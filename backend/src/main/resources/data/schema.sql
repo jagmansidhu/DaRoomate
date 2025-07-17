@@ -109,6 +109,21 @@ CREATE TABLE IF NOT EXISTS user_roles
     CONSTRAINT fk_user_roles_role_id FOREIGN KEY (role_id) REFERENCES users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS event_entity(
+      id UUID PRIMARY KEY,
+      title VARCHAR(255),
+      description TEXT,
+      start_time TIMESTAMP,
+      end_time TIMESTAMP,
+      room_id UUID,
+      user_id UUID,
+      created TIMESTAMP,
+      updated TIMESTAMP,
+      CONSTRAINT fk_room FOREIGN KEY (room_id) REFERENCES room (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE,
+      CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
 CREATE INDEX IF NOT EXISTS index_users_emails ON users (email);
 CREATE INDEX IF NOT EXISTS index_users_user_id ON users (user_id);
 CREATE INDEX IF NOT EXISTS index_confirmations_user_id ON confirmations (user_id);

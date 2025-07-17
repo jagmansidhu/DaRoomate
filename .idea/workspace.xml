@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Rooms.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/EventDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/EventDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RoomDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RoomDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/EventServiceimplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/EventServiceimplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +284,7 @@
       <workItem from="1751755968416" duration="645000" />
       <workItem from="1751939641397" duration="45042000" />
       <workItem from="1752466389535" duration="3267000" />
-      <workItem from="1752469693421" duration="8241000" />
+      <workItem from="1752469693421" duration="15867000" />
     </task>
     <servers />
   </component>
@@ -301,11 +309,6 @@
           <properties class="org.hibernate.NonUniqueResultException" package="org.hibernate" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/frontend/src/webpages/Rooms.jsx</url>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
