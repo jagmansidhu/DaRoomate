@@ -2,25 +2,19 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.EventDto;
 import com.roomate.app.dto.RoomDto;
-import com.roomate.app.dto.RoomMemberDto;
 import com.roomate.app.dto.UserDto;
 import com.roomate.app.entities.EventEntity;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
-import com.roomate.app.entities.room.RoomMemberEntity;
 import com.roomate.app.repository.EventRepository;
 import com.roomate.app.service.EventService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequestMapping("/api/event")
 public class EventServiceimplt implements EventService {
     EventRepository eventRepository;
 
@@ -29,11 +23,33 @@ public class EventServiceimplt implements EventService {
     }
 
     @Override
-    @GetMapping("/allEvents")
     public List<EventDto> getAllEventsForUser(String authId) {
         List<EventEntity> events = eventRepository.getAllEventsForUser(authId);
 
         return events.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EventDto> getEventsForUserRoom(UUID roomID, String authId) {
+        List<EventEntity> events = eventRepository.getAllEventsForUserRoom(roomID, authId);
+        return events.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public EventDto createEventForRoom(EventDto eventDto, String authId) {
+
+
+        return null;
+    }
+
+    @Override
+    public EventDto updateEvent(UUID eventID, String authId) {
+        return null;
+    }
+
+    @Override
+    public void deleteEvent(UUID eventId, String authId) {
+
     }
 
     private EventDto convertToDto(EventEntity eventEntity) {
@@ -53,25 +69,5 @@ public class EventServiceimplt implements EventService {
         eventDto.setUser(userDto);
 
         return eventDto;
-    }
-
-    @Override
-    public List<EventDto> getEventsForUser(UUID roomID, String authId) {
-        return List.of();
-    }
-
-    @Override
-    public EventDto createEvent(EventDto eventDto, String authId) {
-        return null;
-    }
-
-    @Override
-    public EventDto updateEvent(UUID eventID, String authId) {
-        return null;
-    }
-
-    @Override
-    public void deleteEvent(UUID eventId, String authId) {
-
     }
 }

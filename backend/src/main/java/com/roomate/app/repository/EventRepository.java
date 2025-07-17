@@ -14,4 +14,7 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<EventEntity, UUID> {
     @Query("SELECT u from EventEntity u WHERE u.user.authId = :authid" )
     List<EventEntity> getAllEventsForUser(@Param("authid") String authId);
+
+    @Query("SELECT u from EventEntity u WHERE u.user.authId = :authid AND u.room.id = :roomid" )
+    List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid, @Param("authid") String authId);
 }
