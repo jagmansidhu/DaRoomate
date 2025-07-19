@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface EventService {
     List<EventDto> getAllEventsForUser(String authId);
     List<EventDto> getEventsForUserRoom(UUID roomID, String authId);
-    EventDto createEventForRoom(EventDto eventDto, String authId);
-    EventDto updateEvent(UUID eventID, String authId);
+    void createEventForRoom(EventDto eventDto, UUID roomid, String authId);
+    void updateEvent(EventDto eventDto, UUID eventID, String authId);
     void deleteEvent(UUID eventId, String authId);
 }

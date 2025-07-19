@@ -17,4 +17,7 @@ public interface EventRepository extends JpaRepository<EventEntity, UUID> {
 
     @Query("SELECT u from EventEntity u WHERE u.user.authId = :authid AND u.room.id = :roomid" )
     List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid, @Param("authid") String authId);
+
+    EventEntity getEventById(@Param("authid") String authId, @Param("id") UUID id);
+    void deleteEventById(@Param("authid") String authId, @Param("id") UUID id);
 }
