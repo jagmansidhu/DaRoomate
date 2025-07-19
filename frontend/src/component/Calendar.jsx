@@ -150,9 +150,8 @@ const Calendar = () => {
         });
     };
 
-    const getRoomName = (roomCode) => {
-        const room = rooms.find(r => r.roomCode === roomCode);
-        return room ? room.name : 'Unknown Room';
+    const getRoomName = (eventRoom) => {
+        return eventRoom?.name || 'Unknown Room';
     };
 
     const formatTime = (dateTime) => {
@@ -326,7 +325,7 @@ const Calendar = () => {
                                             <div 
                                                 key={event.id} 
                                                 className="event-bar"
-                                                title={`${event.title} - ${getRoomName(event.rooms?.roomCode)} (${formatTime(event.startTime)} - ${formatTime(event.endTime)})`}
+                                                title={`${event.title} - ${getRoomName(event.rooms)} (${formatTime(event.startTime)} - ${formatTime(event.endTime)})`}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedEvent(event);
@@ -453,11 +452,11 @@ const Calendar = () => {
                             </button>
                         </div>
                         <div className="event-details">
-                            <p><strong>Room:</strong> {getRoomName(selectedEvent.rooms?.roomCode)}</p>
+                            <p><strong>Room:</strong> {getRoomName(selectedEvent.rooms)}</p>
                             <p><strong>Description:</strong> {selectedEvent.description || 'No description'}</p>
                             <p><strong>Start:</strong> {formatTime(selectedEvent.startTime)} on {new Date(selectedEvent.startTime).toLocaleDateString()}</p>
                             <p><strong>End:</strong> {formatTime(selectedEvent.endTime)} on {new Date(selectedEvent.endTime).toLocaleDateString()}</p>
-                            <p><strong>Created by:</strong> {selectedEvent.user?.authId || 'Unknown'}</p>
+                            <p><strong>Created by:</strong> {selectedEvent.user?.firstName && selectedEvent.user?.lastName ? `${selectedEvent.user.firstName} ${selectedEvent.user.lastName}` : selectedEvent.user?.email || 'Unknown'}</p>
                         </div>
                         <div className="modal-actions">
                             <button 

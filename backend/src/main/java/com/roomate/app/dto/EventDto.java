@@ -22,8 +22,8 @@ public class EventDto {
     @NotNull(message = "End time is required")
     private LocalDateTime endTime;
     
-    private RoomDto rooms;
-    private UserDto user;
+    private EventRoomDto rooms;
+    private EventUserDto user;
     private LocalDateTime created;
     private LocalDateTime updated;
 }

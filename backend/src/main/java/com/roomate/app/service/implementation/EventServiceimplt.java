@@ -1,8 +1,8 @@
 package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.EventDto;
-import com.roomate.app.dto.RoomDto;
-import com.roomate.app.dto.UserDto;
+import com.roomate.app.dto.EventRoomDto;
+import com.roomate.app.dto.EventUserDto;
 import com.roomate.app.entities.EventEntity;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
@@ -93,11 +93,19 @@ public class EventServiceimplt implements EventService {
         eventDto.setEndTime(eventEntity.getEndTime());
 
         RoomEntity roomEntity = eventEntity.getRoom();
-        RoomDto roomDto = new RoomDto(roomEntity.getRoomCode());
+        EventRoomDto roomDto = new EventRoomDto(
+            roomEntity.getRoomCode(),
+            roomEntity.getName()
+        );
         eventDto.setRooms(roomDto);
 
         UserEntity userEntity = eventEntity.getUser();
-        UserDto userDto = new UserDto(userEntity.getAuthId());
+        EventUserDto userDto = new EventUserDto(
+            userEntity.getAuthId(),
+            userEntity.getFirstName(),
+            userEntity.getLastName(),
+            userEntity.getEmail()
+        );
         eventDto.setUser(userDto);
 
         return eventDto;
