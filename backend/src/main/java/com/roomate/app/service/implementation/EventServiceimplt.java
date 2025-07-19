@@ -14,6 +14,7 @@ import com.roomate.app.service.EventService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class EventServiceimplt implements EventService {
 
     @Override
     public List<EventDto> getAllEventsForUser(String authId) {
-        List<EventEntity> events = eventRepository.getAllEventsForUser(authId);
+        List<EventEntity> events = eventRepository.getAllEventsForUserRooms(authId);
 
         return events.stream().map(this::convertToDto).collect(Collectors.toList());
     }
@@ -44,16 +45,16 @@ public class EventServiceimplt implements EventService {
     }
 
     @Override
+    @Transactional
     public void createEventForRoom(EventDto eventDto,UUID roomid, String authId) {
         EventEntity eventEntity = new EventEntity();
-        eventEntity.setId(UUID.randomUUID());
         eventEntity.setTitle(eventDto.getTitle());
         eventEntity.setDescription(eventDto.getDescription());
         eventEntity.setStartTime(eventDto.getStartTime());
         eventEntity.setEndTime(eventDto.getEndTime());
         eventEntity.setRoom(roomRepository.getRoomEntityById(roomid).orElse(null));
         eventEntity.setUser(userRepository.getUserEntityByAuthId(authId));
-        eventEntity.setCreated(eventDto.getCreated());
+        eventEntity.setCreated(LocalDateTime.now());
         eventEntity.setUpdated(null);
         eventRepository.save(eventEntity);
     }
@@ -69,10 +70,13 @@ public class EventServiceimplt implements EventService {
         eventEntity.setDescription(eventDto.getDescription());
         eventEntity.setStartTime(eventDto.getStartTime());
         eventEntity.setEndTime(eventDto.getEndTime());
-        eventEntity.setUpdated(eventDto.getUpdated());
+        eventEntity.setUpdated(LocalDateTime.now());
+        
+        eventRepository.save(eventEntity);
     }
 
     @Override
+    @Transactional
     public void deleteEvent(UUID eventId, String authId) {
         EventEntity eventEntity = eventRepository.getEventById(authId, eventId);
 

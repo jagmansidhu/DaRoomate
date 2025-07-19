@@ -16,6 +16,9 @@ public class EventEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Version
+    private Long version;
+
     private String title;
     private String description;
     private LocalDateTime startTime;

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth0} from '@auth0/auth0-react';
 import axios from 'axios';
+import Calendar from '../component/Calendar';
+import '../styling/Dashboard.css';
 
 const Dashboard = () => {
     const {getAccessTokenSilently, user, isLoading, isAuthenticated} = useAuth0();
@@ -60,9 +62,15 @@ const Dashboard = () => {
     }
 
     return (
-        <div>
-            <h1>Dashboard Data</h1>
-            <p>Welcome, {user.name || user.email}!</p>
+        <div className="dashboard-container">
+            <div className="dashboard-header">
+                <h1>Dashboard</h1>
+                <p>Welcome back, {user.name || user.email}!</p>
+            </div>
+            
+            <div className="dashboard-content">
+                <Calendar />
+            </div>
         </div>
     );
 };
