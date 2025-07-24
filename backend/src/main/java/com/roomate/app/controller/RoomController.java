@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/rooms")
-@CrossOrigin(origins = "http://localhost:3000")
 public class RoomController {
 
     private final RoomService roomService;
@@ -115,8 +114,10 @@ public class RoomController {
             roomService.removeRoom(roomId, authId);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

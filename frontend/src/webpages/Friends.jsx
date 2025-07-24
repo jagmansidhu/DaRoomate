@@ -32,7 +32,7 @@ const Friend = () => {
         try {
             const token = await getAccessTokenSilently();
 
-            const response = await fetch('http://localhost:8085/api/friend/addFriend', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/addFriend`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const Friend = () => {
         setIsFetchingRequests(true);
         try {
             const token = await getAccessTokenSilently();
-            const response = await fetch('http://localhost:8085/api/friend/request/pending', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/request/pending`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const Friend = () => {
         setMessage({type: '', text: ''});
         try {
             const token = await getAccessTokenSilently();
-            const response = await fetch(`http://localhost:8085/api/friend/accept/${requestId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/accept/${requestId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -132,7 +132,7 @@ const Friend = () => {
         setMessage({type: '', text: ''});
         try {
             const token = await getAccessTokenSilently();
-            const response = await fetch(`http://localhost:8085/api/friend/reject/${requestId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/reject/${requestId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -156,7 +156,7 @@ const Friend = () => {
         setIsFetchingFriends(true);
         try {
             const token = await getAccessTokenSilently();
-            const response = await fetch('http://localhost:8085/api/friend/getfriends', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/getfriends`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ const Friend = () => {
         setMessage({type: '', text: ''});
         try {
             const token = await getAccessTokenSilently();
-            const response = await fetch('http://localhost:8085/api/friend/remove', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/friend/remove`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

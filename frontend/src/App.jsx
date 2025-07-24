@@ -11,7 +11,7 @@ import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Message from "./webpages/Message";
 import Friends from "./webpages/Friends";
-import Rooms from "./webpages/Rooms";
+import Rooms from "./webpages/room/Rooms";
 import './styling/App.css';
 
 const ThemeContext = React.createContext();
@@ -207,7 +207,7 @@ export default function App() {
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/dashboard`,
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         scope: `openid profile email ${CUSTOM_CLAIM_NAMESPACE}isProfileComplete read:data write:data`,
       }}

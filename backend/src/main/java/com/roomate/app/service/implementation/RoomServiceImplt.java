@@ -142,11 +142,13 @@ public class RoomServiceImplt implements RoomService {
     @Override
     public void removeRoom(UUID roomId, String requesterAuthId) throws UserApiError {
         UserEntity user = userRepository.getUserEntityByAuthId(requesterAuthId);
-        RoomEntity room = roomRepository.getRoomEntityById(roomId)
-                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
         if (user == null) {
             throw new UserApiError("User not found with ID: " + requesterAuthId);
         }
+
+        RoomEntity room = roomRepository.getRoomEntityById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
+
 
         if (!room.getHeadRoommateId().equals(requesterAuthId)) {
             throw new UserApiError("Not authorized to delete room.");

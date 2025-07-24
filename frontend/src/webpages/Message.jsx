@@ -5,8 +5,6 @@ import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
 import {FaFile, FaImage, FaPaperPlane, FaTimesCircle, FaTrash} from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8085';
-
 const Message = () => {
     const {getAccessTokenSilently, user, isLoading, isAuthenticated } = useAuth0();
 
@@ -41,16 +39,16 @@ const Message = () => {
                 const token = await getAccessTokenSilently();
                 setAccessToken(token);
 
-                await axios.get(`${API_BASE_URL}/api/create_or_find_user`, {
+                await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/create_or_find_user`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const allUsersResponse = await axios.get(`${API_BASE_URL}/api/messages/users/${user.email}`, {
+                const allUsersResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/messages/users/${user.email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const allChattableUsers = allUsersResponse.data.filter(u => u.email !== user.email);
 
-                const chatsResponse = await axios.get(`${API_BASE_URL}/api/messages/chats/${user.email}`, {
+                const chatsResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/messages/chats/${user.email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const existingChatPartners = new Set(chatsResponse.data);
@@ -65,7 +63,7 @@ const Message = () => {
 
                 setAvailableChatPartners(Array.from(combinedPartnersMap.values()));
 
-                const unreadResponse = await axios.get(`${API_BASE_URL}/api/messages/unread/${user.email}`, {
+                const unreadResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/messages/unread/${user.email}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUnreadCounts(unreadResponse.data || {});
@@ -103,7 +101,7 @@ const Message = () => {
         const fetchMessages = async () => {
             try {
                 const response = await axios.get(
-                    `${API_BASE_URL}/api/messages/${user.email}/${selectedRecipient}`,
+                    `${process.env.REACT_APP_BASE_API_URL}/api/messages/${user.email}/${selectedRecipient}`,
                     { headers: { Authorization: `Bearer ${accessToken}` } }
                 );
                 setMessages(response.data);
@@ -113,7 +111,7 @@ const Message = () => {
                 );
 
                 if (unreadMsgsFromRecipient.length > 0) {
-                    await axios.put(`${API_BASE_URL}/api/messages/read/bulk`, null, {
+                    await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/messages/read/bulk`, null, {
                         headers: { Authorization: `Bearer ${accessToken}` },
                         params: {
                             senderId: selectedRecipient,
@@ -137,7 +135,7 @@ const Message = () => {
     useEffect(() => {
         if (!user || !user.email) return;
 
-        const socket = new SockJS(`${API_BASE_URL}/ws`);
+        const socket = new SockJS(`${process.env.REACT_APP_BASE_API_URL}/ws`);
         const stompClient = Stomp.over(socket);
         stompClientRef.current = stompClient;
 
@@ -180,7 +178,7 @@ const Message = () => {
 
                 if (msg.recipientId === user.email && msg.senderId === selectedRecipient) {
                     axios.put(
-                        `${API_BASE_URL}/api/messages/read/bulk`,
+                        `${process.env.REACT_APP_BASE_API_URL}/api/messages/read/bulk`,
                         null,
                         {
                             headers: { Authorization: `Bearer ${accessToken}` },
@@ -251,7 +249,7 @@ const Message = () => {
                 formData.append('file', selectedFile);
 
                 const uploadResponse = await axios.post(
-                    `${API_BASE_URL}/api/upload`,
+                    `${process.env.REACT_APP_BASE_API_URL}/api/upload`,
                     formData,
                     {
                         headers: {
@@ -301,7 +299,7 @@ const Message = () => {
         if (!accessToken) return;
         try {
             await axios.delete(
-                `${API_BASE_URL}/api/messages/${messageId}`,
+                `${process.env.REACT_APP_BASE_API_URL}/api/messages/${messageId}`,
                 { headers: { Authorization: `Bearer ${accessToken}` } }
             );
             setMessages(prev => prev.filter(msg => msg.id !== messageId));

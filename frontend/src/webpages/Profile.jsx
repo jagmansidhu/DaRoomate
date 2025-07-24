@@ -29,7 +29,7 @@ const Profile = () => {
             try {
                 const fetchedAccessToken = await getAccessTokenSilently();
 
-                const response = await axios.get('http://localhost:8085/api/create_or_find_user', {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/create_or_find_user`, {
                     headers: {
                         Authorization: `Bearer ${fetchedAccessToken}`,
                     },

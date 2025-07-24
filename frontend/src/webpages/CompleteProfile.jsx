@@ -25,7 +25,7 @@ const CompleteProfile = () => {
         try {
             const accessToken = await getAccessTokenSilently();
 
-            const response = await fetch('http://localhost:8085/api/additional_info', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/additional_info`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
