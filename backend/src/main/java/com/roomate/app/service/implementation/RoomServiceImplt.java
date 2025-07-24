@@ -140,6 +140,22 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
+    public void leaveRoom(UUID roomId, String authId) throws UserApiError {
+        UserEntity user = userRepository.getUserEntityByAuthId(authId);
+        RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
+                .orElseThrow(() -> new UserApiError("Room member not found with ID: " + user.getId()));
+        RoomEntity room = roomRepository.getRoomEntityById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
+
+        if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
+            throw new UserApiError("Cannot have the head roommate leave the room.");
+        }
+
+        roomMemberRepository.deleteByRoomIdAndUserId(roomId, user.getId());
+
+    }
+
+    @Override
     public void removeRoom(UUID roomId, String requesterAuthId) throws UserApiError {
         UserEntity user = userRepository.getUserEntityByAuthId(requesterAuthId);
         if (user == null) {
@@ -187,6 +203,7 @@ public class RoomServiceImplt implements RoomService {
         roomMemberRepository.save(member);
     }
 
+
     @Override
     public boolean isRoomMember(UUID roomId, String authId) {
         UserEntity user = userRepository.getUserEntityByAuthId(authId);
@@ -214,7 +231,7 @@ public class RoomServiceImplt implements RoomService {
                 RoomMemberDto memberDto = new RoomMemberDto();
                 memberDto.setId(member.getId());
                 memberDto.setJoinedAt(member.getJoinedAt());
-                memberDto.setUserId(member.getUser().getId());
+                memberDto.setUserId(member.getUser().getAuthId());
                 memberDto.setName(member.getUser().getFirstName());
                 memberDto.setRole(member.getRole());
                 memberDtos.add(memberDto);

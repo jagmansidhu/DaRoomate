@@ -20,9 +20,16 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
 
     Optional<RoomMemberEntity> getRoomMemberEntityById(UUID id);
 
+    Optional<RoomMemberEntity> getRoomMemberEntityByUserId(Long userId);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM RoomMemberEntity m WHERE m.room.id = :roomId")
     void deleteAllByRoomId(@Param("roomId") UUID roomId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RoomMemberEntity m WHERE m.room.id = :roomId AND m.user.id = :userId")
+    void deleteByRoomIdAndUserId(@Param("roomId") UUID roomId, @Param("userId") Long userId);
 
 }

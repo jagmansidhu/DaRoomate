@@ -79,12 +79,13 @@ const Rooms = () => {
         }
     };
 
-    const leaveRoom = async (memberId) => {
+    const leaveRoom = async () => {
         if (!selectedRoom) return;
         if (!window.confirm('Are you sure you want to leave this room?')) return;
         try {
             const accessToken = await getAccessTokenSilently();
-            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/members/${memberId}`, {
+            console.log(accessToken);
+            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/leave`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
             setShowRoomDetails(false);
@@ -143,17 +144,6 @@ const Rooms = () => {
             <div className="rooms-grid">
                 {rooms.length === 0 ? (
                     <div className="empty-state">
-                        <div className="empty-icon">🏠</div>
-                        <h3>No rooms yet</h3>
-                        <p>Create a new room or join an existing one to get started</p>
-                        <div className="empty-actions">
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => setShowCreateModal(true)}
-                            >
-                                Create Your First Room
-                            </button>
-                        </div>
                     </div>
                 ) : (
                     rooms.map((room) => (

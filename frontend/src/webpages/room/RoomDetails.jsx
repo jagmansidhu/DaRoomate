@@ -24,27 +24,32 @@ const RoomDetails = ({ show, onClose, room, onLeaveRoom, onDeleteRoom, onManageR
                         <p><strong>Description:</strong> {room.description}</p>
                         <p><strong>Room Code:</strong> <code>{room.roomCode}</code></p>
                     </div>
+
                     <div className="detail-section">
                         <h3>Members</h3>
                         <div className="members-list">
-                            {room.members?.map((member) => (
-                                <div key={member.id} className="member-item">
-                                    <div className="member-info">
-                                        <span className="member-name">{member.name}</span>
-                                        <span className="member-role">{member.role}</span>
+                            {room.members?.map((member) => {
+                                return (
+                                    <div key={member.id} className="member-item">
+                                        <div className="member-info">
+                                            <span className="member-name">{member.name}</span>
+                                            <span className="member-role">{member.role}</span>
+                                        </div>
+
+                                        {member.userId === user?.sub && member.role !== 'HEAD_ROOMMATE' && (
+                                            <button
+                                                className="btn btn-danger"
+                                                onClick={() => onLeaveRoom(member.id)}
+                                            >
+                                                Leave Room
+                                            </button>
+                                        )}
                                     </div>
-                                    {member.userId === user?.sub && member.role !== 'HEAD_ROOMMATE' && (
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => onLeaveRoom(member.id)}
-                                        >
-                                            Leave Room
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
+
                     {isHeadRoommate && (
                         <div className="detail-section">
                             <h3>Management</h3>

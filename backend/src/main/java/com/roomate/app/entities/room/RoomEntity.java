@@ -47,6 +47,7 @@ public class RoomEntity {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoomMemberEntity> members = new ArrayList<>();
 
+
     public RoomEntity() {
         this.createdAt = LocalDateTime.now();
     }

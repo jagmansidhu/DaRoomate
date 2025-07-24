@@ -16,6 +16,7 @@ public interface RoomService {
     void removeMemberFromRoom(UUID roomId, UUID memberId, String removerAuthId) throws UserApiError;
     void removeRoom(UUID roomId, String authId) throws UserApiError;
     void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError;
+    void leaveRoom(UUID roomId, String authId) throws UserApiError;
     boolean isRoomMember(UUID roomId, String authId);
 
 }

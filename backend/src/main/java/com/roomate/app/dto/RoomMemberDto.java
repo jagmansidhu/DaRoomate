@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 public class RoomMemberDto {
     private UUID id;
-    private Long userId;
+    private String userId;
     private String name;
     private String email;
     private com.roomate.app.entities.room.RoomMemberEnum role;

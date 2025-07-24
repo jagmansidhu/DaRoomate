@@ -94,6 +94,22 @@ public class RoomController {
         }
     }
 
+    @DeleteMapping("/{roomId}/leave")
+    public ResponseEntity<Void> leaveRoom(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
+        try {
+            String authId = jwt.getSubject();
+            System.out.println("Leaving room: " + roomId + " for user: " + authId);
+            roomService.leaveRoom(roomId, authId);
+            return ResponseEntity.ok().build();
+        } catch (UserApiError e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @DeleteMapping("/{roomId}/members/{memberId}")
     public ResponseEntity<Void> removeMemberFromRoom(@PathVariable UUID roomId, @PathVariable UUID memberId, @AuthenticationPrincipal Jwt jwt) {
         try {
