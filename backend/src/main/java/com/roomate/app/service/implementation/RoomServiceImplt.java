@@ -124,16 +124,21 @@ public class RoomServiceImplt implements RoomService {
     public void removeMemberFromRoom(UUID roomId, UUID memberId, String removerAuthId) throws UserApiError {
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityById(memberId)
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + memberId));
+
         RoomEntity room = roomRepository.getRoomEntityById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
-
-        if (!room.getHeadRoommateId().equals(removerAuthId) && !member.getUser().getAuthId().equals(removerAuthId)) {
-            throw new UserApiError("Not authorized to remove this member.");
-        }
+        UserEntity remover = userRepository.getUserEntityByAuthId(removerAuthId);
 
         if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
             throw new UserApiError("Cannot remove the head roommate from the room.");
+        }
+
+        boolean isRemoverHead = room.getHeadRoommateId().equals(removerAuthId);
+        boolean isSelfRemove = member.getUser().getAuthId().equals(removerAuthId);
+
+        if (!isRemoverHead && !isSelfRemove) {
+            throw new UserApiError("Not authorized to remove this member.");
         }
 
         roomMemberRepository.deleteById(memberId);

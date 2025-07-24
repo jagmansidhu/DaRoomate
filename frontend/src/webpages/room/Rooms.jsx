@@ -84,7 +84,6 @@ const Rooms = () => {
         if (!window.confirm('Are you sure you want to leave this room?')) return;
         try {
             const accessToken = await getAccessTokenSilently();
-            console.log(accessToken);
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/leave`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });

@@ -98,7 +98,6 @@ public class RoomController {
     public ResponseEntity<Void> leaveRoom(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
         try {
             String authId = jwt.getSubject();
-            System.out.println("Leaving room: " + roomId + " for user: " + authId);
             roomService.leaveRoom(roomId, authId);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
