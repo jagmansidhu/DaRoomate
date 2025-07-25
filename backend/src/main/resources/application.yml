@@ -1,4 +1,6 @@
 spring:
+  app:
+    current-web-url: http://localhost:8085
   profiles:
     active: ${ACTIVE_PROFILE:dev}
   jackson:

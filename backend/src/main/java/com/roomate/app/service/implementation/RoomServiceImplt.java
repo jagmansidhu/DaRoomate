@@ -1,6 +1,6 @@
 package com.roomate.app.service.implementation;
 
-import com.roomate.app.RoomInviteMailSender;
+import com.roomate.app.mailer.RoomInviteMailSender;
 import com.roomate.app.dto.*;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
@@ -219,13 +219,15 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     public void inviteUserToRoom(InviteUserRequest request, String authId) throws UserApiError {
+        RoomEntity room = roomRepository.findById(UUID.fromString(request.getRoomId()))
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + request.getRoomId()));
         if (request.getRoomId() == null) {
             throw new UserApiError("Room ID cannot be null.");
         }
 
-        if (!userRepository.existsByEmail(request.getRoomId())) {
+        if (!userRepository.existsByEmail(request.getEmail())) {
             mailSender.sendMail(request.email, "Room Invitation",
-                    "You have been invited to join the room! However, you have not created an account. Please create and account first and then join this room! : " + request.getRoomId() +
+                    "You have been invited to join the room! However, you have not created an account. Please create and account first and then join this room! : " + room.getRoomCode() +
                             ". Please use this code to join the room in the app.");
         } else {
             mailSender.sendMail(request.email, "Room Invitation",

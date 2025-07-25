@@ -55,14 +55,16 @@ public class RoomController {
     }
 
     @PostMapping("/invite")
-    public ResponseEntity<?> inviteUserToRoom(@RequestBody InviteUserRequest request, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> inviteUserToRoom(@RequestBody InviteUserRequest request, @AuthenticationPrincipal Jwt jwt) {
         try {
             String authId = jwt.getSubject();
             roomService.inviteUserToRoom(request, authId);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
