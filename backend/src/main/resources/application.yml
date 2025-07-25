@@ -37,7 +37,22 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${AUTH_DOMAIN}
-
+  mail:
+      host: ${EMAIL_HOST}
+      port: ${EMAIL_PORT}
+      username: ${EMAIL_ID}
+      password: ${EMAIL_PASSWORD}
+      default-encoding: UTF-8
+      properties:
+        mail:
+          smtp:
+            writetimeout: 10000
+            connectiontimeout: 10000
+            timeout: 10000
+            auth: true
+            starttls:
+              enable: true
+              required: true
   logging:
     level:
       root: INFO
@@ -70,22 +85,7 @@ server:
       #      enabled: true
       #      max-file-size: 1000MB
       #      max-request-size: 1000MB
-      #  mail:
-      #    host: ${EMAIL_HOST}
-      #    port: ${EMAIL_PORT}
-      #    username: ${EMAIL_ID}
-      #    password: ${EMAIL_PASSWORD}
-      #    default-encoding: UTF-8
-      #    properties:
-      #      mail:
-      #        smtp:
-      #          writetimeout: 10000
-      #          connectiontimeout: 10000
-      #          timeout: 10000
-      #          auth: true
-      #          starttls:
-      #            enable: true
-      #            required: true
+      #
       #    verify:
       #      host: ${VERIFY_EMAIL_HOST}
 

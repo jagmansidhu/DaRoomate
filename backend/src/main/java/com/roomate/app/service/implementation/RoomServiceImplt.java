@@ -1,9 +1,7 @@
 package com.roomate.app.service.implementation;
 
-import com.roomate.app.dto.CreateRoomRequest;
-import com.roomate.app.dto.RoomDto;
-import com.roomate.app.dto.RoomMemberDto;
-import com.roomate.app.dto.UpdateMemberRoleRequest;
+import com.roomate.app.RoomInviteMailSender;
+import com.roomate.app.dto.*;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
@@ -14,6 +12,7 @@ import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.RoomService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImplt implements RoomService {
@@ -31,6 +29,8 @@ public class RoomServiceImplt implements RoomService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
+    @Autowired
+    private RoomInviteMailSender mailSender;
 
     public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository, RoomMemberRepository roomMemberRepository) {
         this.userRepository = userRepository;
@@ -215,6 +215,23 @@ public class RoomServiceImplt implements RoomService {
             return false;
         }
         return roomMemberRepository.findByRoomIdAndUserId(roomId, user.getId()).isPresent();
+    }
+
+    @Override
+    public void inviteUserToRoom(InviteUserRequest request, String authId) throws UserApiError {
+        if (request.getRoomId() == null) {
+            throw new UserApiError("Room ID cannot be null.");
+        }
+
+        if (!userRepository.existsByEmail(request.getRoomId())) {
+            mailSender.sendMail(request.email, "Room Invitation",
+                    "You have been invited to join the room! However, you have not created an account. Please create and account first and then join this room! : " + request.getRoomId() +
+                            ". Please use this code to join the room in the app.");
+        } else {
+            mailSender.sendMail(request.email, "Room Invitation",
+                    "You have been invited to join the room: " + request.getRoomId() +
+                            ". Please use this code to join the room in the app.");
+        }
     }
 
     private RoomDto convertToRoomDto(RoomEntity room) {

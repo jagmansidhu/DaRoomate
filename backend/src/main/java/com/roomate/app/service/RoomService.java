@@ -1,6 +1,7 @@
 package com.roomate.app.service;
 
 import com.roomate.app.dto.CreateRoomRequest;
+import com.roomate.app.dto.InviteUserRequest;
 import com.roomate.app.dto.RoomDto;
 import com.roomate.app.dto.UpdateMemberRoleRequest;
 import com.roomate.app.exceptions.UserApiError;
@@ -18,5 +19,5 @@ public interface RoomService {
     void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError;
     void leaveRoom(UUID roomId, String authId) throws UserApiError;
     boolean isRoomMember(UUID roomId, String authId);
-
+    void inviteUserToRoom(InviteUserRequest request, String authId) throws  UserApiError;
 }

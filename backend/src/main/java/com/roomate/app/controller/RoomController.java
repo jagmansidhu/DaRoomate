@@ -1,6 +1,7 @@
 package com.roomate.app.controller;
 
 import com.roomate.app.dto.CreateRoomRequest;
+import com.roomate.app.dto.InviteUserRequest;
 import com.roomate.app.dto.RoomDto;
 import com.roomate.app.dto.UpdateMemberRoleRequest;
 import com.roomate.app.exceptions.UserApiError;
@@ -46,6 +47,19 @@ public class RoomController {
             
             RoomDto createdRoom = roomService.createRoom(request, authId, userName, userEmail);
             return ResponseEntity.ok(createdRoom);
+        } catch (UserApiError e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/invite")
+    public ResponseEntity<?> inviteUserToRoom(@RequestBody InviteUserRequest request, @AuthenticationPrincipal Jwt jwt) {
+        try {
+            String authId = jwt.getSubject();
+            roomService.inviteUserToRoom(request, authId);
+            return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
