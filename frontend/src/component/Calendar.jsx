@@ -32,7 +32,6 @@ const Calendar = () => {
             setLoading(true);
             const accessToken = await getAccessTokenSilently();
 
-            // Fetch events and rooms in parallel
             const [eventsResponse, roomsResponse] = await Promise.all([
                 axios.get('http://localhost:8085/api/events/user', {
                     headers: { Authorization: `Bearer ${accessToken}` }

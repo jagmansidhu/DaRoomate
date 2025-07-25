@@ -154,10 +154,7 @@ public class FriendServiceImplt implements FriendService {
         Optional<FriendEntity> friendship = friendRepository.findByRequesterAndAddressee(user.getId(), friendRem.getId());
 
         if (friendship.isEmpty()) {
-            FriendEntity friend = friendship.get();
-
-            friendship = friendRepository
-                    .findByRequesterAndAddressee(friend.getId(), user.getId());
+            friendship = friendRepository.findByRequesterAndAddressee(friendRem.getId(), user.getId());
         }
 
         if (friendship.get().getStatus() != FriendEnum.ACCEPTED) {

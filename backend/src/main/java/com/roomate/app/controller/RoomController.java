@@ -28,9 +28,11 @@ public class RoomController {
         try {
             String authId = jwt.getSubject();
             List<RoomDto> rooms = roomService.getUserRooms(authId);
+            if (rooms.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
             return ResponseEntity.ok(rooms);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }

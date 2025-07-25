@@ -204,7 +204,7 @@ const Friend = () => {
 
             if (response.ok) {
                 setMessage({type: 'success', text: `Friend ${friendEmail} removed successfully!`});
-                getFriendsList(); // Refresh the list of friends
+                getFriendsList();
             } else {
                 const errorData = await response.json();
                 setMessage({type: 'error', text: errorData.message || 'Failed to remove friend.'});

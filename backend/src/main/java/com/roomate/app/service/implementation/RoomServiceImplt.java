@@ -48,7 +48,6 @@ public class RoomServiceImplt implements RoomService {
         }
 
         List<RoomEntity> roomEntities = roomRepository.findByMemberUserId(user.getId());
-        System.out.println(roomEntities.getFirst().getRoomCode());
 
         return roomEntities.stream().map(this::convertToRoomDto).toList();
     }
