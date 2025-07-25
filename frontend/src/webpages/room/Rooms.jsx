@@ -79,6 +79,30 @@ const Rooms = () => {
         }
     };
 
+    const removeMember = async (memberId) => {
+        if (!selectedRoom || !memberId) return;
+        if (!window.confirm('Are you sure you want to remove this member from the room?')) return;
+
+        try {
+            const accessToken = await getAccessTokenSilently();
+            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/members/${memberId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            fetchRooms();
+            setSelectedRoom(prev => ({
+                ...prev,
+                members: prev.members.filter(m => m.id !== memberId),
+            }));
+            setError(null);
+        } catch (error) {
+            console.error('Error removing member:', error);
+            setError('Failed to remove member.');
+        }
+    };
+
     const leaveRoom = async () => {
         if (!selectedRoom) return;
         if (!window.confirm('Are you sure you want to leave this room?')) return;
@@ -204,6 +228,7 @@ const Rooms = () => {
                 room={selectedRoom}
                 onLeaveRoom={leaveRoom}
                 onDeleteRoom={deleteRoom}
+                onRemoveMember={removeMember}
                 onManageRolesClick={handleManageRolesClick}
             />
 

@@ -20,7 +20,7 @@ const Dashboard = () => {
 
             async function getToken() {
                 try {
-                            const accessToken = await getAccessTokenSilently();
+                    const accessToken = await getAccessTokenSilently();
                     setAccessToken(accessToken);
 
                     const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/create_or_find_user`, {

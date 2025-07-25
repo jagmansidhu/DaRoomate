@@ -35,7 +35,7 @@ public class RoomEntity {
 
     @NotNull
     @Column(name = "head_roommate_id")
-    private String headRoommateId; //AuthId
+    private String headRoommateId;
 
     @NotNull
     @Column(name = "created_at")

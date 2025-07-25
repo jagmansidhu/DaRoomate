@@ -118,8 +118,10 @@ public class RoomController {
             roomService.removeMemberFromRoom(roomId, memberId, authId);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -7,11 +7,11 @@
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/FriendServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/FriendServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/room/RoomEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/room/RoomEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RoomServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RoomServiceImplt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Friends.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Friends.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +283,7 @@
       <workItem from="1751939641397" duration="45042000" />
       <workItem from="1752466389535" duration="3267000" />
       <workItem from="1752469693421" duration="35740000" />
-      <workItem from="1753074058390" duration="13475000" />
+      <workItem from="1753074058390" duration="16015000" />
     </task>
     <servers />
   </component>

@@ -120,6 +120,7 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
+    @Transactional
     public void removeMemberFromRoom(UUID roomId, UUID memberId, String removerAuthId) throws UserApiError {
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityById(memberId)
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + memberId));
@@ -127,23 +128,21 @@ public class RoomServiceImplt implements RoomService {
         RoomEntity room = roomRepository.getRoomEntityById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
-        UserEntity remover = userRepository.getUserEntityByAuthId(removerAuthId);
-
-        if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
-            throw new UserApiError("Cannot remove the head roommate from the room.");
-        }
+        System.out.println("Removing member " + member.getUser().getId() + " from room " + room.getId());
 
         boolean isRemoverHead = room.getHeadRoommateId().equals(removerAuthId);
         boolean isSelfRemove = member.getUser().getAuthId().equals(removerAuthId);
 
-        if (!isRemoverHead && !isSelfRemove) {
+        if (!isRemoverHead || isSelfRemove) {
             throw new UserApiError("Not authorized to remove this member.");
         }
 
-        roomMemberRepository.deleteById(memberId);
+
+        roomMemberRepository.deleteByRoomIdAndUserId(roomId, member.getUser().getId());
     }
 
     @Override
+    @Transactional
     public void leaveRoom(UUID roomId, String authId) throws UserApiError {
         UserEntity user = userRepository.getUserEntityByAuthId(authId);
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
@@ -160,6 +159,7 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
+    @Transactional
     public void removeRoom(UUID roomId, String requesterAuthId) throws UserApiError {
         UserEntity user = userRepository.getUserEntityByAuthId(requesterAuthId);
         if (user == null) {
