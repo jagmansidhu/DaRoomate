@@ -7,6 +7,7 @@ import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.exceptions.UserApiError;
+import com.roomate.app.repository.EventRepository;
 import com.roomate.app.repository.RoomMemberRepository;
 import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UserRepository;
@@ -29,13 +30,16 @@ public class RoomServiceImplt implements RoomService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final EventRepository eventRepository;
     @Autowired
     private RoomInviteMailSender mailSender;
 
-    public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository, RoomMemberRepository roomMemberRepository) {
+    public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository, RoomMemberRepository roomMemberRepository,
+                            EventRepository eventRepository) {
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.roomMemberRepository = roomMemberRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
@@ -171,6 +175,8 @@ public class RoomServiceImplt implements RoomService {
         if (!room.getHeadRoommateId().equals(requesterAuthId)) {
             throw new UserApiError("Not authorized to delete room.");
         }
+
+        eventRepository.deleteAllByEventId(roomId);
 
         roomMemberRepository.deleteAllByRoomId(roomId);
 
