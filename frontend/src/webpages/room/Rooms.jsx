@@ -7,6 +7,7 @@ import CreateRoom from '../room/CreateRoom';
 import JoinRoom from '../room/JoinRoom';
 import RoomDetails from '../room/RoomDetails';
 import RoleManagement from '../room/RoleManage';
+import {ROLES} from "../../constants/roles";
 
 const Rooms = () => {
     const { getAccessTokenSilently, user } = useAuth0();
@@ -56,10 +57,6 @@ const Rooms = () => {
     const openRoomDetails = (room) => {
         setSelectedRoom(room);
         setShowRoomDetails(true);
-    };
-
-    const isHeadRoommate = (room) => {
-        return room.headRoommateId === user?.sub;
     };
 
     const deleteRoom = async () => {
@@ -169,11 +166,15 @@ const Rooms = () => {
                     <div className="empty-state">
                     </div>
                 ) : (
-                    rooms.map((room) => (
+                    rooms.map((room) => {
+                    const isHeadRoommate = room.members?.some(m => m.userId === user?.sub && m.role === ROLES.HEAD_ROOMMATE);
+                    const isAssistantRoomate = room.members?.some(m => m.userId === user?.sub && m.role === ROLES.ASSISTANT);
+
+                        return (
                         <div key={room.id} className="room-card">
                             <div className="room-header">
                                 <h3>{room.name}</h3>
-                                {isHeadRoommate(room) && (
+                                {isHeadRoommate && (
                                     <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>
                                 )}
                             </div>
@@ -191,7 +192,7 @@ const Rooms = () => {
                                 >
                                     View Details
                                 </button>
-                                {isHeadRoommate(room) && (
+                                {(isHeadRoommate || isAssistantRoomate)&& (
                                     <button
                                         className="btn btn-secondary"
                                         onClick={() => {
@@ -204,7 +205,7 @@ const Rooms = () => {
                                 )}
                             </div>
                         </div>
-                    ))
+                    )})
                 )}
             </div>
 

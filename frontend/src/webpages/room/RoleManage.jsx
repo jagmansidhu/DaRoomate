@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import {ROLES, ROLE_RANK} from '../../constants/roles';
+import {useAuth0} from '@auth0/auth0-react';
 
-const RoleManagement = ({ show, room, onClose, onUpdate, getAccessTokenSilently }) => {
+const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently}) => {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const {user: currentUser} = useAuth0();
 
     useEffect(() => {
         if (room && room.members) {
@@ -19,17 +22,12 @@ const RoleManagement = ({ show, room, onClose, onUpdate, getAccessTokenSilently 
         setError(null);
         try {
             const accessToken = await getAccessTokenSilently();
-            await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`,
-                { role: newRole },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-            setMembers(members.map(member =>
-                member.id === memberId ? { ...member, role: newRole } : member
-            ));
+            await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`, {role: newRole}, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setMembers(members.map(member => member.id === memberId ? {...member, role: newRole} : member));
             onUpdate();
         } catch (err) {
             console.error('Error updating member role:', err);
@@ -46,10 +44,10 @@ const RoleManagement = ({ show, room, onClose, onUpdate, getAccessTokenSilently 
         try {
             const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+                headers: {Authorization: `Bearer ${accessToken}`},
             });
             setMembers(members.filter((m) => m.id !== memberId));
-            onUpdate(); // Trigger a refresh
+            onUpdate();
         } catch (err) {
             console.error('Error removing member:', err);
             setError('Failed to remove member.');
@@ -58,10 +56,30 @@ const RoleManagement = ({ show, room, onClose, onUpdate, getAccessTokenSilently 
         }
     };
 
+    const getCurrentUserRole = () => {
+        const currentMember = members.find(m => m.userId === currentUser?.sub);
+        return currentMember?.role || null;
+    };
+
+    const canEditMember = (targetRole, isSelf) => {
+        const currentUserRole = getCurrentUserRole();
+        if (!currentUserRole) return false;
+        if (isSelf) return false;
+
+        return ROLE_RANK[currentUserRole] > ROLE_RANK[targetRole];
+    };
+
+
+    const currentUserRole = getCurrentUserRole();
+    const isAuthorized = currentUserRole === ROLES.HEAD_ROOMMATE || currentUserRole === ROLES.ASSISTANT;
+
+    if (!show || !room || !isAuthorized) return null;
+
+
     if (!show || !room) return null;
 
-    return (
-        <div className="modal-overlay">
+
+    return (<div className="modal-overlay">
             <div className="modal modal-large">
                 <div className="modal-header">
                     <h2>Manage Roles - {room.name}</h2>
@@ -72,53 +90,53 @@ const RoleManagement = ({ show, room, onClose, onUpdate, getAccessTokenSilently 
                     <div className="members-table">
                         <table>
                             <thead>
-                                <tr>
-                                    <th>Member</th>
-                                    <th>Current Role</th>
-                                    <th>Actions</th>
-                                </tr>
+                            <tr>
+                                <th>Member</th>
+                                <th>Current Role</th>
+                                <th>Actions</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {members.map((member) => (
-                                    <tr key={member.id}>
+                            {members.map(member => {
+                                const isSelf = member.userId === currentUser?.sub;
+
+                                return (<tr key={member.id}>
                                         <td>{member.name}</td>
                                         <td>
                                             <span className={`role-badge ${member.role}`}>
-                                                {member.role}
+                                              {member.role}
                                             </span>
                                         </td>
                                         <td>
-                                            {member.role !== 'HEAD_ROOMMATE' && (
-                                                <>
+                                            {canEditMember(member.role, isSelf) ? (<>
                                                     <select
                                                         value={member.role}
-                                                        onChange={(e) => updateMemberRole(member.id, e.target.value)}
+                                                        onChange={e => updateMemberRole(member.id, e.target.value)}
                                                         disabled={loading}
                                                     >
-                                                        <option value="ROOMMATE">Roommate</option>
-                                                        <option value="ASSISTANT">Assistant</option>
-                                                        <option value="GUEST">Guest</option>
+                                                        <option value={ROLES.GUEST}>Guest</option>
+                                                        <option value={ROLES.ROOMMATE}>Roommate</option>
+                                                        <option value={ROLES.ASSISTANT}>Assistant</option>
                                                     </select>
                                                     <button
                                                         className="btn btn-danger"
-                                                        style={{ marginLeft: '8px' }}
+                                                        style={{marginLeft: '8px'}}
                                                         onClick={() => removeMember(member.id)}
                                                         disabled={loading}
                                                     >
                                                         Remove
                                                     </button>
-                                                </>
+                                                </>) : (<span>—</span>
                                             )}
                                         </td>
-                                    </tr>
-                                ))}
+                                    </tr>);
+                            })}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default RoleManagement;

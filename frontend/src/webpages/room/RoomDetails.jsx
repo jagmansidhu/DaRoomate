@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
+import {ROLES} from "../../constants/roles";
 
 const RoomDetails = ({
                          show,
@@ -9,7 +10,6 @@ const RoomDetails = ({
                          onLeaveRoom,
                          onDeleteRoom,
                          onManageRolesClick,
-                         onRemoveMember
                      }) => {
     const { user, getAccessTokenSilently } = useAuth0();
     const [showInviteModal, setShowInviteModal] = useState(false);
@@ -19,10 +19,8 @@ const RoomDetails = ({
     if (!show || !room) return null;
 
     const memberRole = room.members?.find(m => m.userId === user?.sub)?.role;
-    const isHeadRoommate = room.headRoommateId === user?.sub;
-    const isAssistantRoomate = memberRole === 'ASSISTANT';
-    console.log(isAssistantRoomate);
-
+    const isHeadRoommate = memberRole === ROLES.HEAD_ROOMMATE;
+    const isAssistantRoomate = memberRole === ROLES.ASSISTANT;
 
     const handleInviteUser = async () => {
         try {
@@ -76,23 +74,13 @@ const RoomDetails = ({
                                             <span className="member-name">{member.name}</span>
                                             <span className="member-role">{member.role}</span>
                                         </div>
-                                        {isSelf && member.role !== 'HEAD_ROOMMATE' && (
+                                        {isSelf && member.role !== ROLES.HEAD_ROOMMATE && (
                                             <button
                                                 className="btn btn-danger"
                                                 onClick={() => onLeaveRoom(member.id)}
                                             >
                                                 Leave Room
                                             </button>
-                                        )}
-                                        {(isHeadRoommate || isAssistantRoomate) && !isSelf && (
-                                            <div className="member-actions">
-                                                <button
-                                                    className="btn btn-danger"
-                                                    onClick={() => onRemoveMember(member.id)}
-                                                >
-                                                    Remove
-                                                </button>
-                                            </div>
                                         )}
                                     </div>
                                 );
