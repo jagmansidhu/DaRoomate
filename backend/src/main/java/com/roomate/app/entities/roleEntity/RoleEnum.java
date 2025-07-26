@@ -5,6 +5,6 @@ public enum RoleEnum {
     ADMIN,
     LANDLORD,
     HEAD_ROOMMATE,
-    ASSISTANT_ROOMMATE,
+    ASSISTANT,
     ROOMMATE
 }

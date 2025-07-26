@@ -18,27 +18,10 @@ const RoomDetails = ({
 
     if (!show || !room) return null;
 
+    const memberRole = room.members?.find(m => m.userId === user?.sub)?.role;
     const isHeadRoommate = room.headRoommateId === user?.sub;
-
-    const updateMemberRole = async (memberId, newRole) => {
-        try {
-            const token = await getAccessTokenSilently();
-            await axios.put(
-                `${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`,
-                { role: newRole },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            alert("✅ Role updated");
-            // Optionally: reload room state from backend here
-        } catch (error) {
-            console.error(error);
-            alert("❌ Failed to update role");
-        }
-    };
+    const isAssistantRoomate = memberRole === 'ASSISTANT';
+    console.log(isAssistantRoomate);
 
 
     const handleInviteUser = async () => {
@@ -101,16 +84,8 @@ const RoomDetails = ({
                                                 Leave Room
                                             </button>
                                         )}
-                                        {isHeadRoommate && !isSelf && (
+                                        {(isHeadRoommate || isAssistantRoomate) && !isSelf && (
                                             <div className="member-actions">
-                                                <select
-                                                    value={member.role}
-                                                    onChange={(e) => updateMemberRole(member.id, e.target.value)}
-                                                >
-                                                    <option value="ROOMMATE">Roommate</option>
-                                                    <option value="ASSISTANT_ROOMMATE">Assistant Roommate</option>
-                                                    <option value="HEAD_ROOMMATE">Head Roommate</option>
-                                                </select>
                                                 <button
                                                     className="btn btn-danger"
                                                     onClick={() => onRemoveMember(member.id)}
@@ -125,24 +100,30 @@ const RoomDetails = ({
                         </div>
                     </div>
 
-                    {isHeadRoommate && (
+
+                    {(isAssistantRoomate || isHeadRoommate) && (
                         <div className="detail-section">
                             <h3>Management</h3>
                             <div className="management-actions">
                                 <button className="btn btn-primary" onClick={onManageRolesClick}>
                                     Manage Roles
                                 </button>
-                                <button className="btn btn-danger" onClick={onDeleteRoom}>
-                                    Delete Room
-                                </button>
                                 <button className="btn btn-secondary" onClick={() => setShowInviteModal(true)}>
                                     Invite User
                                 </button>
+                                {isHeadRoommate && (
+                                    <div className="detail-section">
+                                        <div className="management-actions">
+                                            <button className="btn btn-danger" onClick={onDeleteRoom}>
+                                                Delete Room
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
 
-                    {/* Invite Modal */}
                     {showInviteModal && (
                         <div className="modal-overlay">
                             <div className="modal">

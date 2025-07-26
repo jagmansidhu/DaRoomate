@@ -190,8 +190,16 @@ public class RoomServiceImplt implements RoomService {
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
         UserEntity requestingUser = userRepository.getUserEntityByAuthId(requestingUserId);
-        if (requestingUser == null || !room.getHeadRoommateId().equals(requestingUserId)) {
-            throw new UserApiError("Only the head roommate can update member roles.");
+        if (requestingUser == null) {
+            throw new UserApiError("User Not Found with ID: " + requestingUserId);
+        }
+
+        RoomMemberEntity requestingMember = roomMemberRepository.findByRoomIdAndUserId(roomId, requestingUser.getId())
+                .orElseThrow(() -> new UserApiError("Requesting user is not a member of the room."));
+
+        RoomMemberEnum role = requestingMember.getRole();
+        if (role != RoomMemberEnum.HEAD_ROOMMATE && role != RoomMemberEnum.ASSISTANT) {
+            throw new UserApiError("Only head roommates or assistants can change member roles.");
         }
 
         RoomMemberEntity member = roomMemberRepository.findById(memberId)
