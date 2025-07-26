@@ -147,8 +147,6 @@ public class RoomServiceImplt implements RoomService {
         UserEntity user = userRepository.getUserEntityByAuthId(authId);
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + user.getId()));
-        RoomEntity room = roomRepository.getRoomEntityById(roomId)
-                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
         if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
             throw new UserApiError("Cannot have the head roommate leave the room.");
@@ -231,7 +229,7 @@ public class RoomServiceImplt implements RoomService {
                             ". Please use this code to join the room in the app.");
         } else {
             mailSender.sendMail(request.email, "Room Invitation",
-                    "You have been invited to join the room: " + request.getRoomId() +
+                    "You have been invited to join the room: " + room.getRoomCode() +
                             ". Please use this code to join the room in the app.");
         }
     }

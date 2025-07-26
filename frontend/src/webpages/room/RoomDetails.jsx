@@ -20,6 +20,27 @@ const RoomDetails = ({
 
     const isHeadRoommate = room.headRoommateId === user?.sub;
 
+    const updateMemberRole = async (memberId, newRole) => {
+        try {
+            const token = await getAccessTokenSilently();
+            await axios.put(
+                `${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`,
+                { role: newRole },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            alert("✅ Role updated");
+            // Optionally: reload room state from backend here
+        } catch (error) {
+            console.error(error);
+            alert("❌ Failed to update role");
+        }
+    };
+
+
     const handleInviteUser = async () => {
         try {
             const token = await getAccessTokenSilently();
@@ -81,12 +102,22 @@ const RoomDetails = ({
                                             </button>
                                         )}
                                         {isHeadRoommate && !isSelf && (
-                                            <button
-                                                className="btn btn-danger"
-                                                onClick={() => onRemoveMember(member.id)}
-                                            >
-                                                Remove
-                                            </button>
+                                            <div className="member-actions">
+                                                <select
+                                                    value={member.role}
+                                                    onChange={(e) => updateMemberRole(member.id, e.target.value)}
+                                                >
+                                                    <option value="ROOMMATE">Roommate</option>
+                                                    <option value="ASSISTANT_ROOMMATE">Assistant Roommate</option>
+                                                    <option value="HEAD_ROOMMATE">Head Roommate</option>
+                                                </select>
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => onRemoveMember(member.id)}
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
                                 );
