@@ -37,6 +37,7 @@ target/
 /src/main/resources/application-prod.yml
 /src/main/resources/application-test.yml
 
+/Users/jagman/IdeaProjects/ProjectStart/frontend/.env
 
 .env
 .env.local
