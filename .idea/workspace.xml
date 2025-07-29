@@ -5,19 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/forwardedPorts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/exceptions/ServletException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/JwtAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/data/schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/component/userProfileRedirection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/userProfileRedirection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/practiceCode/security/ApiAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/FriendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/FriendController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/FriendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/FriendService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JWTService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/ChatRoomServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/ChatRoomServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/FriendServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/FriendServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/MessageServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/MessageServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/websocket/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/websocket/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Friends.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Friends.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Message.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +33,8 @@
         <option value="Record" />
         <option value="Kotlin Class" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Exception" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -70,57 +72,57 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JUnit.RegisterControllerTest.executor": "Run",
-    "JUnit.UserRepositoryTest.executor": "Run",
-    "JUnit.UserRepositoryTest.getByAuthIdTest.executor": "Coverage",
-    "JUnit.UserRepositoryTest.newUserTestAdded.executor": "Run",
-    "JUnit.UserServiceTest.createUserTest.executor": "Run",
-    "JUnit.UserServiceTest.executor": "Run",
-    "JUnit.UserServiceTest.getUserByUserIdTest.executor": "Debug",
-    "JUnit.UserServiceTest.isUserCompleteCompleted.executor": "Run",
-    "JUnit.UserServiceTest.isUserCompleteIncompletedTest.executor": "Run",
-    "JUnit.UserServiceTest.testGetAllUsers.executor": "Run",
-    "JUnit.UserServiceTest.testRegisterUser.executor": "Run",
-    "JUnit.UserServiceTest.updateUserTest.executor": "Run",
-    "JUnit.UserServiceTest.userExistsTrueTest.executor": "Run",
-    "JUnit.demo in demo.executor": "Run",
-    "JavaScript Debug.Debug Application.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.StartOneApplication (1).executor": "Run",
-    "Spring Boot.StartOneApplication.executor": "Run",
-    "Spring Boot.StartOneApplication2.executor": "Run",
-    "database.data.extractors.current.export.id": "SQL Inserts",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/jeffe/Downloads/DaRoomate",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "database.query.execution",
-    "ts.external.directory.path": "/home/jeffe/.cache/JetBrains/RemoteDev/dist/610ea5b2a6688_ideaIU-252.23892.248/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JUnit.RegisterControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTest.getByAuthIdTest.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.UserRepositoryTest.newUserTestAdded.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.createUserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.getUserByUserIdTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.UserServiceTest.isUserCompleteCompleted.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.isUserCompleteIncompletedTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testGetAllUsers.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.testRegisterUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.updateUserTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceTest.userExistsTrueTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.demo in demo.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Debug Application.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.StartOneApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.StartOneApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.StartOneApplication2.executor&quot;: &quot;Run&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;SQL Inserts&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/jeffe/Downloads/DaRoomate&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/jeffe/.cache/JetBrains/RemoteDev/dist/610ea5b2a6688_ideaIU-252.23892.248/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
     <layout>
       <window_info id="Bookmarks" side_tool="true" />
@@ -131,7 +133,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2408854" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28567708" />
       <window_info id="Commit" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -143,15 +145,15 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.29100752" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.29100752" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.29100752" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.29100752" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.29100752" />
       <window_info anchor="right" id="Endpoints" />
       <window_info anchor="right" id="Coverage" side_tool="true" />
       <window_info anchor="right" id="Beans" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
       <window_info anchor="right" id="AIAssistant" order="1" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.32994792" />
+      <window_info active="true" anchor="right" id="Database" order="2" visible="true" weight="0.05651042" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
     </layout>
@@ -326,7 +328,8 @@
       <workItem from="1752466389535" duration="3267000" />
       <workItem from="1752469693421" duration="35740000" />
       <workItem from="1753074058390" duration="40759000" />
-      <workItem from="1753744959645" duration="3088000" />
+      <workItem from="1753744959645" duration="3276000" />
+      <workItem from="1753819563110" duration="1973000" />
     </task>
     <servers />
   </component>

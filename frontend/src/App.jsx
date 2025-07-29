@@ -9,8 +9,8 @@ import useProfileCompletionRedirect from "./component/userProfileRedirection";
 import CompleteProfile from "./webpages/CompleteProfile";
 import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
-import Message from "./webpages/Message";
-import Friends from "./webpages/Friends";
+// import Message from "./webpages/Message";
+// import Friends from "./webpages/Friends";
 import Rooms from "./webpages/room/Rooms";
 import './styling/App.css';
 
@@ -91,8 +91,8 @@ const LoggedInNavbar = () => {
           <Link to="/dashboard" className="nav-link">Dashboard</Link>
           <Link to="/profile" className="nav-link">Profile</Link>
           <Link to="/rooms" className="nav-link">Rooms</Link>
-          <Link to="/chat" className="nav-link">Chat</Link>
-          <Link to="/friends" className="nav-link">Friends</Link>
+          {/*<Link to="/chat" className="nav-link">Chat</Link>*/}
+          {/*<Link to="/friends" className="nav-link">Friends</Link>*/}
           <button
             onClick={toggleTheme}
             className="theme-toggle"
@@ -167,14 +167,14 @@ function AppContent() {
               path="/profile"
               element={isAuthenticated ? <Profile/> : <Login/>}
             />
-            <Route
-              path="/chat"
-              element={isAuthenticated ? <Message/> : <Login/>}
-            />
-            <Route
-              path="/friends"
-              element={isAuthenticated ? <Friends/> : <Login/>}
-            />
+            {/*<Route*/}
+            {/*  path="/chat"*/}
+            {/*  element={isAuthenticated ? <Message/> : <Login/>}*/}
+            {/*/>*/}
+            {/*<Route*/}
+            {/*  path="/friends"*/}
+            {/*  element={isAuthenticated ? <Friends/> : <Login/>}*/}
+            {/*/>*/}
             <Route
               path="/rooms"
               element={isAuthenticated ? <Rooms/> : <Login/>}

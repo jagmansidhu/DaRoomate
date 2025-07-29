@@ -1,4 +1,4 @@
-//package com.roomate.app.security;
+package com.roomate.app.security;
 //
 //import com.roomate.app.domain.RoommateAppAuthentication;
 //import com.roomate.app.domain.UserPrincipal;
