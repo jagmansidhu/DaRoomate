@@ -17,7 +17,7 @@ const useProfileCompletionRedirect = () => {
             try {
                         const accessToken = await getAccessTokenSilently();
 
-                const response = await axios.get('http://localhost:8085/api/profile-status', {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/profile-status`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

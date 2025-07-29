@@ -4836,7 +4836,6 @@ true posixrules
     <schema id="265" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>1465</IntrospectionStateNumber>
       <LastIntrospectionLocalTimestamp>2025-07-24.03:55:15</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>532</StateNumber>

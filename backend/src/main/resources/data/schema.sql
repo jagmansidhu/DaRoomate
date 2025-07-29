@@ -32,6 +32,15 @@ CREATE TABLE IF NOT EXISTS users
 
     );
 
+CREATE TABLE IF NOT EXISTS chat_room_entity
+(
+    chat_id character varying(255) COLLATE pg_catalog."default",
+    id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    recipient_id character varying(255) COLLATE pg_catalog."default",
+    sender_id character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT chat_room_entity_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS confirmations
 (
     id SERIAL PRIMARY KEY,

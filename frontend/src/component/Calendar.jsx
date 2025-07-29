@@ -33,10 +33,10 @@ const Calendar = () => {
             const accessToken = await getAccessTokenSilently();
 
             const [eventsResponse, roomsResponse] = await Promise.all([
-                axios.get('http://localhost:8085/api/events/user', {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/events/user`, {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 }),
-                axios.get('http://localhost:8085/api/rooms', {
+                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 })
             ]);
@@ -76,10 +76,6 @@ const Calendar = () => {
 
         try {
             const accessToken = await getAccessTokenSilently();
-            
-            // Convert datetime-local values to proper format for Spring Boot
-            // datetime-local sends format like "2024-01-15T10:00"
-            // We need to convert it to ISO format that Spring Boot can parse
             const startDateTime = new Date(newEvent.startTime).toISOString();
             const endDateTime = new Date(newEvent.endTime).toISOString();
             
@@ -92,7 +88,7 @@ const Calendar = () => {
             
             console.log('Sending event data:', requestData);
             
-            await axios.post(`http://localhost:8085/api/events/room/${newEvent.roomId}`, requestData, {
+            await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/events/room/${newEvent.roomId}`, requestData, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
 
@@ -109,10 +105,8 @@ const Calendar = () => {
         } catch (error) {
             console.error('Error creating event:', error);
             if (error.response && error.response.data) {
-                // Handle validation errors
                 if (typeof error.response.data === 'object') {
                     if (error.response.status === 409) {
-                        // Optimistic locking failure
                         setError('This event was modified by another user. Please refresh and try again.');
                     } else {
                         const errorMessages = Object.values(error.response.data).join(', ');
@@ -132,7 +126,7 @@ const Calendar = () => {
 
         try {
             const accessToken = await getAccessTokenSilently();
-            await axios.delete(`http://localhost:8085/api/events/${eventId}`, {
+            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/events/${eventId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             fetchData(); // Refresh events
