@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UpdateProfileDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RegisterDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/RegisterDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -136,9 +134,9 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3459617" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.33014154" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3459617" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.33014154" />
+      <window_info anchor="bottom" id="Run" order="5" weight="0.33014154" />
       <window_info anchor="bottom" id="Build" order="6" weight="0.3459617" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.33014154" />
       <window_info anchor="right" id="Endpoints" />
@@ -153,6 +151,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.roomate.app.dto" />
       <recent name="com.roomate.app.repository" />
       <recent name="com.roomate.app.security" />
       <recent name="com.roomate.app.Exception" />
@@ -164,11 +163,11 @@
       <recent name="$PROJECT_DIR$/backend/docker" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src" />
       <recent name="$PROJECT_DIR$/frontend/src/webpages/room" />
       <recent name="$PROJECT_DIR$/frontend/src/styling" />
       <recent name="$PROJECT_DIR$/frontend/src/webpages" />
       <recent name="$PROJECT_DIR$/backend/practiceCode" />
-      <recent name="$PROJECT_DIR$/backend" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.StartOneApplication2">
@@ -323,7 +322,7 @@
       <workItem from="1753074058390" duration="40759000" />
       <workItem from="1753744959645" duration="3276000" />
       <workItem from="1753819563110" duration="10228000" />
-      <workItem from="1753845034459" duration="1288000" />
+      <workItem from="1753845034459" duration="2135000" />
     </task>
     <servers />
   </component>
