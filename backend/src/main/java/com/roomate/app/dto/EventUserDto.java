@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @Data
 public class EventUserDto {
-    private String authId;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,8 +15,7 @@ public class EventUserDto {
     public EventUserDto() {
     }
 
-    public EventUserDto(String authId, String firstName, String lastName, String email) {
-        this.authId = authId;
+    public EventUserDto(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

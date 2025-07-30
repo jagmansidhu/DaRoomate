@@ -1,14 +1,17 @@
-package com.roomate.app.security;
+package com.roomate.app.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,7 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@Profile("!test")
 public class SecurityConfig {
 
-    // EFFECTS : Defines who can access what and how unauthorized attempts are handled.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -42,7 +44,6 @@ public class SecurityConfig {
                         .requestMatchers("/view/**").hasAnyRole("ROOMMATE", "ASSISTANT_ROOMMATE", "HEAD_ROOMMATE", "ADMIN")
 
 
-                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 );
 
@@ -65,5 +66,4 @@ public class SecurityConfig {
             }
         };
     }
-
 }

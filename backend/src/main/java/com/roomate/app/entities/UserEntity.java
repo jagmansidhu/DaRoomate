@@ -8,48 +8,51 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
-    private String authId;
     private String firstName;
     private String lastName;
     @NotNull
     @Column(unique = true)
     private String email;
+    @Column(nullable = true)
+    private String password;
     private String phone;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "addressId", referencedColumnName = "id")
-    @JsonIgnore
-    private AddressEntity address;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "addressId", referencedColumnName = "id")
+//    @JsonIgnore
+//    private AddressEntity address;
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<RolesEntity> roles = new HashSet<>();
-    @OneToMany(mappedBy = "requester", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<FriendEntity> sentFriendRequests = new HashSet<>();
-    @OneToMany(mappedBy = "addressee", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<FriendEntity> receivedFriendRequests = new HashSet<>();
+//    @OneToMany(mappedBy = "requester", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+//            orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private Set<FriendEntity> sentFriendRequests = new HashSet<>();
+//    @OneToMany(mappedBy = "addressee", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+//            orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private Set<FriendEntity> receivedFriendRequests = new HashSet<>();
 
     public UserEntity() {}
 
     public UserEntity(String authId, String firstName, String lastName, String email, String phone) {
-        this.authId = authId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -64,7 +67,6 @@ public class UserEntity {
     }
 
     public UserEntity(String authId, String email, String firstName, String lastName) {
-        this.authId = authId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -77,15 +79,14 @@ public class UserEntity {
     }
 
     public UserEntity(String authId, String email) {
-        this.authId = authId;
         this.email = email;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "UserEntity[id=%d, authId='%s', firstName='%s', lastName='%s', email='%s', phone='%s']",
-                id, authId, firstName, lastName, email, phone);
+                "UserEntity[id=%d, firstName='%s', lastName='%s', email='%s', phone='%s']",
+                id, firstName, lastName, email, phone);
     }
 
     @Override
@@ -94,7 +95,6 @@ public class UserEntity {
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(authId, that.authId) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
@@ -103,6 +103,28 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, authId, firstName, lastName, email, phone);
+        return Objects.hash(id, firstName, lastName, email, phone);
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
 }

@@ -44,8 +44,8 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public List<RoomDto> getUserRooms(String authId) {
-        UserEntity user = userRepository.getUserEntityByAuthId(authId);
+    public List<RoomDto> getUserRooms(String email) {
+        UserEntity user = userRepository.getUserByEmail(email);
 
         if (user == null) {
             return List.of();
@@ -58,15 +58,15 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public RoomDto createRoom(CreateRoomRequest request, String headRoommateId, String headRoommateName, String headRoommateEmail) throws UserApiError {
-        UserEntity user = userRepository.getUserEntityByAuthId(headRoommateId);
+    public RoomDto createRoom(CreateRoomRequest request, String headRoomateEmail, String headRoommateName, String headRoommateEmail) throws UserApiError {
+        UserEntity user = userRepository.getUserByEmail(headRoomateEmail);
         if (user == null) {
-            throw new UserApiError("Head roommate user not found with ID: " + headRoommateId);
+            throw new UserApiError("Head roommate user not found with ID: " + headRoomateEmail);
         }
 
         String roomCode = generateUniqueRoomCode();
 
-        RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoommateId, new ArrayList<>());
+        RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoomateEmail, new ArrayList<>());
 
         RoomMemberEntity roomMemberEntity = new RoomMemberEntity(room, user, RoomMemberEnum.HEAD_ROOMMATE);
 
@@ -86,10 +86,10 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public RoomDto joinRoom(String roomCode, String authId, String userName, String userEmail) throws UserApiError {
-        UserEntity user = userRepository.getUserEntityByAuthId(authId);
+    public RoomDto joinRoom(String roomCode, String email, String userName, String userEmail) throws UserApiError {
+        UserEntity user = userRepository.getUserByEmail(email);
         if (user == null) {
-            throw new UserApiError("User not found with ID: " + authId);
+            throw new UserApiError("User not found with ID: " + email);
         }
 
         RoomEntity room = roomRepository.findByRoomCode(roomCode)
@@ -110,13 +110,13 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
-    public RoomDto getRoomById(UUID roomId, String authId) throws UserApiError {
+    public RoomDto getRoomById(UUID roomId, String email) throws UserApiError {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
-        UserEntity requestingUser = userRepository.getUserEntityByAuthId(authId);
+        UserEntity requestingUser = userRepository.getUserByEmail(email);
 
-        if (requestingUser == null || !isRoomMember(roomId, authId)) {
+        if (requestingUser == null || !isRoomMember(roomId, email)) {
             throw new UserApiError("User is not authorized to view this room.");
         }
 
@@ -135,20 +135,19 @@ public class RoomServiceImplt implements RoomService {
         System.out.println("Removing member " + member.getUser().getId() + " from room " + room.getId());
 
         boolean isRemoverHead = room.getHeadRoommateId().equals(removerAuthId);
-        boolean isSelfRemove = member.getUser().getAuthId().equals(removerAuthId);
+        boolean isSelfRemove = member.getUser().getEmail().equals(removerAuthId);
 
         if (!isRemoverHead || isSelfRemove) {
             throw new UserApiError("Not authorized to remove this member.");
         }
-
 
         roomMemberRepository.deleteByRoomIdAndUserId(roomId, member.getUser().getId());
     }
 
     @Override
     @Transactional
-    public void leaveRoom(UUID roomId, String authId) throws UserApiError {
-        UserEntity user = userRepository.getUserEntityByAuthId(authId);
+    public void leaveRoom(UUID roomId, String email) throws UserApiError {
+        UserEntity user = userRepository.getUserByEmail(email);
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + user.getId()));
 
@@ -162,17 +161,17 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public void removeRoom(UUID roomId, String requesterAuthId) throws UserApiError {
-        UserEntity user = userRepository.getUserEntityByAuthId(requesterAuthId);
+    public void removeRoom(UUID roomId, String requesterEmail) throws UserApiError {
+        UserEntity user = userRepository.getUserByEmail(requesterEmail);
         if (user == null) {
-            throw new UserApiError("User not found with ID: " + requesterAuthId);
+            throw new UserApiError("User not found with ID: " + requesterEmail);
         }
 
         RoomEntity room = roomRepository.getRoomEntityById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
 
-        if (!room.getHeadRoommateId().equals(requesterAuthId)) {
+        if (!room.getHeadRoommateId().equals(requesterEmail)) {
             throw new UserApiError("Not authorized to delete room.");
         }
 
@@ -185,13 +184,13 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserId) throws UserApiError {
+    public void updateMemberRole(UUID roomId, UUID memberId, UpdateMemberRoleRequest request, String requestingUserEmail) throws UserApiError {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
 
-        UserEntity requestingUser = userRepository.getUserEntityByAuthId(requestingUserId);
+        UserEntity requestingUser = userRepository.getUserByEmail(requestingUserEmail);
         if (requestingUser == null) {
-            throw new UserApiError("User Not Found with ID: " + requestingUserId);
+            throw new UserApiError("User Not Found with ID: " + requestingUserEmail);
         }
 
         RoomMemberEntity requestingMember = roomMemberRepository.findByRoomIdAndUserId(roomId, requestingUser.getId())
@@ -221,8 +220,8 @@ public class RoomServiceImplt implements RoomService {
 
 
     @Override
-    public boolean isRoomMember(UUID roomId, String authId) {
-        UserEntity user = userRepository.getUserEntityByAuthId(authId);
+    public boolean isRoomMember(UUID roomId, String email) {
+        UserEntity user = userRepository.getUserByEmail(email);
         if (user == null) {
             return false;
         }
@@ -266,7 +265,7 @@ public class RoomServiceImplt implements RoomService {
                 RoomMemberDto memberDto = new RoomMemberDto();
                 memberDto.setId(member.getId());
                 memberDto.setJoinedAt(member.getJoinedAt());
-                memberDto.setUserId(member.getUser().getAuthId());
+                memberDto.setUserId(member.getUser().getEmail());
                 memberDto.setName(member.getUser().getFirstName());
                 memberDto.setRole(member.getRole());
                 memberDtos.add(memberDto);

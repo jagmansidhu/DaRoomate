@@ -25,7 +25,7 @@ public class ProfileController {
     @PutMapping("/updateEmail")
     public ResponseEntity<?> updateEmail(@AuthenticationPrincipal Jwt jwt, @RequestBody String updatedDetails) {
         String userId = jwt.getSubject();
-        UserEntity updateUser = userService.updateUserEmail(userId, updatedDetails);
+        UserEntity updateUser = userService.updateUserEmail(userId);
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }

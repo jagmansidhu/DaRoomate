@@ -13,21 +13,18 @@ import java.util.UUID;
 
 @Repository
 public interface EventRepository extends JpaRepository<EventEntity, UUID> {
-    @Query("SELECT u from EventEntity u WHERE u.user.authId = :authid" )
-    List<EventEntity> getAllEventsForUser(@Param("authid") String authId);
+    @Query("SELECT e FROM EventEntity e WHERE e.room.id IN (SELECT r.id FROM RoomEntity r JOIN r.members m WHERE m.user.email = :email)")
+    List<EventEntity> getAllEventsForUserRooms(@Param("email") String email);
 
-    @Query("SELECT e FROM EventEntity e WHERE e.room.id IN (SELECT r.id FROM RoomEntity r JOIN r.members m WHERE m.user.authId = :authId)")
-    List<EventEntity> getAllEventsForUserRooms(@Param("authId") String authId);
+    @Query("SELECT u from EventEntity u WHERE u.user.email = :email AND u.room.id = :roomid" )
+    List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid, @Param("email") String email);
 
-    @Query("SELECT u from EventEntity u WHERE u.user.authId = :authid AND u.room.id = :roomid" )
-    List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid, @Param("authid") String authId);
+    @Query("SELECT e FROM EventEntity e WHERE e.user.email = :email AND e.id = :id")
+    EventEntity getEventById(@Param("email") String email, @Param("id") UUID id);
 
-    @Query("SELECT e FROM EventEntity e WHERE e.user.authId = :authid AND e.id = :id")
-    EventEntity getEventById(@Param("authid") String authId, @Param("id") UUID id);
-    
     @Modifying
-    @Query("DELETE FROM EventEntity e WHERE e.user.authId = :authid AND e.id = :id")
-    void deleteEventById(@Param("authid") String authId, @Param("id") UUID id);
+    @Query("DELETE FROM EventEntity e WHERE e.user.email = :authid AND e.id = :id")
+    void deleteEventById(@Param("email") String email, @Param("id") UUID id);
 
     @Modifying
     @Query("DELETE FROM EventEntity e WHERE e.room.id = :roomid")

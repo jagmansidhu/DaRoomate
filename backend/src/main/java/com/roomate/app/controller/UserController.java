@@ -48,25 +48,25 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // EFFECTS : Checks if user exists and return user, if no user create the user
-    @GetMapping("/create_or_find_user")
-    public ResponseEntity<UserEntity> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
-        String email = jwt.getClaimAsString("email");
-        String firstName = jwt.getClaimAsString("first_name");
-        String lastName = jwt.getClaimAsString("last_name");
-
-        if (userService.userExists(userId, email)) {
-            return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
-        }
-
-        UserEntity user = userService.createUserByAuthID(userId, email, firstName, lastName);
-
-        roleRepository.findByName("ROLE_ROOMMATE").ifPresent(role -> user.setRoles(Set.of(role)));
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
-    }
+//    // EFFECTS : Checks if user exists and return user, if no user create the user
+//    @GetMapping("/create_or_find_user")
+//    public ResponseEntity<UserEntity> createOrFindUser(@AuthenticationPrincipal Jwt jwt) {
+//        String userId = jwt.getSubject();
+//        String email = jwt.getClaimAsString("email");
+//        String firstName = jwt.getClaimAsString("first_name");
+//        String lastName = jwt.getClaimAsString("last_name");
+//
+//        if (userService.userExists(userId, email)) {
+//            return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
+//        }
+//
+//        UserEntity user = userService.createUserByAuthID(userId, email, firstName, lastName);
+//
+//        roleRepository.findByName("ROLE_ROOMMATE").ifPresent(role -> user.setRoles(Set.of(role)));
+//
+//        userRepository.save(user);
+//
+//        return ResponseEntity.ok(userService.getUserEntityByAuthID(userId));
+//    }
 
 }

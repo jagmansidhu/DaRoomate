@@ -32,28 +32,28 @@ public class EventServiceimplt implements EventService {
     }
 
     @Override
-    public List<EventDto> getAllEventsForUser(String authId) {
-        List<EventEntity> events = eventRepository.getAllEventsForUserRooms(authId);
+    public List<EventDto> getAllEventsForUser(String email) {
+        List<EventEntity> events = eventRepository.getAllEventsForUserRooms(email);
 
         return events.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<EventDto> getEventsForUserRoom(UUID roomID, String authId) {
-        List<EventEntity> events = eventRepository.getAllEventsForUserRoom(roomID, authId);
+    public List<EventDto> getEventsForUserRoom(UUID roomID, String email) {
+        List<EventEntity> events = eventRepository.getAllEventsForUserRoom(roomID, email);
         return events.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void createEventForRoom(EventDto eventDto,UUID roomid, String authId) {
+    public void createEventForRoom(EventDto eventDto,UUID roomid, String email) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setTitle(eventDto.getTitle());
         eventEntity.setDescription(eventDto.getDescription());
         eventEntity.setStartTime(eventDto.getStartTime());
         eventEntity.setEndTime(eventDto.getEndTime());
         eventEntity.setRoom(roomRepository.getRoomEntityById(roomid).orElse(null));
-        eventEntity.setUser(userRepository.getUserEntityByAuthId(authId));
+        eventEntity.setUser(userRepository.getUserByEmail(email));
         eventEntity.setCreated(LocalDateTime.now());
         eventEntity.setUpdated(null);
         eventRepository.save(eventEntity);
@@ -61,10 +61,10 @@ public class EventServiceimplt implements EventService {
 
     @Override
     @Transactional
-    public void updateEvent(EventDto eventDto, UUID eventID, String authId) {
-        EventEntity eventEntity = eventRepository.getEventById(authId, eventID);
+    public void updateEvent(EventDto eventDto, UUID eventID, String email) {
+        EventEntity eventEntity = eventRepository.getEventById(email, eventID);
 
-        eventExceptions(eventEntity == null, eventEntity, authId);
+        eventExceptions(eventEntity == null, eventEntity, email);
 
         eventEntity.setTitle(eventDto.getTitle());
         eventEntity.setDescription(eventDto.getDescription());
@@ -77,11 +77,11 @@ public class EventServiceimplt implements EventService {
 
     @Override
     @Transactional
-    public void deleteEvent(UUID eventId, String authId) {
-        EventEntity eventEntity = eventRepository.getEventById(authId, eventId);
+    public void deleteEvent(UUID eventId, String email) {
+        EventEntity eventEntity = eventRepository.getEventById(email, eventId);
 
-        eventExceptions(eventId == null, eventEntity, authId);
-        eventRepository.deleteEventById(authId,eventId);
+        eventExceptions(eventId == null, eventEntity, email);
+        eventRepository.deleteEventById(email,eventId);
     }
 
     private EventDto convertToDto(EventEntity eventEntity) {
@@ -101,7 +101,6 @@ public class EventServiceimplt implements EventService {
 
         UserEntity userEntity = eventEntity.getUser();
         EventUserDto userDto = new EventUserDto(
-            userEntity.getAuthId(),
             userEntity.getFirstName(),
             userEntity.getLastName(),
             userEntity.getEmail()
@@ -111,12 +110,12 @@ public class EventServiceimplt implements EventService {
         return eventDto;
     }
 
-    private static void eventExceptions(boolean eventEntity, EventEntity eventEntity1, String authId) {
+    private static void eventExceptions(boolean eventEntity, EventEntity eventEntity1, String email) {
         if (eventEntity) {
             throw new EventAPIException("Event not found");
         }
 
-        if (!eventEntity1.getUser().getAuthId().equals(authId)) {
+        if (!eventEntity1.getUser().getEmail().equals(email)) {
             throw new EventAPIException("Wrong auth id");
         }
     }

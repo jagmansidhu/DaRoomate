@@ -1,4 +1,4 @@
-package com.roomate.app.security;
+package com.roomate.app.config.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

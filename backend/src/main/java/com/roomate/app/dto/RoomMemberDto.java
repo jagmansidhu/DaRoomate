@@ -1,5 +1,6 @@
 package com.roomate.app.dto;
 
+import com.roomate.app.entities.room.RoomMemberEnum;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public class RoomMemberDto {
     private String userId;
     private String name;
     private String email;
-    private com.roomate.app.entities.room.RoomMemberEnum role;
+    private RoomMemberEnum role;
     private LocalDateTime joinedAt;
     private LocalDateTime updatedAt;
 }
