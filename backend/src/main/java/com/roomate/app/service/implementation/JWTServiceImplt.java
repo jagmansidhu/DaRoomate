@@ -2,7 +2,6 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.service.JWTService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
