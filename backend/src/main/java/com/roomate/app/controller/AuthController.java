@@ -48,6 +48,3 @@ public class AuthController {
         return ResponseEntity.ok(new AuthDto(token));
     }
 }
-
-
-
