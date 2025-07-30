@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,18 +32,6 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     @Override
     public boolean userExists(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    // EFFECTS : Creates a new user if user is not alreedy in database and then return user
-    @Override
-    @Transactional
-    public UserEntity createUserByEmail(String email, String firstName, String lastName) {
-        UserEntity newUser = new UserEntity();
-        newUser.setEmail(email);
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
-
-        return userRepository.save(newUser);
     }
 
     // EFFECTS : Updates user profile with new First name, Last name, and Phone num
@@ -69,34 +55,6 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         }
 
         return userRepository.save(user);
-    }
-
-    @Override
-    public UserEntity updateUserEmail(String email) {
-        UserEntity userEntity = getUserEntityByEmail(email);
-        userEntity.setEmail(email);
-        return userRepository.save(userEntity);
-    }
-
-    @Override
-    public UserEntity updateUserFirstName(String email, String firstName) {
-        UserEntity userEntity = getUserEntityByEmail(email);
-        userEntity.setFirstName(firstName);
-        return userRepository.save(userEntity);
-    }
-
-    @Override
-    public UserEntity updateUserLastName(String email, String lastName) {
-        UserEntity userEntity = getUserEntityByEmail(email);
-        userEntity.setLastName(lastName);
-        return userRepository.save(userEntity);
-    }
-
-    @Override
-    public UserEntity updateUserPhone(String email, String phone) {
-        UserEntity userEntity = getUserEntityByEmail(email);
-        userEntity.setPhone(phone);
-        return userRepository.save(userEntity);
     }
 
     // EFFECTS : Determines if profile is complete in the database

@@ -23,7 +23,7 @@ public class ProfileController {
     }
 
     // EFFECTS : Updates User Email
-    @PutMapping("/updateEmail")
+    @PutMapping("/update_profile")
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UpdateProfileDto updatedDetails) {
         String userId = userDetails.getUsername();
         UserEntity updateUser = userService.updateUserProfile(userId, updatedDetails);
