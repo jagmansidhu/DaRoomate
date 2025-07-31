@@ -58,7 +58,7 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public RoomDto createRoom(CreateRoomRequest request, String headRoomateEmail, String headRoommateName, String headRoommateEmail) throws UserApiError {
+    public RoomDto createRoom(CreateRoomRequest request, String headRoomateEmail) throws UserApiError {
         UserEntity user = userRepository.getUserByEmail(headRoomateEmail);
         if (user == null) {
             throw new UserApiError("Head roommate user not found with ID: " + headRoomateEmail);
@@ -86,7 +86,7 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public RoomDto joinRoom(String roomCode, String email, String userName, String userEmail) throws UserApiError {
+    public RoomDto joinRoom(String roomCode, String email) throws UserApiError {
         UserEntity user = userRepository.getUserByEmail(email);
         if (user == null) {
             throw new UserApiError("User not found with ID: " + email);
@@ -110,6 +110,7 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomDto getRoomById(UUID roomId, String email) throws UserApiError {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomId));
@@ -229,7 +230,7 @@ public class RoomServiceImplt implements RoomService {
     }
 
     @Override
-    public void inviteUserToRoom(InviteUserRequest request, String authId) throws UserApiError {
+    public void inviteUserToRoom(InviteUserRequest request, String email) throws UserApiError {
         RoomEntity room = roomRepository.findById(UUID.fromString(request.getRoomId()))
                 .orElseThrow(() -> new UserApiError("Room not found with ID: " + request.getRoomId()));
         if (request.getRoomId() == null) {

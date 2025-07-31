@@ -8,7 +8,7 @@ import com.roomate.app.exceptions.UserApiError;
 import com.roomate.app.service.RoomService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +25,10 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomDto>> getUserRooms(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<List<RoomDto>> getUserRooms(@AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            List<RoomDto> rooms = roomService.getUserRooms(authId);
+            String email = userDetails.getUsername();
+            List<RoomDto> rooms = roomService.getUserRooms(email);
             if (rooms.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
@@ -39,26 +39,26 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomDto> createRoom(@RequestBody CreateRoomRequest request, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<RoomDto> createRoom(@RequestBody CreateRoomRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            String userName = jwt.getClaimAsString("name");
-            String userEmail = jwt.getClaimAsString("email");
-            
-            RoomDto createdRoom = roomService.createRoom(request, authId, userName, userEmail);
+            String email = userDetails.getUsername();
+
+            RoomDto createdRoom = roomService.createRoom(request, email);
             return ResponseEntity.ok(createdRoom);
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PostMapping("/invite")
-    public ResponseEntity<Void> inviteUserToRoom(@RequestBody InviteUserRequest request, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> inviteUserToRoom(@RequestBody InviteUserRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            roomService.inviteUserToRoom(request, authId);
+            String email = userDetails.getUsername();
+            roomService.inviteUserToRoom(request, email);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             e.printStackTrace();
@@ -70,40 +70,42 @@ public class RoomController {
     }
 
     @PostMapping("/{roomCode}/join")
-    public ResponseEntity<RoomDto> joinRoom(@PathVariable String roomCode, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<RoomDto> joinRoom(@PathVariable String roomCode, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            String userName = jwt.getClaimAsString("name");
-            String userEmail = jwt.getClaimAsString("email");
+            String email = userDetails.getUsername();
             
-            RoomDto joinedRoom = roomService.joinRoom(roomCode, authId, userName, userEmail);
+            RoomDto joinedRoom = roomService.joinRoom(roomCode, email);
             return ResponseEntity.ok(joinedRoom);
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("/{roomId}")
-    public ResponseEntity<RoomDto> getRoomById(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<RoomDto> getRoomById(@PathVariable UUID roomId, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            RoomDto room = roomService.getRoomById(roomId, authId);
+            String email = userDetails.getUsername();
+            RoomDto room = roomService.getRoomById(roomId, email);
             return ResponseEntity.ok(room);
         } catch (UserApiError e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping("/{roomId}/members/{memberId}/role")
     public ResponseEntity<Void> updateMemberRole(@PathVariable UUID roomId, @PathVariable UUID memberId, 
-                                                @RequestBody UpdateMemberRoleRequest request, @AuthenticationPrincipal Jwt jwt) {
+                                                @RequestBody UpdateMemberRoleRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            roomService.updateMemberRole(roomId, memberId, request, authId);
+            String email = userDetails.getUsername();
+            roomService.updateMemberRole(roomId, memberId, request, email);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             return ResponseEntity.badRequest().build();
@@ -113,10 +115,10 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}/leave")
-    public ResponseEntity<Void> leaveRoom(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> leaveRoom(@PathVariable UUID roomId, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            roomService.leaveRoom(roomId, authId);
+            String email = userDetails.getUsername();
+            roomService.leaveRoom(roomId, email);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             e.printStackTrace();
@@ -128,10 +130,10 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}/members/{memberId}")
-    public ResponseEntity<Void> removeMemberFromRoom(@PathVariable UUID roomId, @PathVariable UUID memberId, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> removeMemberFromRoom(@PathVariable UUID roomId, @PathVariable UUID memberId, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            roomService.removeMemberFromRoom(roomId, memberId, authId);
+            String email = userDetails.getUsername();
+            roomService.removeMemberFromRoom(roomId, memberId, email);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             e.printStackTrace();
@@ -143,10 +145,10 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}/removeroom")
-    public ResponseEntity<Void> removeRoom(@PathVariable UUID roomId, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> removeRoom(@PathVariable UUID roomId, @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String authId = jwt.getSubject();
-            roomService.removeRoom(roomId, authId);
+            String email = userDetails.getUsername();
+            roomService.removeRoom(roomId, email);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             e.printStackTrace();
