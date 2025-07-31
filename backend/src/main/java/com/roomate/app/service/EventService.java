@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EventService {
-    List<EventDto> getAllEventsForUser(String authId);
-    List<EventDto> getEventsForUserRoom(UUID roomID, String authId);
-    void createEventForRoom(EventDto eventDto, UUID roomid, String authId);
-    void updateEvent(EventDto eventDto, UUID eventID, String authId);
-    void deleteEvent(UUID eventId, String authId);
+    List<EventDto> getAllEventsForUser(String email);
+    List<EventDto> getEventsForUserRoom(UUID roomID, String email);
+    void createEventForRoom(EventDto eventDto, UUID roomid, String email);
+    void updateEvent(EventDto eventDto, UUID eventID, String email);
+    void deleteEvent(UUID eventId, String email);
 }

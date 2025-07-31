@@ -23,7 +23,7 @@ public interface EventRepository extends JpaRepository<EventEntity, UUID> {
     EventEntity getEventById(@Param("email") String email, @Param("id") UUID id);
 
     @Modifying
-    @Query("DELETE FROM EventEntity e WHERE e.user.email = :authid AND e.id = :id")
+    @Query("DELETE FROM EventEntity e WHERE e.user.email = :email AND e.id = :id")
     void deleteEventById(@Param("email") String email, @Param("id") UUID id);
 
     @Modifying
