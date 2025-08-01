@@ -4,10 +4,10 @@ import com.roomate.app.dto.AuthDto;
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
 import com.roomate.app.entities.UserEntity;
-import com.roomate.app.entities.roleEntity.RoleEnum;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
+import com.roomate.app.service.implementation.UserServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,19 +25,11 @@ public class AuthController {
 
     private final UserService userService;
     private final JWTService jwtService;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authManager;
-    private final UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<AuthDto> register(@RequestBody RegisterDto req) {
-        UserEntity user = new UserEntity();
-        user.setFirstName(req.getFirstName());
-        user.setLastName(req.getLastName());
-        user.setEmail(req.getEmail());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-        userRepository.save(user);
-        String token = jwtService.generateToken(user);
+        String token = userService.registerUser(req);
         return ResponseEntity.ok(new AuthDto(token));
     }
 
