@@ -33,7 +33,7 @@ public class AuthController {
     public ResponseEntity<AuthDto> register(@RequestBody RegisterDto req) {
         UserEntity user = new UserEntity();
         user.setFirstName(req.getFirstName());
-        user.setFirstName(req.getLastName());
+        user.setLastName(req.getLastName());
         user.setEmail(req.getEmail());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         userRepository.save(user);

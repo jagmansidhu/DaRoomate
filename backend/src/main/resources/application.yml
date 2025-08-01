@@ -16,6 +16,8 @@ spring:
     url: jdbc:postgresql://${POSTGRESQL_HOST}:${POSTGRESQL_PORT}/${POSTGRESQL_DATABASE}
     username: ${POSTGRESQL_USERNAME}
     password: ${POSTGRESQL_PASSWORD}
+  jwt:
+    secret: ${JWT_KEY}
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -34,11 +36,6 @@ spring:
         globally_quoted_identifiers: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
         formate_sql: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${AUTH_DOMAIN}
   mail:
       host: ${EMAIL_HOST}
       port: ${EMAIL_PORT}
@@ -61,11 +58,6 @@ spring:
       com.roomate.app: DEBUG
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
-
-auth0:
-  domain: ${AUTH_DOMAIN}
-  client-id: ${AUTH_CLIENT}
-  client-secret: ${AUTH_SECRET}
 
 server:
   port: ${CONTAINER_PORT:8085}
