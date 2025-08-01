@@ -1,62 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {useAuth0} from '@auth0/auth0-react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import {jwtDecode} from 'jwt-decode';
 import Calendar from '../component/Calendar';
 import '../styling/Dashboard.css';
 
 const Dashboard = () => {
-    const {getAccessTokenSilently, user, isLoading, isAuthenticated} = useAuth0();
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
-    const [apiLoading, setApiLoading] = useState(true);
-    const [accessToken, setAccessToken] = useState(null);
+    const [email, setEmail] = useState(null);
 
     useEffect(() => {
-        const fetchProtectedData = async () => {
-            if (!isAuthenticated || isLoading) {
-                setApiLoading(false);
-                return;
-            }
+        const token = localStorage.getItem('jwt');
+        if (!token) return;
 
-            async function getToken() {
-                try {
-                    const accessToken = await getAccessTokenSilently();
-                    setAccessToken(accessToken);
+        try {
+            const decoded = jwtDecode(token);
+            setEmail(decoded.sub);
+        } catch (err) {
+            console.error('Failed to decode token:', err);
+        }
+    }, []);
 
-                    const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/create_or_find_user`, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-                    setData(response.data);
-                } catch (err) {
-                    console.error('Error fetching protected resource:', err);
-                    setError(err);
-                } finally {
-                    setApiLoading(false);
-                }
-            }
-
-            await getToken();
-        };
-
-        fetchProtectedData();
-    },[getAccessTokenSilently, isAuthenticated, isLoading, user, setAccessToken]);
-
-    if (isLoading || apiLoading) {
+    if (!email) {
         return (
             <div>
                 <h1>Dashboard</h1>
-                <p>Loading data...</p>
-            </div>
-        );
-    }
-
-    if (!isAuthenticated) {
-        return (
-            <div>
-                <h1>Dashboard</h1>
-                <p>You need to be logged in to view the dashboard.</p>
+                <p>Please log in to access this resource.</p>
             </div>
         );
     }
@@ -65,9 +31,8 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <div className="dashboard-header">
                 <h1>Dashboard</h1>
-                <p>Welcome back, {user.name || user.email}!</p>
+                <p>Welcome back, {email}!</p>
             </div>
-            
             <div className="dashboard-content">
                 <Calendar />
             </div>

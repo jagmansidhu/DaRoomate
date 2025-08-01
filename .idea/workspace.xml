@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +125,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.015885416" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16640624" />
       <window_info id="Commit" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -134,8 +136,8 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.2593672" />
-      <window_info active="true" anchor="bottom" id="Services" order="4" visible="true" weight="0.2593672" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.2593672" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.2593672" />
       <window_info anchor="bottom" id="Run" order="5" weight="0.2593672" />
       <window_info anchor="bottom" id="Build" order="6" weight="0.3459617" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.33014154" />
@@ -325,7 +327,7 @@
       <workItem from="1753845034459" duration="2595000" />
       <workItem from="1753927248842" duration="5580000" />
       <workItem from="1753989447447" duration="654000" />
-      <workItem from="1754014415582" duration="2370000" />
+      <workItem from="1754014415582" duration="3485000" />
     </task>
     <servers />
   </component>

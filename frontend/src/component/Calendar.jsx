@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import '../styling/Calendar.css';
 
 const Calendar = () => {
-    const { getAccessTokenSilently, user } = useAuth0();
     const [events, setEvents] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -29,15 +27,15 @@ const Calendar = () => {
 
     const fetchData = async () => {
         try {
+            const token = localStorage.getItem('jwt');
             setLoading(true);
-            const accessToken = await getAccessTokenSilently();
 
             const [eventsResponse, roomsResponse] = await Promise.all([
                 axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/events/user`, {
-                    headers: { Authorization: `Bearer ${accessToken}` }
+                    headers: { Authorization: `Bearer ${token}` }
                 }),
                 axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
-                    headers: { Authorization: `Bearer ${accessToken}` }
+                    headers: { Authorization: `Bearer ${token}` }
                 })
             ]);
 
@@ -75,7 +73,7 @@ const Calendar = () => {
         }
 
         try {
-            const accessToken = await getAccessTokenSilently();
+            const token = localStorage.getItem('jwt');
             const startDateTime = new Date(newEvent.startTime).toISOString();
             const endDateTime = new Date(newEvent.endTime).toISOString();
             
@@ -89,7 +87,7 @@ const Calendar = () => {
             console.log('Sending event data:', requestData);
             
             await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/events/room/${newEvent.roomId}`, requestData, {
-                headers: { Authorization: `Bearer ${accessToken}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
 
             setShowEventModal(false);
@@ -123,11 +121,11 @@ const Calendar = () => {
 
     const deleteEvent = async (eventId) => {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
+        const token = localStorage.getItem('jwt');
 
         try {
-            const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/events/${eventId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             fetchData(); // Refresh events
         } catch (error) {

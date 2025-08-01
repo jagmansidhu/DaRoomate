@@ -33,6 +33,9 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         this.jwtService = jwtService;
     }
 
+    @Override
+    public
+
     // EFFECTS :Checks if User currently exists in db
     @Override
     public boolean userExists(String email) {
