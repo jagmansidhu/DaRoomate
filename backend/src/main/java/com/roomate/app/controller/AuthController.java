@@ -4,15 +4,14 @@ import com.roomate.app.dto.AuthDto;
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
 import com.roomate.app.entities.UserEntity;
-import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
-import com.roomate.app.service.implementation.UserServiceImplementation;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +33,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDto> login(@RequestBody LoginDto req) {
+    public ResponseEntity<AuthDto> login(@RequestBody LoginDto req, HttpServletResponse response) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+
         UserEntity user = userService.getUserEntityByEmail(req.getEmail());
         String token = jwtService.generateToken(user);
+        Cookie jwtCookie = new Cookie("jwt", token);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(true);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(jwtCookie);
+
         return ResponseEntity.ok(new AuthDto(token));
     }
 }

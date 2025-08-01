@@ -65,7 +65,13 @@ server:
     path: /user/error
     whitelabel:
       enabled: false
-
+  servlet:
+    session:
+      cookie:
+        name: jwt
+        http-only: true
+        secure: true
+        path: /
 
 
 
