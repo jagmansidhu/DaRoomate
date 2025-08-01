@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../App'; // adjust import path if needed
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth(); // ✅ context method to update auth state
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,15 +13,18 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/user/login`, {
-                email,
-                password
-            });
+            const response = await axios.post(
+                `${process.env.REACT_APP_BASE_API_URL}/user/login`,
+                { email, password },
+                {withCredentials: true}
+            );
 
-            const token = response.data.token;
-            localStorage.setItem('jwt', token);
-
-            navigate('/dashboard');
+            if (response.status === 200) {
+                login();
+                navigate('/dashboard');
+            } else {
+                setError('Invalid login credentials');
+            }
         } catch (err) {
             console.error(err);
             setError('Invalid login credentials');
@@ -39,7 +44,7 @@ const Login = () => {
                         onChange={e => setEmail(e.target.value)}
                         required
                     />
-                </label><br/>
+                </label><br />
                 <label>
                     Password:
                     <input
@@ -48,13 +53,12 @@ const Login = () => {
                         onChange={e => setPassword(e.target.value)}
                         required
                     />
-                </label><br/>
+                </label><br />
                 <button type="submit">Log In</button>
-                <br/>
+                <br />
                 <button type="button" onClick={() => navigate('/register')}>
                     Register
                 </button>
-
             </form>
         </div>
     );

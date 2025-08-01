@@ -1,24 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import {jwtDecode} from 'jwt-decode';
 import Calendar from '../component/Calendar';
 import '../styling/Dashboard.css';
 
 const Dashboard = () => {
     const [email, setEmail] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('jwt');
-        if (!token) return;
+        const fetchUserStatus = async () => {
+            try {
+                const res = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
 
-        try {
-            const decoded = jwtDecode(token);
-            setEmail(decoded.sub);
-        } catch (err) {
-            console.error('Failed to decode token:', err);
-        }
+                if (!res.ok) {
+                    throw new Error('Not authenticated');
+                }
+
+                const data = await res.json();
+                setEmail(data.username || data.email);
+            } catch (err) {
+                setError(err.message);
+                setEmail(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserStatus();
     }, []);
 
-    if (!email) {
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error || !email) {
         return (
             <div>
                 <h1>Dashboard</h1>

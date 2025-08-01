@@ -2,6 +2,8 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.service.JWTService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -49,6 +51,21 @@ public class JWTServiceImplt implements JWTService {
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    @Override
+    public boolean isTokenValid(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .build()
+                    .parseClaimsJws(token);
+
+
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {

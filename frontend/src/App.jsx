@@ -39,35 +39,55 @@ const ThemeProvider = ({ children }) => {
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [token, setToken] = useState(null);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('jwt');
-        if (storedToken) {
-            setToken(storedToken);
-            setIsAuthenticated(true);
-        }
-        setIsLoading(false);
+        const checkAuthStatus = async () => {
+            try {
+                const res = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (res.ok) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch (err) {
+                console.error('Error checking auth status:', err);
+                setIsAuthenticated(false);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkAuthStatus();
     }, []);
 
-    const login = (token) => {
-        localStorage.setItem('jwt', token);
-        setToken(token);
+    const login = () => {
         setIsAuthenticated(true);
     };
 
-    const logout = () => {
-        localStorage.removeItem('jwt');
-        setToken(null);
+    const logout = async () => {
+        try {
+            await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (err) {
+            console.error('Logout failed', err);
+        }
+
         setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, token, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
+
 
 const LoggedOutNavbar = () => {
     const { toggleTheme, isDarkMode } = useTheme();
