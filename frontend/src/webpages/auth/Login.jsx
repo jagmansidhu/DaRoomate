@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../../App'; // adjust import path if needed
+import { useAuth } from '../../App';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth(); // ✅ context method to update auth state
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');

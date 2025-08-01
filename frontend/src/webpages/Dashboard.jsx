@@ -12,6 +12,7 @@ const Dashboard = () => {
             try {
                 const res = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
                     method: 'GET',
+                    withCredentials: true,
                     credentials: 'include',
                 });
 

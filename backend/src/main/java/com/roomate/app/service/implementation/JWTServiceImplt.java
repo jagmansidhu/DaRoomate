@@ -57,9 +57,9 @@ public class JWTServiceImplt implements JWTService {
     public boolean isTokenValid(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(SECRET)
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
 
 
             return true;

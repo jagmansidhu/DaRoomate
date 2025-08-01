@@ -6,13 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JWTService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/JWTService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/auth/Login.jsx" afterDir="false" />
     </list>
@@ -140,9 +136,9 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.3459617" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.16527894" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3459617" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.3459617" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.4616986" />
       <window_info anchor="bottom" id="Build" order="6" weight="0.3459617" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.33014154" />
       <window_info anchor="right" id="Endpoints" />
@@ -331,7 +327,7 @@
       <workItem from="1753845034459" duration="2595000" />
       <workItem from="1753927248842" duration="5580000" />
       <workItem from="1753989447447" duration="654000" />
-      <workItem from="1754014415582" duration="7954000" />
+      <workItem from="1754014415582" duration="9790000" />
     </task>
     <servers />
   </component>

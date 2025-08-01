@@ -42,25 +42,32 @@ public class AuthController {
         UserEntity user = userService.getUserEntityByEmail(req.getEmail());
 
         String token = jwtService.generateToken(user);
+
+        // Create cookie
         Cookie jwtCookie = new Cookie("jwt", token);
         jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(ISPROD);
-//        jwtCookie.setSameSite("Lax");
         jwtCookie.setPath("/");
         jwtCookie.setMaxAge(7 * 24 * 60 * 60);
 
         if (ISPROD) {
             jwtCookie.setSecure(true);
+            response.setHeader("Set-Cookie", String.format(
+                    "jwt=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=None; Secure",
+                    token,
+                    7 * 24 * 60 * 60
+            ));
+        } else {
+            response.setHeader("Set-Cookie", String.format(
+                    "jwt=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=Lax",
+                    token,
+                    7 * 24 * 60 * 60
+            ));
         }
-        response.setHeader("Set-Cookie", String.format("jwt=%s; HttpOnly; Path=/; Max-Age=%d; SameSite=Lax%s",
-                token,
-                7 * 24 * 60 * 60,
-                ISPROD ? "; Secure" : ""
-        ));
-        response.addCookie(jwtCookie);
+
 
         return ResponseEntity.ok(new AuthDto(token));
     }
+
 
     @GetMapping("/status")
     public ResponseEntity<?> authStatus(HttpServletRequest request) {
@@ -71,14 +78,19 @@ public class AuthController {
             return ResponseEntity.status(401).body("Cookie Null");
         }
 
+        System.out.println("Cookies:");
+        for (Cookie cookie : request.getCookies()) {
+            System.out.println(cookie.getName() + " = " + cookie.getValue());
+        }
 
         String token = null;
-        for (Cookie cookie : cookies) {
+        for (Cookie cookie : request.getCookies()) {
             if ("jwt".equals(cookie.getName())) {
                 token = cookie.getValue();
                 break;
             }
         }
+        System.out.println("Extracted JWT token: " + token);
 
         if (token == null || token.isEmpty()) {
             return ResponseEntity.status(401).body("Token Empty");
@@ -94,12 +106,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie jwtCookie = new Cookie("jwt", null);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(ISPROD);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(0);
-        response.addCookie(jwtCookie);
+        response.setHeader("Set-Cookie", "jwt=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax");
         return ResponseEntity.ok().build();
     }
 }
