@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const JoinRoomModal = ({ show, onClose, onRoomJoined, getAccessTokenSilently }) => {
+const JoinRoomModal = ({ show, onClose, onRoomJoined }) => {
     const [joinRoomCode, setJoinRoomCode] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -11,17 +11,9 @@ const JoinRoomModal = ({ show, onClose, onRoomJoined, getAccessTokenSilently }) 
         setLoading(true);
         setError(null);
         try {
-            const accessToken = await getAccessTokenSilently({
-                authorizationParams: {
-                    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                    scope: 'write:data',
-                },
-            });
 
             await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${joinRoomCode}/join`, {}, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                withCredentials: true
             });
 
             onRoomJoined();

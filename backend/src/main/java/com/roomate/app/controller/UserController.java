@@ -28,8 +28,8 @@ public class UserController {
     // EFFECTS : Determines if user information has been inputted and complete
     @GetMapping("/profile-status")
     public ResponseEntity<Map<String, Boolean>> getProfileCompletionStatus(@AuthenticationPrincipal UserDetails userDetails) {
-        String auth0UserId = userDetails.getUsername();
-        boolean isComplete = userService.isProfileCompleteInDatabase(auth0UserId);
+        String email = userDetails.getUsername();
+        boolean isComplete = userService.isProfileCompleteInDatabase(email);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("isComplete", isComplete);

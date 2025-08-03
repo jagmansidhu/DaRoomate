@@ -6,7 +6,7 @@ import CreateRoom from '../room/CreateRoom';
 import JoinRoom from '../room/JoinRoom';
 import RoomDetails from '../room/RoomDetails';
 import RoleManagement from '../room/RoleManage';
-import {ROLES} from "../../constants/roles";
+import { ROLES } from '../../constants/roles';
 
 const Rooms = () => {
     const [rooms, setRooms] = useState([]);
@@ -17,20 +17,28 @@ const Rooms = () => {
 
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [showRoomDetails, setShowRoomDetails] = useState(false);
+
+    // Split managing showRoleManagement state:
     const [showRoleManagement, setShowRoleManagement] = useState(false);
 
     useEffect(() => {
         fetchRooms();
     }, []);
 
+    useEffect(() => {
+        if (selectedRoom) {
+            setShowRoleManagement(true);
+        } else {
+            setShowRoleManagement(false);
+        }
+    }, [selectedRoom]);
+
     const fetchRooms = async () => {
         try {
             setLoading(true);
 
             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
-                method: 'GET',
                 withCredentials: true,
-                credentials: 'include',
             });
 
             setRooms(response.data);
@@ -61,12 +69,10 @@ const Rooms = () => {
         if (!window.confirm('Are you sure you want to delete this room? This cannot be undone.')) return;
         try {
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/removeroom`, {
-                method: 'DELETE',
                 withCredentials: true,
-                credentials: 'include',
             });
             setShowRoomDetails(false);
-            setRooms(rooms.filter(r => r.id !== selectedRoom.id));
+            setRooms(rooms.filter((r) => r.id !== selectedRoom.id));
             setError(null);
         } catch (error) {
             console.error('Error deleting room:', error);
@@ -80,15 +86,13 @@ const Rooms = () => {
 
         try {
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/members/${memberId}`, {
-                method: 'DELETE',
                 withCredentials: true,
-                credentials: 'include',
             });
 
             fetchRooms();
-            setSelectedRoom(prev => ({
+            setSelectedRoom((prev) => ({
                 ...prev,
-                members: prev.members.filter(m => m.id !== memberId),
+                members: prev.members.filter((m) => m.id !== memberId),
             }));
             setError(null);
         } catch (error) {
@@ -102,12 +106,10 @@ const Rooms = () => {
         if (!window.confirm('Are you sure you want to leave this room?')) return;
         try {
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/leave`, {
-                method: 'DELETE',
                 withCredentials: true,
-                credentials: 'include',
             });
             setShowRoomDetails(false);
-            setRooms(rooms.filter(r => r.id !== selectedRoom.id));
+            setRooms(rooms.filter((r) => r.id !== selectedRoom.id));
             setError(null);
         } catch (error) {
             console.error('Error leaving room:', error);
@@ -115,9 +117,8 @@ const Rooms = () => {
         }
     };
 
-    const handleManageRolesClick = () => {
-        setShowRoomDetails(false);
-        setShowRoleManagement(true);
+    const openRoleManagement = (room) => {
+        setSelectedRoom(room);
     };
 
     if (loading) {
@@ -137,16 +138,10 @@ const Rooms = () => {
                 <h1>My Rooms</h1>
                 <p>Manage your shared living spaces</p>
                 <div className="rooms-actions">
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => setShowCreateModal(true)}
-                    >
+                    <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
                         Create New Room
                     </button>
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => setShowJoinModal(true)}
-                    >
+                    <button className="btn btn-secondary" onClick={() => setShowJoinModal(true)}>
                         Join Room
                     </button>
                 </div>
@@ -161,64 +156,42 @@ const Rooms = () => {
 
             <div className="rooms-grid">
                 {rooms.length === 0 ? (
-                    <div className="empty-state">
-                    </div>
+                    <div className="empty-state">No rooms found</div>
                 ) : (
-                    // TODO Potential logic error??!!
                     rooms.map((room) => {
-                    const isHeadRoommate = room.members?.some(m => m.role === ROLES.HEAD_ROOMMATE);
-                    const isAssistantRoomate = room.members?.some(m => m.role === ROLES.ASSISTANT);
+                        const isHeadRoommate = room.members?.some((m) => m.role === ROLES.HEAD_ROOMMATE);
+                        const isAssistantRoomate = room.members?.some((m) => m.role === ROLES.ASSISTANT);
 
                         return (
-                        <div key={room.id} className="room-card">
-                            <div className="room-header">
-                                <h3>{room.name}</h3>
-                                {isHeadRoommate && (
-                                    <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>
-                                )}
-                            </div>
-                            <p className="room-address">{room.address}</p>
-                            <p className="room-description">{room.description}</p>
-                            <div className="room-members">
-                                <span className="member-count">
-                                    {room.members?.length || 0} members
-                                </span>
-                            </div>
-                            <div className="room-actions">
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => openRoomDetails(room)}
-                                >
-                                    View Details
-                                </button>
-                                {(isHeadRoommate || isAssistantRoomate)&& (
-                                    <button
-                                        className="btn btn-secondary"
-                                        onClick={() => {
-                                            setSelectedRoom(room);
-                                            setShowRoleManagement(true);
-                                        }}
-                                    >
-                                        Manage Roles
+                            <div key={room.id} className="room-card">
+                                <div className="room-header">
+                                    <h3>{room.name}</h3>
+                                    {isHeadRoommate && <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>}
+                                </div>
+                                <p className="room-address">{room.address}</p>
+                                <p className="room-description">{room.description}</p>
+                                <div className="room-members">
+                                    <span className="member-count">{room.members?.length || 0} members</span>
+                                </div>
+                                <div className="room-actions">
+                                    <button className="btn btn-primary" onClick={() => openRoomDetails(room)}>
+                                        View Details
                                     </button>
-                                )}
+                                    {(isHeadRoommate || isAssistantRoomate) && (
+                                        <button className="btn btn-secondary" onClick={() => openRoleManagement(room)}>
+                                            Manage Roles
+                                        </button>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    )})
+                        );
+                    })
                 )}
             </div>
 
-            <CreateRoom
-                show={showCreateModal}
-                onClose={() => setShowCreateModal(false)}
-                onCreateRoom={handleCreateRoom}
-            />
+            <CreateRoom show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreateRoom={handleCreateRoom} />
 
-            <JoinRoom
-                show={showJoinModal}
-                onClose={() => setShowJoinModal(false)}
-                onRoomJoined={handleRoomJoined}
-            />
+            <JoinRoom show={showJoinModal} onClose={() => setShowJoinModal(false)} onRoomJoined={handleRoomJoined} />
 
             <RoomDetails
                 show={showRoomDetails}
@@ -227,7 +200,7 @@ const Rooms = () => {
                 onLeaveRoom={leaveRoom}
                 onDeleteRoom={deleteRoom}
                 onRemoveMember={removeMember}
-                onManageRolesClick={handleManageRolesClick}
+                onManageRolesClick={() => openRoleManagement(selectedRoom)}
             />
 
             <RoleManagement

@@ -5,22 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/AxiosSetup.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/utils/cookies.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/room/useCurrentUser.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/RestAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/RestAuthenticationEntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/config/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/ProfileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UpdateProfileDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/dto/UpdateProfileDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/Calendar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/profileRedirect/Personal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/profileRedirect/Personal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/CreateRoom.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/CreateRoom.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/JoinRoom.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/JoinRoom.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoleManage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoleManage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,10 +136,10 @@
       <window_info anchor="bottom" id="Profiler" />
       <window_info anchor="bottom" id="TODO" />
       <window_info anchor="bottom" id="File Transfer" />
-      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.24521232" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.110324726" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.24521232" />
       <window_info active="true" anchor="bottom" id="Services" order="4" visible="true" weight="0.24521232" />
       <window_info anchor="bottom" id="Run" order="5" weight="0.24521232" />
       <window_info anchor="bottom" id="Build" order="6" weight="0.3459617" />
@@ -343,7 +332,7 @@
       <workItem from="1753989447447" duration="654000" />
       <workItem from="1754014415582" duration="9862000" />
       <workItem from="1754177804759" duration="1981000" />
-      <workItem from="1754186063554" duration="5319000" />
+      <workItem from="1754186063554" duration="6571000" />
     </task>
     <servers />
   </component>

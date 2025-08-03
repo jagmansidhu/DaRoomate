@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {ROLES, ROLE_RANK} from '../../constants/roles';
-import {useAuth0} from '@auth0/auth0-react';
+import { ROLES, ROLE_RANK } from '../../constants/roles';
+import useCurrentUser from './useCurrentUser';
 
-const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently}) => {
+const RoleManagement = ({ show, room, onClose, onUpdate }) => {
+    const { currentUser, loadingUser, errorUser } = useCurrentUser();
+
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const {user: currentUser} = useAuth0();
 
     useEffect(() => {
         if (room && room.members) {
@@ -21,13 +22,12 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
         setLoading(true);
         setError(null);
         try {
-            const accessToken = await getAccessTokenSilently();
-            await axios.put(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`, {role: newRole}, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            setMembers(members.map(member => member.id === memberId ? {...member, role: newRole} : member));
+            await axios.put(
+                `${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}/role`,
+                { role: newRole },
+                { withCredentials: true }
+            );
+            setMembers(members.map((member) => (member.id === memberId ? { ...member, role: newRole } : member)));
             onUpdate();
         } catch (err) {
             console.error('Error updating member role:', err);
@@ -42,9 +42,8 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
         setLoading(true);
         setError(null);
         try {
-            const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${room.id}/members/${memberId}`, {
-                headers: {Authorization: `Bearer ${accessToken}`},
+                withCredentials: true,
             });
             setMembers(members.filter((m) => m.id !== memberId));
             onUpdate();
@@ -57,7 +56,8 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
     };
 
     const getCurrentUserRole = () => {
-        const currentMember = members.find(m => m.userId === currentUser?.sub);
+        if (!currentUser) return null;
+        const currentMember = members.find((m) => m.userId === currentUser.id); // Use currentUser.id here
         return currentMember?.role || null;
     };
 
@@ -69,21 +69,22 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
         return ROLE_RANK[currentUserRole] > ROLE_RANK[targetRole];
     };
 
+    if (loadingUser) return <div>Loading user info...</div>;
+    if (errorUser) return <div>Error loading user info.</div>;
+    if (!show || !room) return null;
 
     const currentUserRole = getCurrentUserRole();
     const isAuthorized = currentUserRole === ROLES.HEAD_ROOMMATE || currentUserRole === ROLES.ASSISTANT;
+    if (!isAuthorized) return null;
 
-    if (!show || !room || !isAuthorized) return null;
-
-
-    if (!show || !room) return null;
-
-
-    return (<div className="modal-overlay">
+    return (
+        <div className="modal-overlay">
             <div className="modal modal-large">
                 <div className="modal-header">
                     <h2>Manage Roles - {room.name}</h2>
-                    <button className="modal-close" onClick={onClose}>×</button>
+                    <button className="modal-close" onClick={onClose}>
+                        ×
+                    </button>
                 </div>
                 {error && <div className="alert alert-error">{error}</div>}
                 <div className="role-management">
@@ -97,21 +98,20 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
                             </tr>
                             </thead>
                             <tbody>
-                            {members.map(member => {
-                                const isSelf = member.userId === currentUser?.sub;
-
-                                return (<tr key={member.id}>
+                            {members.map((member) => {
+                                const isSelf = member.userId === currentUser.id;
+                                return (
+                                    <tr key={member.id}>
                                         <td>{member.name}</td>
                                         <td>
-                                            <span className={`role-badge ${member.role}`}>
-                                              {member.role}
-                                            </span>
+                                            <span className={`role-badge ${member.role}`}>{member.role}</span>
                                         </td>
                                         <td>
-                                            {canEditMember(member.role, isSelf) ? (<>
+                                            {canEditMember(member.role, isSelf) ? (
+                                                <>
                                                     <select
                                                         value={member.role}
-                                                        onChange={e => updateMemberRole(member.id, e.target.value)}
+                                                        onChange={(e) => updateMemberRole(member.id, e.target.value)}
                                                         disabled={loading}
                                                     >
                                                         <option value={ROLES.GUEST}>Guest</option>
@@ -120,23 +120,27 @@ const RoleManagement = ({show, room, onClose, onUpdate, getAccessTokenSilently})
                                                     </select>
                                                     <button
                                                         className="btn btn-danger"
-                                                        style={{marginLeft: '8px'}}
+                                                        style={{ marginLeft: '8px' }}
                                                         onClick={() => removeMember(member.id)}
                                                         disabled={loading}
                                                     >
                                                         Remove
                                                     </button>
-                                                </>) : (<span>—</span>
+                                                </>
+                                            ) : (
+                                                <span>—</span>
                                             )}
                                         </td>
-                                    </tr>);
+                                    </tr>
+                                );
                             })}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>);
+        </div>
+    );
 };
 
 export default RoleManagement;
