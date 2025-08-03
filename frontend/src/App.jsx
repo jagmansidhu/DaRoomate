@@ -10,6 +10,7 @@ import CompleteProfile from "./webpages/CompleteProfile";
 import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Rooms from "./webpages/room/Rooms";
+import RoomDetailsPage from "./webpages/room/RoomDetailsPage";
 import './styling/App.css';
 
 const ThemeContext = createContext();
@@ -174,6 +175,7 @@ const AppContent = () => {
                         <Route path="/complete-profile" element={isAuthenticated ? <CompleteProfile /> : <Login />} />
                         <Route path="/update-personal" element={isAuthenticated ? <Personal /> : <Login />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/rooms/:roomId" element={<RoomDetailsPage />} />
                         <Route path="/register" element={<Register />} />
 
                     </Routes>

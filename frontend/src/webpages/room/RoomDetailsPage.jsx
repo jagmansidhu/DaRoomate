@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ROLES } from "../../constants/roles";
 import { jwtDecode } from "jwt-decode";
@@ -8,7 +8,7 @@ const getCookie = (name) => {
     return match ? match[2] : null;
 };
 
-const RoomDetails = ({
+const RoomDetailsPage = ({
                          show,
                          onClose,
                          room,
@@ -43,8 +43,12 @@ const RoomDetails = ({
                 { email: inviteEmail, roomId: room.id },
                 {
                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'X-CSRF-Token': getCookie("XSRF-TOKEN"),
+                    },
                 }
-            );
+        );
 
             if (response.status === 200) {
                 setInviteStatus('Invite sent successfully!');
@@ -150,4 +154,4 @@ const RoomDetails = ({
     );
 };
 
-export default RoomDetails;
+export default RoomDetailsPage;

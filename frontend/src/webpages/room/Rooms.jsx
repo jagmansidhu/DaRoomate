@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../../styling/Rooms.css';
 
 import CreateRoom from '../room/CreateRoom';
 import JoinRoom from '../room/JoinRoom';
-import RoomDetails from '../room/RoomDetails';
 import RoleManagement from '../room/RoleManage';
 import { ROLES } from '../../constants/roles';
 
 const Rooms = () => {
+    const navigate = useNavigate(); // <-- hook for navigation
+
     const [rooms, setRooms] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
@@ -16,31 +18,18 @@ const Rooms = () => {
     const [error, setError] = useState(null);
 
     const [selectedRoom, setSelectedRoom] = useState(null);
-    const [showRoomDetails, setShowRoomDetails] = useState(false);
-
-    // Split managing showRoleManagement state:
     const [showRoleManagement, setShowRoleManagement] = useState(false);
 
     useEffect(() => {
         fetchRooms();
     }, []);
 
-    useEffect(() => {
-        if (selectedRoom) {
-            setShowRoleManagement(true);
-        } else {
-            setShowRoleManagement(false);
-        }
-    }, [selectedRoom]);
-
     const fetchRooms = async () => {
         try {
             setLoading(true);
-
             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
                 withCredentials: true,
             });
-
             setRooms(response.data);
             setError(null);
         } catch (error) {
@@ -60,65 +49,12 @@ const Rooms = () => {
     };
 
     const openRoomDetails = (room) => {
-        setSelectedRoom(room);
-        setShowRoomDetails(true);
-    };
-
-    const deleteRoom = async () => {
-        if (!selectedRoom) return;
-        if (!window.confirm('Are you sure you want to delete this room? This cannot be undone.')) return;
-        try {
-            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/removeroom`, {
-                withCredentials: true,
-            });
-            setShowRoomDetails(false);
-            setRooms(rooms.filter((r) => r.id !== selectedRoom.id));
-            setError(null);
-        } catch (error) {
-            console.error('Error deleting room:', error);
-            setError('Failed to delete room.');
-        }
-    };
-
-    const removeMember = async (memberId) => {
-        if (!selectedRoom || !memberId) return;
-        if (!window.confirm('Are you sure you want to remove this member from the room?')) return;
-
-        try {
-            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/members/${memberId}`, {
-                withCredentials: true,
-            });
-
-            fetchRooms();
-            setSelectedRoom((prev) => ({
-                ...prev,
-                members: prev.members.filter((m) => m.id !== memberId),
-            }));
-            setError(null);
-        } catch (error) {
-            console.error('Error removing member:', error);
-            setError('Failed to remove member.');
-        }
-    };
-
-    const leaveRoom = async () => {
-        if (!selectedRoom) return;
-        if (!window.confirm('Are you sure you want to leave this room?')) return;
-        try {
-            await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/leave`, {
-                withCredentials: true,
-            });
-            setShowRoomDetails(false);
-            setRooms(rooms.filter((r) => r.id !== selectedRoom.id));
-            setError(null);
-        } catch (error) {
-            console.error('Error leaving room:', error);
-            setError('Failed to leave room.');
-        }
+        navigate(`/rooms/${room.id}`);
     };
 
     const openRoleManagement = (room) => {
         setSelectedRoom(room);
+        setShowRoleManagement(true);
     };
 
     if (loading) {
@@ -189,18 +125,16 @@ const Rooms = () => {
                 )}
             </div>
 
-            <CreateRoom show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreateRoom={handleCreateRoom} />
+            <CreateRoom
+                show={showCreateModal}
+                onClose={() => setShowCreateModal(false)}
+                onCreateRoom={handleCreateRoom}
+            />
 
-            <JoinRoom show={showJoinModal} onClose={() => setShowJoinModal(false)} onRoomJoined={handleRoomJoined} />
-
-            <RoomDetails
-                show={showRoomDetails}
-                onClose={() => setShowRoomDetails(false)}
-                room={selectedRoom}
-                onLeaveRoom={leaveRoom}
-                onDeleteRoom={deleteRoom}
-                onRemoveMember={removeMember}
-                onManageRolesClick={() => openRoleManagement(selectedRoom)}
+            <JoinRoom
+                show={showJoinModal}
+                onClose={() => setShowJoinModal(false)}
+                onRoomJoined={handleRoomJoined}
             />
 
             <RoleManagement
