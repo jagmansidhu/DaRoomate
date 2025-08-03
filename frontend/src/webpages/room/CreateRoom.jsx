@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 
-const CreateRoomModal = ({ show, onClose, onCreateRoom, getAccessTokenSilently }) => {
+const CreateRoomModal = ({show, onClose, onCreateRoom}) => {
     const [newRoom, setNewRoom] = useState({
-        name: '',
-        address: '',
-        description: ''
+        name: '', address: '', description: '',
     });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -15,21 +13,12 @@ const CreateRoomModal = ({ show, onClose, onCreateRoom, getAccessTokenSilently }
         setLoading(true);
         setError(null);
         try {
-            const accessToken = await getAccessTokenSilently({
-                authorizationParams: {
-                    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-                    scope: 'write:data',
-                },
-            });
-
             const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, newRoom, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                withCredentials: true,
             });
 
             onCreateRoom(response.data);
-            setNewRoom({ name: '', address: '', description: '' });
+            setNewRoom({name: '', address: '', description: ''});
             onClose();
         } catch (err) {
             console.error('Error creating room:', err);
@@ -38,11 +27,9 @@ const CreateRoomModal = ({ show, onClose, onCreateRoom, getAccessTokenSilently }
             setLoading(false);
         }
     };
-
     if (!show) return null;
 
-    return (
-        <div className="modal-overlay">
+    return (<div className="modal-overlay">
             <div className="modal">
                 <div className="modal-header">
                     <h2>Create New Room</h2>
@@ -85,7 +72,12 @@ const CreateRoomModal = ({ show, onClose, onCreateRoom, getAccessTokenSilently }
                         />
                     </div>
                     <div className="modal-actions">
-                        <button type="button" className="btn btn-secondary" onClick={onClose} disabled={loading}>
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={onClose}
+                            disabled={loading}
+                        >
                             Cancel
                         </button>
                         <button type="submit" className="btn btn-primary" disabled={loading}>
@@ -94,8 +86,7 @@ const CreateRoomModal = ({ show, onClose, onCreateRoom, getAccessTokenSilently }
                     </div>
                 </form>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default CreateRoomModal;

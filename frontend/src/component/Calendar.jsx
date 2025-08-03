@@ -27,18 +27,19 @@ const Calendar = () => {
 
     const fetchData = async () => {
         try {
-            const token = localStorage.getItem('jwt');
-            setLoading(true);
-
             const [eventsResponse, roomsResponse] = await Promise.all([
                 axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/events/user`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                    method: 'GET',
+                    withCredentials: true,
+                    credentials: 'include',
                 }),
                 axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                    method: 'GET',
+                    withCredentials: true,
+                    credentials: 'include',
                 })
             ]);
-
+            console.log(eventsResponse);
             setEvents(eventsResponse.data);
             setRooms(roomsResponse.data);
         } catch (error) {
@@ -52,7 +53,6 @@ const Calendar = () => {
     const createEvent = async (e) => {
         e.preventDefault();
         
-        // Clear previous errors
         setError('');
         setDateError('');
         
@@ -61,7 +61,6 @@ const Calendar = () => {
             return;
         }
 
-        // Validate date/time
         if (newEvent.startTime && newEvent.endTime) {
             const startDate = new Date(newEvent.startTime);
             const endDate = new Date(newEvent.endTime);
@@ -73,7 +72,6 @@ const Calendar = () => {
         }
 
         try {
-            const token = localStorage.getItem('jwt');
             const startDateTime = new Date(newEvent.startTime).toISOString();
             const endDateTime = new Date(newEvent.endTime).toISOString();
             
@@ -87,7 +85,9 @@ const Calendar = () => {
             console.log('Sending event data:', requestData);
             
             await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/events/room/${newEvent.roomId}`, requestData, {
-                headers: { Authorization: `Bearer ${token}` }
+                method: 'POST',
+                withCredentials: true,
+                credentials: 'include',
             });
 
             setShowEventModal(false);
@@ -99,7 +99,7 @@ const Calendar = () => {
                 roomId: ''
             });
             setDateError('');
-            fetchData(); // Refresh events
+            fetchData();
         } catch (error) {
             console.error('Error creating event:', error);
             if (error.response && error.response.data) {
@@ -121,13 +121,14 @@ const Calendar = () => {
 
     const deleteEvent = async (eventId) => {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
-        const token = localStorage.getItem('jwt');
 
         try {
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/events/${eventId}`, {
-                headers: { Authorization: `Bearer ${token}` }
+                method: 'DELETE',
+                withCredentials: true,
+                credentials: 'include',
             });
-            fetchData(); // Refresh events
+            fetchData();
         } catch (error) {
             console.error('Error deleting event:', error);
             setError('Failed to delete event');
@@ -171,12 +172,10 @@ const Calendar = () => {
 
         const days = [];
         
-        // Add empty cells for days before the first day of the month
         for (let i = 0; i < startingDayOfWeek; i++) {
             days.push(null);
         }
 
-        // Add all days of the month
         for (let i = 1; i <= daysInMonth; i++) {
             days.push(new Date(year, month, i));
         }
@@ -201,7 +200,7 @@ const Calendar = () => {
             }));
         }
         setShowEventModal(true);
-        setDateError(''); // Clear any previous date errors
+        setDateError('');
     };
 
     const handleStartTimeChange = (e) => {
@@ -209,13 +208,11 @@ const Calendar = () => {
         setNewEvent(prev => {
             const updated = { ...prev, startTime: newStartTime };
             
-            // If end time is before or equal to new start time, update end time
             if (updated.endTime && newStartTime) {
                 const startDate = new Date(newStartTime);
                 const endDate = new Date(updated.endTime);
                 
                 if (endDate <= startDate) {
-                    // Set end time to 1 hour after start time
                     const newEndTime = new Date(startDate.getTime() + 60 * 60 * 1000);
                     updated.endTime = newEndTime.toISOString().slice(0, 16);
                 }
@@ -223,7 +220,7 @@ const Calendar = () => {
             
             return updated;
         });
-        setDateError(''); // Clear date error when user makes changes
+        setDateError('');
     };
 
     const handleEndTimeChange = (e) => {
@@ -231,7 +228,6 @@ const Calendar = () => {
         setNewEvent(prev => {
             const updated = { ...prev, endTime: newEndTime };
             
-            // Validate the new end time
             if (newEndTime && prev.startTime) {
                 const startDate = new Date(prev.startTime);
                 const endDate = new Date(newEndTime);

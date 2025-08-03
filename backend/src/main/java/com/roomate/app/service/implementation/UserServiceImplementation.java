@@ -63,21 +63,27 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     public UserEntity updateUserProfile(String email, UpdateProfileDto updatedDetails) {
         UserEntity user = getUserEntityByEmail(email);
 
+        if (!email.isEmpty()) {
+            user.setEmail(email.toLowerCase());
+        } else {
+            throw new UsernameNotFoundException(email);
+        }
+
         if (!updatedDetails.getFirstName().isEmpty()) {
             user.setFirstName(updatedDetails.getFirstName().toLowerCase());
+        } else {
+            throw new UsernameNotFoundException("FirstName not here :(");
         }
         if (!updatedDetails.getLastName().isEmpty()) {
             user.setLastName(updatedDetails.getLastName().toLowerCase());
+        } else {
+            user.setLastName(null);
         }
-        if (!updatedDetails.getEmail().isEmpty()) {
-            user.setEmail(updatedDetails.getEmail().toLowerCase());
+        if (!updatedDetails.getPhone().isEmpty()) {
+            user.setPhone(updatedDetails.getPhone());
+        } else {
+            user.setPhone(null);
         }
-
-        if (!updatedDetails.getPassword().isEmpty()) {
-            String encodedPassword = passwordEncoder.encode(updatedDetails.getPassword());
-            user.setPassword(encodedPassword);
-        }
-
         return userRepository.save(user);
     }
 

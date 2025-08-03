@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import '../../styling/Rooms.css';
 
@@ -10,7 +9,6 @@ import RoleManagement from '../room/RoleManage';
 import {ROLES} from "../../constants/roles";
 
 const Rooms = () => {
-    const { getAccessTokenSilently, user } = useAuth0();
     const [rooms, setRooms] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
@@ -28,12 +26,11 @@ const Rooms = () => {
     const fetchRooms = async () => {
         try {
             setLoading(true);
-            const accessToken = await getAccessTokenSilently();
 
             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                method: 'GET',
+                withCredentials: true,
+                credentials: 'include',
             });
 
             setRooms(response.data);
@@ -63,9 +60,10 @@ const Rooms = () => {
         if (!selectedRoom) return;
         if (!window.confirm('Are you sure you want to delete this room? This cannot be undone.')) return;
         try {
-            const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/removeroom`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+                method: 'DELETE',
+                withCredentials: true,
+                credentials: 'include',
             });
             setShowRoomDetails(false);
             setRooms(rooms.filter(r => r.id !== selectedRoom.id));
@@ -81,11 +79,10 @@ const Rooms = () => {
         if (!window.confirm('Are you sure you want to remove this member from the room?')) return;
 
         try {
-            const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/members/${memberId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+                method: 'DELETE',
+                withCredentials: true,
+                credentials: 'include',
             });
 
             fetchRooms();
@@ -104,9 +101,10 @@ const Rooms = () => {
         if (!selectedRoom) return;
         if (!window.confirm('Are you sure you want to leave this room?')) return;
         try {
-            const accessToken = await getAccessTokenSilently();
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${selectedRoom.id}/leave`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+                method: 'DELETE',
+                withCredentials: true,
+                credentials: 'include',
             });
             setShowRoomDetails(false);
             setRooms(rooms.filter(r => r.id !== selectedRoom.id));
@@ -166,9 +164,10 @@ const Rooms = () => {
                     <div className="empty-state">
                     </div>
                 ) : (
+                    // TODO Potential logic error??!!
                     rooms.map((room) => {
-                    const isHeadRoommate = room.members?.some(m => m.userId === user?.sub && m.role === ROLES.HEAD_ROOMMATE);
-                    const isAssistantRoomate = room.members?.some(m => m.userId === user?.sub && m.role === ROLES.ASSISTANT);
+                    const isHeadRoommate = room.members?.some(m => m.role === ROLES.HEAD_ROOMMATE);
+                    const isAssistantRoomate = room.members?.some(m => m.role === ROLES.ASSISTANT);
 
                         return (
                         <div key={room.id} className="room-card">
@@ -213,14 +212,12 @@ const Rooms = () => {
                 show={showCreateModal}
                 onClose={() => setShowCreateModal(false)}
                 onCreateRoom={handleCreateRoom}
-                getAccessTokenSilently={getAccessTokenSilently}
             />
 
             <JoinRoom
                 show={showJoinModal}
                 onClose={() => setShowJoinModal(false)}
                 onRoomJoined={handleRoomJoined}
-                getAccessTokenSilently={getAccessTokenSilently}
             />
 
             <RoomDetails
@@ -238,7 +235,6 @@ const Rooms = () => {
                 room={selectedRoom}
                 onClose={() => setShowRoleManagement(false)}
                 onUpdate={fetchRooms}
-                getAccessTokenSilently={getAccessTokenSilently}
             />
         </div>
     );

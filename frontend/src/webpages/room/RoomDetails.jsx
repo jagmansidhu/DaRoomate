@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {ROLES} from "../../constants/roles";
+import { ROLES } from "../../constants/roles";
+import { jwtDecode } from "jwt-decode";
+
+const getCookie = (name) => {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+};
 
 const RoomDetails = ({
                          show,
@@ -11,27 +16,33 @@ const RoomDetails = ({
                          onDeleteRoom,
                          onManageRolesClick,
                      }) => {
-    const { user, getAccessTokenSilently } = useAuth0();
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [inviteEmail, setInviteEmail] = useState('');
     const [inviteStatus, setInviteStatus] = useState('');
+    const [user, setUser] = useState(null);
 
-    if (!show || !room) return null;
+    useEffect(() => {
+        const token = getCookie("jwt");
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUser(decoded);
+        }
+    }, []);
 
-    const memberRole = room.members?.find(m => m.userId === user?.sub)?.role;
+    if (!show || !room || !user) return null;
+
+    const memberRole = room.members?.find(m => m.user === user.sub)?.role;
     const isHeadRoommate = memberRole === ROLES.HEAD_ROOMMATE;
-    const isAssistantRoomate = memberRole === ROLES.ASSISTANT;
+    const isAssistantRoommate = memberRole === ROLES.ASSISTANT;
 
     const handleInviteUser = async () => {
         try {
-            const token = await getAccessTokenSilently();
+
             const response = await axios.post(
                 `${process.env.REACT_APP_BASE_API_URL}/api/rooms/invite`,
                 { email: inviteEmail, roomId: room.id },
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    withCredentials: true,
                 }
             );
 
@@ -67,7 +78,7 @@ const RoomDetails = ({
                         <h3>Members</h3>
                         <div className="members-list">
                             {room.members?.map((member) => {
-                                const isSelf = member.userId === user?.sub;
+                                const isSelf = member.user === user.sub;
                                 return (
                                     <div key={member.id} className="member-item">
                                         <div className="member-info">
@@ -88,8 +99,7 @@ const RoomDetails = ({
                         </div>
                     </div>
 
-
-                    {(isAssistantRoomate || isHeadRoommate) && (
+                    {(isAssistantRoommate || isHeadRoommate) && (
                         <div className="detail-section">
                             <h3>Management</h3>
                             <div className="management-actions">
@@ -100,12 +110,10 @@ const RoomDetails = ({
                                     Invite User
                                 </button>
                                 {isHeadRoommate && (
-                                    <div className="detail-section">
-                                        <div className="management-actions">
-                                            <button className="btn btn-danger" onClick={onDeleteRoom}>
-                                                Delete Room
-                                            </button>
-                                        </div>
+                                    <div className="management-actions">
+                                        <button className="btn btn-danger" onClick={onDeleteRoom}>
+                                            Delete Room
+                                        </button>
                                     </div>
                                 )}
                             </div>

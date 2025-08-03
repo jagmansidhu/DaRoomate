@@ -22,7 +22,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class AuthController {
-    private final boolean ISPROD = false;
     private final UserService userService;
     private final JWTService jwtService;
     private final AuthenticationManager authManager;
@@ -44,7 +43,7 @@ public class AuthController {
 
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
                 .httpOnly(true)
-                .secure(true) // even in dev
+                .secure(true)
                 .path("/")
                 .sameSite("None")
                 .maxAge(7 * 24 * 60 * 60)
@@ -71,8 +70,6 @@ public class AuthController {
                 token = cookie.getValue();
             }
         }
-
-        System.out.println("Extracted JWT token: [" + token + "]");
 
         if (token == null || token.isEmpty() || !token.contains(".")) {
             System.out.println("Malformed or missing token");

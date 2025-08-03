@@ -1,13 +1,12 @@
-import {useAuth0} from "@auth0/auth0-react";
 import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
+import axios from "axios";
 
 const Personal = () => {
-    const {user, isLoading, getAccessTokenSilently} = useAuth0();
     const navigate = useNavigate();
-    const [phone, setPhone] = useState(user?.user_metadata?.phone || '');
-    const [firstName, setFirstName] = useState(user?.user_metadata?.given || '');
-    const [lastName, setLastName] = useState(user?.user_metadata?.lastName || '');
+    const [phone, setPhone] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -20,45 +19,25 @@ const Personal = () => {
         setSuccess(false);
 
         try {
-            const accessToken = await getAccessTokenSilently();
-
-            const response = await fetch(`${process.env.REACT_APP_BASE_API_URL}/api/additional_info`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({
-                    firstName,
-                    lastName,
-                    phone,
-                }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to update profile.');
-            }
+            const response = await axios.put(
+                `${process.env.REACT_APP_BASE_API_URL}/api/profile/update_profile`,
+                { firstName, lastName, phone },
+                {
+                    withCredentials: true,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
 
             setSuccess(true);
             navigate('/profile');
 
         } catch (err) {
             console.error('Error updating profile:', err);
-            setError('Failed to update profile. Please try again.');
+            setError(err.response?.data?.message || 'Failed to update profile. Please try again.');
         } finally {
             setLoading(false);
         }
     };
-
-    if (isLoading) {
-        return <div>Loading profile data...</div>;
-    }
-
-    if (!user || !user.sub) {
-        navigate('/');
-        return null;
-    }
 
     return (
         <div>
@@ -80,7 +59,7 @@ const Personal = () => {
                     <label htmlFor="lastName">Last Name:</label>
                     <input
                         type="text"
-                        id="LastName"
+                        id="lastName"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                     />
