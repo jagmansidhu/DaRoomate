@@ -10,13 +10,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @RestController
@@ -43,66 +42,56 @@ public class AuthController {
 
         String token = jwtService.generateToken(user);
 
-        // Create cookie
-        Cookie jwtCookie = new Cookie("jwt", token);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(7 * 24 * 60 * 60);
+        ResponseCookie cookie = ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true) // even in dev
+                .path("/")
+                .sameSite("None")
+                .maxAge(7 * 24 * 60 * 60)
+                .build();
 
-        if (ISPROD) {
-            jwtCookie.setSecure(true);
-            response.setHeader("Set-Cookie", String.format(
-                    "jwt=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=None; Secure",
-                    token,
-                    7 * 24 * 60 * 60
-            ));
-        } else {
-            response.setHeader("Set-Cookie", String.format(
-                    "jwt=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=Lax",
-                    token,
-                    7 * 24 * 60 * 60
-            ));
-        }
-
+        response.setHeader("Set-Cookie", cookie.toString());
 
         return ResponseEntity.ok(new AuthDto(token));
     }
-
 
     @GetMapping("/status")
     public ResponseEntity<?> authStatus(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
-            System.out.println("cookies is null");
+            System.out.println("Cookies are null");
             return ResponseEntity.status(401).body("Cookie Null");
         }
 
-        System.out.println("Cookies:");
-        for (Cookie cookie : request.getCookies()) {
-            System.out.println(cookie.getName() + " = " + cookie.getValue());
-        }
-
         String token = null;
-        for (Cookie cookie : request.getCookies()) {
+        for (Cookie cookie : cookies) {
+            System.out.println("Found cookie: " + cookie.getName() + " = " + cookie.getValue());
             if ("jwt".equals(cookie.getName())) {
                 token = cookie.getValue();
-                break;
             }
         }
-        System.out.println("Extracted JWT token: " + token);
 
-        if (token == null || token.isEmpty()) {
-            return ResponseEntity.status(401).body("Token Empty");
+        System.out.println("Extracted JWT token: [" + token + "]");
+
+        if (token == null || token.isEmpty() || !token.contains(".")) {
+            System.out.println("Malformed or missing token");
+            return ResponseEntity.status(401).body("Invalid or missing token");
         }
 
-        if (jwtService.isTokenValid(token)) {
-            String user = jwtService.extractUsername(token);
-            return ResponseEntity.ok(Map.of("username", user));
-        } else {
-            return ResponseEntity.status(401).body("Invalid token");
+        try {
+            if (jwtService.isTokenValid(token)) {
+                String user = jwtService.extractUsername(token);
+                return ResponseEntity.ok(Map.of("username", user));
+            } else {
+                return ResponseEntity.status(401).body("Invalid token");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("Malformed token");
         }
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
