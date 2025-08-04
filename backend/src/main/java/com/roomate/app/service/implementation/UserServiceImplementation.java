@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class UserServiceImplementation implements UserService, UserDetailsService {
@@ -36,7 +37,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     // EFFECTS :Checks if User currently exists in db
     @Override
     public boolean userExists(String email) {
-        return userRepository.existsByEmail(email);
+        return userRepository.existsByEmail(email.toLowerCase(Locale.ROOT));
     }
 
     @Override

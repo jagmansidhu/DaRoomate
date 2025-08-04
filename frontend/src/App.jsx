@@ -1,5 +1,5 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
-import { BrowserRouter as Router, Link, Route, Routes, useNavigate } from 'react-router-dom';
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from 'react-router-dom';
 import Login from './webpages/auth/Login';
 import Register from './webpages/auth/Register';
 import Dashboard from './webpages/Dashboard';
@@ -10,8 +10,8 @@ import CompleteProfile from "./webpages/CompleteProfile";
 import Personal from "./webpages/profileRedirect/Personal";
 import VerificationPopup from "./component/VerificationPopup";
 import Rooms from "./webpages/room/Rooms";
-import RoomDetailsPage from "./webpages/room/RoomDetailsPage";
 import './styling/App.css';
+import RoomDetailsPageWrapper from "./webpages/room/RoomDetailWrapper";
 
 const ThemeContext = createContext();
 const AuthContext = createContext();
@@ -175,7 +175,7 @@ const AppContent = () => {
                         <Route path="/complete-profile" element={isAuthenticated ? <CompleteProfile /> : <Login />} />
                         <Route path="/update-personal" element={isAuthenticated ? <Personal /> : <Login />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/rooms/:roomId" element={<RoomDetailsPage />} />
+                        <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper />} />
                         <Route path="/register" element={<Register />} />
 
                     </Routes>

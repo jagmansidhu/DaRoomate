@@ -23,4 +23,6 @@ public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
     RoomEntity getRoomEntityByRoomCode(String roomCode);
 
     Optional<RoomEntity> getRoomEntityById(UUID id);
+
+
 }

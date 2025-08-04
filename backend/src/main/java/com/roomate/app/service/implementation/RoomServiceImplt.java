@@ -147,7 +147,7 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public void leaveRoom(UUID roomId, String email) throws UserApiError {
+    public void leaveRoom(UUID memberid, String email) throws UserApiError {
         UserEntity user = userRepository.getUserByEmail(email);
         RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + user.getId()));
@@ -156,7 +156,7 @@ public class RoomServiceImplt implements RoomService {
             throw new UserApiError("Cannot have the head roommate leave the room.");
         }
 
-        roomMemberRepository.deleteByRoomIdAndUserId(roomId, user.getId());
+        roomMemberRepository.deleteByMemberIdAndUserId(memberid, user.getId());
 
     }
 

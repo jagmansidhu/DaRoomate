@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ROLES } from "../../constants/roles";
-import { jwtDecode } from "jwt-decode";
-
-const getCookie = (name) => {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-};
 
 const RoomDetailsPage = ({
                          show,
@@ -22,11 +16,19 @@ const RoomDetailsPage = ({
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = getCookie("jwt");
-        if (token) {
-            const decoded = jwtDecode(token);
-            setUser(decoded);
-        }
+        const fetchCurrentUser = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/get-user`, {
+                    withCredentials: true,
+                });
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+            console.log("HEHE", room);
+
+        };
+        fetchCurrentUser();
     }, []);
 
     if (!show || !room || !user) return null;
