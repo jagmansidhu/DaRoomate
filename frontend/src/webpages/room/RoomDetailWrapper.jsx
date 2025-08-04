@@ -46,9 +46,19 @@ const RoomDetailsPageWrapper = () => {
     }, [navigate]);
 
     const handleDeleteRoom = useCallback(() => {
-        console.log('Deleting room');
-        // TODO: implement backend delete logic
-    }, []);
+        const deleteRoom = async () => {
+            try {
+                await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${roomId}/delete-room`, {
+                    withCredentials: true,
+                });
+                navigate('/rooms');
+            } catch (error) {
+                console.error('Failed to Delete room:', error);
+            }
+        };
+        deleteRoom();
+
+    }, [navigate, roomId]);
 
     const handleManageRoles = useCallback(() => {
         console.log('Opening role management');

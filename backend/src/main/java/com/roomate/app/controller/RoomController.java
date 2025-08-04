@@ -145,8 +145,8 @@ public class RoomController {
         }
     }
 
-    @DeleteMapping("/{roomId}/removeroom")
-    public ResponseEntity<Void> removeRoom(@PathVariable UUID roomId, @AuthenticationPrincipal UserDetails userDetails) {
+    @DeleteMapping("/{roomId}/delete-room")
+    public ResponseEntity<Void> deleteRoom(@PathVariable UUID roomId, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             String email = userDetails.getUsername();
             roomService.removeRoom(roomId, email);
