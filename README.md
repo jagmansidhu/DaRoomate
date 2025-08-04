@@ -2,7 +2,7 @@
 
 ## Overview
 
-DaRoomate is a full-stack web application for roomates featuring a Spring Boot backend and a React frontend. It provides user authentication, profile management, friend/roomate connections, and real-time messaging using WebSockets. The backend uses PostgreSQL for data storage and supports OAuth2/JWT authentication (with Auth0 integration). Docker Compose is used for local development and testing environments.
+DaRoomate is a full-stack web application for roomates featuring a Spring Boot backend and a React frontend. It provides user authentication, profile management, friend/roomate connections, and real-time messaging using WebSockets. The backend uses PostgreSQL for data storage and supports JWT authentication.
 
 ---
 
@@ -24,25 +24,10 @@ ProjectStart/
 ## Backend (Spring Boot)
 
 - **Language:** Java 21
-- **Framework:** Spring Boot 3.4.4
+- **Framework:** Spring Boot
 - **Database:** PostgreSQL
-- **Authentication:** OAuth2/JWT (Auth0)
-- **WebSocket:** STOMP over SockJS
+- **Authentication:** OAuth2/JWT (Spring Security + JJWT)
 - **Build Tool:** Maven
-
-### Key Endpoints (examples)
-
-- `PUT /api/additional_info` — Add user profile info
-- `GET /api/profile-status` — Check if user profile is complete
-- `GET /api/create_or_find_user` — Create or fetch user by Auth0 ID
-- `PUT /api/profile/updateEmail` — Update user email
-- `POST /api/friend/addFriend` — Send friend request
-- `POST /api/friend/accept/{requestId}` — Accept friend request
-- `GET /api/friend/getfriends` — List friends
-- `GET /api/messages/{senderId}/{recipientId}` — Get chat messages
-- `PUT /api/messages/read/{messageId}` — Mark message as read
-- `GET /api/messages/chats/{userId}` — List user chats
-- `@MessageMapping /chat` — WebSocket endpoint for real-time chat
 
 ### Environment Variables
 
@@ -50,7 +35,6 @@ Set these in your environment or a `.env` file (for Docker Compose):
 
 - `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` — PostgreSQL credentials
 - `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_USERNAME`, `POSTGRESQL_PASSWORD` — For Spring datasource
-- `AUTH_DOMAIN`, `AUTH_CLIENT`, `AUTH_SECRET` — Auth0 credentials
 - `CONTAINER_PORT` — (optional) Backend port (default: 8080)
 
 ### Database
@@ -66,8 +50,6 @@ Set these in your environment or a `.env` file (for Docker Compose):
 - **Language:** JavaScript (React 19)
 - **State Management:** React Context/State
 - **Routing:** React Router
-- **WebSocket:** STOMP/SockJS
-- **Auth:** Auth0 React SDK
 
 ### Scripts
 
