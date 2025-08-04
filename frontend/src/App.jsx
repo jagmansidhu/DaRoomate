@@ -12,6 +12,7 @@ import VerificationPopup from "./component/VerificationPopup";
 import Rooms from "./webpages/room/Rooms";
 import './styling/App.css';
 import RoomDetailsPageWrapper from "./webpages/room/RoomDetailWrapper";
+import Calendar from "./component/Calendar";
 
 const ThemeContext = createContext();
 const AuthContext = createContext();
@@ -125,6 +126,7 @@ const LoggedInNavbar = () => {
                 </Link>
                 <nav className="nav">
                     <Link to="/dashboard" className="nav-link">Dashboard</Link>
+                    <Link to="/calendar" className="nav-link">Calendar</Link>
                     <Link to="/profile" className="nav-link">Profile</Link>
                     <Link to="/rooms" className="nav-link">Rooms</Link>
                     <button onClick={toggleTheme} className="theme-toggle">
@@ -177,7 +179,7 @@ const AppContent = () => {
                         <Route path="/login" element={<Login />} />
                         <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper />} />
                         <Route path="/register" element={<Register />} />
-
+                        <Route path="/calendar" element={<Calendar />} />
                     </Routes>
                 </div>
             </main>

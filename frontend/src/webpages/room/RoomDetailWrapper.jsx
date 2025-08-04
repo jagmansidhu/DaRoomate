@@ -60,11 +60,6 @@ const RoomDetailsPageWrapper = () => {
 
     }, [navigate, roomId]);
 
-    const handleManageRoles = useCallback(() => {
-        console.log('Opening role management');
-        // TODO: implement actual modal or redirect
-    }, []);
-
     if (loading) return <div>Loading room details...</div>;
 
     return (
@@ -74,7 +69,6 @@ const RoomDetailsPageWrapper = () => {
             onClose={handleClose}
             onLeaveRoom={handleLeaveRoom}
             onDeleteRoom={handleDeleteRoom}
-            onManageRolesClick={handleManageRoles}
         />
     );
 };

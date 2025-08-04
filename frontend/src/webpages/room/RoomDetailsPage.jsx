@@ -65,11 +65,10 @@ const RoomDetailsPage = ({
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal modal-large">
-                <div className="modal-header">
+        <div >
+            <div>
+                <div className="room-header">
                     <h2>{room.name}</h2>
-                    <button className="modal-close" onClick={onClose}>×</button>
                 </div>
 
                 <div className="room-details">
@@ -107,11 +106,7 @@ const RoomDetailsPage = ({
 
                     {(isAssistantRoommate || isHeadRoommate) && (
                         <div className="detail-section">
-                            <h3>Management</h3>
                             <div className="management-actions">
-                                <button className="btn btn-primary" onClick={onManageRolesClick}>
-                                    Manage Roles
-                                </button>
                                 <button className="btn btn-secondary" onClick={() => setShowInviteModal(true)}>
                                     Invite User
                                 </button>

@@ -53,7 +53,6 @@ const Dashboard = () => {
                 <p>Welcome back, {email}!</p>
             </div>
             <div className="dashboard-content">
-                <Calendar />
             </div>
         </div>
     );
