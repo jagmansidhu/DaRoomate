@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/Dashboard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailWrapper.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailWrapper.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/ChoreEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/ChoreTimeLineEnum.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,11 +19,11 @@
         <option value="HTML File" />
         <option value="Record" />
         <option value="Kotlin Class" />
-        <option value="Enum" />
         <option value="Exception" />
         <option value="JSX File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -332,7 +329,7 @@
       <workItem from="1754014415582" duration="9862000" />
       <workItem from="1754177804759" duration="1981000" />
       <workItem from="1754186063554" duration="8532000" />
-      <workItem from="1754333843769" duration="6630000" />
+      <workItem from="1754333843769" duration="7504000" />
     </task>
     <servers />
   </component>
