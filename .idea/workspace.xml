@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailWrapper.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailWrapper.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoleManage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoleManage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -330,7 +331,7 @@
       <workItem from="1754014415582" duration="9862000" />
       <workItem from="1754177804759" duration="1981000" />
       <workItem from="1754186063554" duration="8532000" />
-      <workItem from="1754333843769" duration="4130000" />
+      <workItem from="1754333843769" duration="5769000" />
     </task>
     <servers />
   </component>

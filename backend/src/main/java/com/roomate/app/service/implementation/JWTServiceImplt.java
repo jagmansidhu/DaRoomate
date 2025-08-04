@@ -1,5 +1,6 @@
 package com.roomate.app.service.implementation;
 
+import com.roomate.app.entities.UserEntity;
 import com.roomate.app.service.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -31,6 +32,7 @@ public class JWTServiceImplt implements JWTService {
     @Override
     public String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
+        UserEntity user = (UserEntity) userDetails;
 
         Instant expiry = now.plusSeconds(secondsToAdd);
 
@@ -40,6 +42,7 @@ public class JWTServiceImplt implements JWTService {
                 .and()
                 .claims()
                 .subject(userDetails.getUsername())
+                .add("id", user.getId().toString())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))
                 .and()

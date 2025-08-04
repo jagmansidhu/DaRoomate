@@ -7,9 +7,11 @@ import CreateRoom from '../room/CreateRoom';
 import JoinRoom from '../room/JoinRoom';
 import RoleManagement from '../room/RoleManage';
 import { ROLES } from '../../constants/roles';
+import useCurrentUser from './useCurrentUser';
 
 const Rooms = () => {
-    const navigate = useNavigate(); // <-- hook for navigation
+    const navigate = useNavigate();
+    const { currentUser, loadingUser, errorUser } = useCurrentUser();
 
     const [rooms, setRooms] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -53,6 +55,7 @@ const Rooms = () => {
     };
 
     const openRoleManagement = (room) => {
+        console.log("Opening role management for room:", room);
         setSelectedRoom(room);
         setShowRoleManagement(true);
     };
@@ -95,14 +98,17 @@ const Rooms = () => {
                     <div className="empty-state">No rooms found</div>
                 ) : (
                     rooms.map((room) => {
-                        const isHeadRoommate = room.members?.some((m) => m.role === ROLES.HEAD_ROOMMATE);
-                        const isAssistantRoomate = room.members?.some((m) => m.role === ROLES.ASSISTANT);
+                        const currentMember = room.members?.find((m) => m.userId === currentUser?.email);
+                        const isCurrentUserHeadRoommate = currentMember?.role === ROLES.HEAD_ROOMMATE;
+                        const isCurrentUserAssistant = currentMember?.role === ROLES.ASSISTANT;
 
                         return (
                             <div key={room.id} className="room-card">
                                 <div className="room-header">
                                     <h3>{room.name}</h3>
-                                    {isHeadRoommate && <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>}
+                                    {isCurrentUserHeadRoommate && (
+                                        <span className="role-badge HEAD_ROOMMATE">Head Roommate</span>
+                                    )}
                                 </div>
                                 <p className="room-address">{room.address}</p>
                                 <p className="room-description">{room.description}</p>
@@ -113,7 +119,7 @@ const Rooms = () => {
                                     <button className="btn btn-primary" onClick={() => openRoomDetails(room)}>
                                         View Details
                                     </button>
-                                    {(isHeadRoommate || isAssistantRoomate) && (
+                                    {(isCurrentUserHeadRoommate || isCurrentUserAssistant) && (
                                         <button className="btn btn-secondary" onClick={() => openRoleManagement(room)}>
                                             Manage Roles
                                         </button>

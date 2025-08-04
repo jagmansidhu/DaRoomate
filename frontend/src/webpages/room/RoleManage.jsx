@@ -57,7 +57,7 @@ const RoleManagement = ({ show, room, onClose, onUpdate }) => {
 
     const getCurrentUserRole = () => {
         if (!currentUser) return null;
-        const currentMember = members.find((m) => m.userId === currentUser.id); // Use currentUser.id here
+        const currentMember = members.find((m) => m.userId === currentUser.email);
         return currentMember?.role || null;
     };
 
@@ -99,7 +99,7 @@ const RoleManagement = ({ show, room, onClose, onUpdate }) => {
                             </thead>
                             <tbody>
                             {members.map((member) => {
-                                const isSelf = member.userId === currentUser.id;
+                                const isSelf = member.email === currentUser.email;
                                 return (
                                     <tr key={member.id}>
                                         <td>{member.name}</td>
