@@ -33,9 +33,13 @@ const RoomDetailsPage = ({
 
     if (!show || !room || !user) return null;
 
-    const memberRole = room.members?.find(m => m.user === user.sub)?.role;
+    const memberRole = room.members?.find(m => m.userId === user.email)?.role;
     const isHeadRoommate = memberRole === ROLES.HEAD_ROOMMATE;
     const isAssistantRoommate = memberRole === ROLES.ASSISTANT;
+    console.log(isAssistantRoommate);
+    console.log(isHeadRoommate);
+    console.log(memberRole);
+    console.log(user.sub);
 
     const handleInviteUser = async () => {
         try {
@@ -83,7 +87,7 @@ const RoomDetailsPage = ({
                         <h3>Members</h3>
                         <div className="members-list">
                             {room.members?.map((member) => {
-                                const isSelf = member.user === user.sub;
+                                const isSelf = member.userId === user.email;
                                 return (
                                     <div key={member.id} className="member-item">
                                         <div className="member-info">
