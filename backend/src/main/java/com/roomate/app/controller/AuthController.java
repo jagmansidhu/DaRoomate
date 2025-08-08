@@ -33,7 +33,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDto> login(@RequestBody LoginDto req, HttpServletResponse response) {
+    public ResponseEntity<AuthDto> login(@RequestBody LoginDto req, HttpServletRequest request,HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                Cookie cleared = new Cookie(cookie.getName(), "");
+                cleared.setPath("/");
+                cleared.setMaxAge(0);
+                cleared.setHttpOnly(true);
+                response.addCookie(cleared);
+            }
+        }
+
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
 

@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/ChoreFrequencyUnitEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/ChoreFrequencyUnitEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +125,7 @@
       <window_info id="Commit_Guest" show_stripe_button="false" />
       <window_info id="Pull Requests" />
       <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32994792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15286458" />
       <window_info id="Commit" order="1" weight="0.25" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -139,8 +137,8 @@
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
       <window_info anchor="bottom" id="Terminal" order="3" weight="0.24521232" />
-      <window_info active="true" anchor="bottom" id="Services" order="4" visible="true" weight="0.24521232" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.24521232" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.52081597" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.52081597" />
       <window_info anchor="bottom" id="Build" order="6" weight="0.3459617" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.33014154" />
       <window_info anchor="right" id="Endpoints" />
