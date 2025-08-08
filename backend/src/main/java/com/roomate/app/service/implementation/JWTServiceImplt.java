@@ -7,7 +7,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,15 @@ import java.util.function.Function;
 @Service
 public class JWTServiceImplt implements JWTService {
     private static final int secondsToAdd = 60*60*24;
-    private static final String SECRET = "a_very_long_and_secure_secret_key_that_is_at_least_32_chars";
+    @Value("${spring.jwt.secret}")
+    private String SECRET;
 
-    private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    private SecretKey key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    }
 
     @Override
     public String extractUsername(String token) {

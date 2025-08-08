@@ -1,8 +1,10 @@
 package com.roomate.app.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum ChoreFrequencyUnitEnum {
     DAILY(1),
     WEEKLY(7),
@@ -10,9 +12,4 @@ public enum ChoreFrequencyUnitEnum {
     MONTHLY(30);
 
     private final int days;
-
-    ChoreFrequencyUnitEnum(int days) {
-        this.days = days;
-    }
-
 }
