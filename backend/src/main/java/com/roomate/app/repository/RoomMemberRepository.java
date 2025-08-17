@@ -1,5 +1,6 @@
 package com.roomate.app.repository;
 
+import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,6 +22,9 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
     Optional<RoomMemberEntity> getRoomMemberEntityById(UUID id);
 
     Optional<RoomMemberEntity> getRoomMemberEntityByUserId(Long userId);
+
+    @Query("SELECT m FROM RoomMemberEntity m WHERE m.room.id = :roomId")
+    List<RoomMemberEntity> findByRoomID(@Param("roomId") UUID roomId);
 
     @Modifying
     @Transactional

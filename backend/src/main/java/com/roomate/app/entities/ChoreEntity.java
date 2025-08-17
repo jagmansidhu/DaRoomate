@@ -1,6 +1,7 @@
 package com.roomate.app.entities;
 
 import com.roomate.app.entities.room.RoomEntity;
+import com.roomate.app.entities.room.RoomMemberEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,13 +32,13 @@ public class ChoreEntity {
 
     private boolean isCompleted = false;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
-    private UserEntity assignedTo;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private RoomEntity room;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_member_id")
+    private RoomMemberEntity assignedToMember;
 
 }

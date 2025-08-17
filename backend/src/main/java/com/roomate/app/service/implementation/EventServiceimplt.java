@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class EventServiceimplt implements EventService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
-    EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public EventServiceimplt(EventRepository eventRepository, UserRepository userRepository, RoomRepository roomRepository) {
         this.eventRepository = eventRepository;

@@ -6,6 +6,7 @@ import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,18 +22,12 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImplementation implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
-
-
-    public UserServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder, JWTService jwtService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-    }
 
     // EFFECTS :Checks if User currently exists in db
     @Override
