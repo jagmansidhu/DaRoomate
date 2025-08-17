@@ -37,7 +37,7 @@ public class ChoreEntity {
     private RoomEntity room;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_member_id")
     private RoomMemberEntity assignedToMember;
 

@@ -12,6 +12,7 @@ public interface ChoreService {
     void redistributeChores(UUID roomId);
     List<ChoreEntity> getChoresByRoomId(UUID roomId);
     void deleteChore(UUID choreId);
+    void deleteChoresByType(UUID roomId, String choreName);
     int calculateTotalInstances(ChoreCreateDto choreDTO);
     LocalDateTime calculateDueDate(int instanceNumber, ChoreCreateDto choreDTO);
 }

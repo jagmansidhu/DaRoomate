@@ -1,0 +1,25 @@
+package com.roomate.app.dto;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public class ChoreDto {
+    public UUID id;
+    public String choreName;
+    public int frequency;
+    public String frequencyUnit;
+    public LocalDateTime dueAt;
+    public boolean isCompleted;
+    public String assignedToMemberName;
+
+    public ChoreDto(UUID id, String choreName, int frequency, String frequencyUnit, LocalDateTime dueAt, boolean isCompleted, String assignedToMemberName) {
+        this.id = id;
+        this.choreName = choreName;
+        this.frequency = frequency;
+        this.frequencyUnit = frequencyUnit;
+        this.dueAt = dueAt;
+        this.isCompleted = isCompleted;
+        this.assignedToMemberName = assignedToMemberName;
+    }
+}
+

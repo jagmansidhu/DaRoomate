@@ -23,7 +23,7 @@ public class RoomMemberEntity {
     @JoinColumn(name = "room_id", nullable = false)
     private RoomEntity room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity user;
 
