@@ -9,6 +9,7 @@ import com.roomate.app.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,13 @@ public class AuthController {
     private final AuthenticationManager authManager;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthDto> register(@RequestBody RegisterDto req) {
+    public ResponseEntity<AuthDto> register(@Valid @RequestBody RegisterDto req) {
         String token = userService.registerUser(req);
         return ResponseEntity.ok(new AuthDto(token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDto> login(@RequestBody LoginDto req, HttpServletRequest request,HttpServletResponse response) {
+    public ResponseEntity<AuthDto> login(@Valid @RequestBody LoginDto req, HttpServletRequest request,HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

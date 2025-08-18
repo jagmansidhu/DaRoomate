@@ -11,11 +11,9 @@ const RoomDetailsPage = ({
     const [user, setUser] = useState(null);
     const [showChoreModal, setShowChoreModal] = useState(false);
     const [pendingChores, setPendingChores] = useState([]);
-    // Add deadline to choreData
     const [choreData, setChoreData] = useState({
         choreName: '', frequency: 1, frequencyUnit: 'WEEKLY', deadline: ''
     });
-    // For remove chores by type
     const [selectedChoreType, setSelectedChoreType] = useState('');
     const [chores, setChores] = useState([]);
     const [showRoleModal, setShowRoleModal] = useState(false);
@@ -66,14 +64,12 @@ const RoomDetailsPage = ({
         return date > now && date <= max;
     };
 
-    // Remove all chores of selected type
     const handleRemoveChoresByType = async () => {
         if (!selectedChoreType) return;
         try {
             await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/chores/room/${room.id}/type/${selectedChoreType}`, {
                 withCredentials: true,
             });
-            // Refresh chores
             const choresResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/chores/room/${room.id}`, {
                 withCredentials: true,
             });
@@ -110,7 +106,6 @@ const RoomDetailsPage = ({
         fetchChores();
     }, [room]);
 
-    // Move all hooks to the top level, before any conditional returns
     const [isCustomChore, setIsCustomChore] = useState(false);
 
     if (!show || !room || !user) return null;
@@ -143,7 +138,6 @@ const RoomDetailsPage = ({
         }
     };
 
-    // Chore name options
     const CHORE_OPTIONS = ["Broom", "Sweep", "Trash", "Mop", "Vacuum", "Kitchen", "Other"];
 
     return (<div>
@@ -185,11 +179,9 @@ const RoomDetailsPage = ({
                     <h3>Chores</h3>
                     <ul style={{display: 'block', padding: 0}}>
                         {(() => {
-                            // Filter chores to only show those due within the next month
                             const now = new Date();
                             const oneMonthAhead = new Date();
                             oneMonthAhead.setMonth(now.getMonth() + 1);
-                            // Group chores by due date (month/day)
                             const choresByDate = {};
                             chores
                                 .filter(chore => {
@@ -203,7 +195,6 @@ const RoomDetailsPage = ({
                                     if (!choresByDate[key]) choresByDate[key] = [];
                                     choresByDate[key].push(chore);
                                 });
-                            // Render chores grouped by date
                             return Object.entries(choresByDate).map(([date, choresForDate]) => (
                                 <li key={date} style={{listStyle: 'none', marginBottom: '0.5rem'}}>
                                     <div style={{background: '#e0e7ff', borderRadius: '6px', padding: '0.25rem 0.5rem', fontWeight: 'bold', fontSize: '0.95rem', minWidth: '60px', textAlign: 'center', marginBottom: '0.25rem', display: 'inline-block'}}>
@@ -282,7 +273,7 @@ const RoomDetailsPage = ({
                                     {isCustomChore && (
                                         <input
                                             type="text"
-                                            className="input"
+                                            // className="input"
                                             placeholder="Custom chore name"
                                             value={choreData.choreName}
                                             onChange={e => setChoreData({...choreData, choreName: e.target.value})}
@@ -290,7 +281,7 @@ const RoomDetailsPage = ({
                                         />
                                     )}
                                     <select
-                                        className="input"
+                                        // className="input"
                                         value={choreData.frequencyUnit}
                                         onChange={(e) => setChoreData({...choreData, frequencyUnit: e.target.value})}
                                         style={{marginRight: '0.5rem'}}

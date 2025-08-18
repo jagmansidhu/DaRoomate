@@ -44,6 +44,8 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
             throw new DuplicateKeyException(email);
         }
 
+
+
         user.setFirstName(req.getFirstName());
         user.setLastName(req.getLastName());
         user.setEmail(email);
