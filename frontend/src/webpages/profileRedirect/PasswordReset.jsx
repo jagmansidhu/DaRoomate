@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const PasswordReset = () => {
     const [data, setData] = useState(null);
@@ -27,10 +27,10 @@ const PasswordReset = () => {
         };
 
         checkProfileAndFetchData();
-    }, [navigate]); // navigate is a stable reference, so it's a good dependency
+    }, [navigate]);
 
     const handlePasswordReset = async (e) => {
-        e.preventDefault(); // Prevents the default form submission behavior
+        e.preventDefault();
 
         if (!password) {
             alert('Please enter a new password.');
@@ -63,26 +63,31 @@ const PasswordReset = () => {
 
     return (
         <div className="container">
-            <form onSubmit={handlePasswordReset}>
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        value={email}
-                        placeholder={data?.email || 'Enter your email'}
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                </label>
-                <br />
+            <form className="profile-form" onSubmit={handlePasswordReset}>
+                <div className="Label">
+                    <label>
+                        Email:
+                        <input
+                            type="email"
+                            value={email}
+                            placeholder={data?.email || 'Enter your email'}
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                    </label>
+                </div>
+
+                <br/>
+                <div className="Label">
+                    <label>
+                        Password:
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </label>
+                </div>
+                <br/>
 
 
                 <button type="submit">Update Profile</button>

@@ -129,29 +129,79 @@ a:hover {
 
 /* Buttons */
 button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  transition: all var(--transition-fast);
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Interactive Button effects */
+button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #004085;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
 }
 
 /* Form Elements */
 input, textarea, select {
-  font-family: inherit;
-  font-size: var(--font-size-base);
-  border: 1px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-3) var(--spacing-4);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    width: 100%; /* Make elements full width */
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--gray-50);
+    color: var(--gray-800);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+/* Form for updating user profile */
+.profile-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Placeholder Styling */
+::placeholder {
+    color: var(--gray-500);
+    opacity: 1;
 }
 
 input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-200);
 }
 
+/* Disabled State */
+input:disabled, textarea:disabled, select:disabled {
+    background-color: var(--gray-100);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Validation States (Add these classes to your HTML) */
+.input-error {
+    border-color: var(--error-700);
+}
+
+.input-success {
+    border-color: var(--success-700);
+}
 /* Utility Classes */
 .container {
   max-width: 1200px;
