@@ -44,8 +44,6 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
             throw new DuplicateKeyException(email);
         }
 
-
-
         user.setFirstName(req.getFirstName());
         user.setLastName(req.getLastName());
         user.setEmail(email);
@@ -61,32 +59,22 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     public UserEntity updateUserProfile(String email, UpdateProfileDto updatedDetails) {
         UserEntity user = getUserEntityByEmail(email);
 
-        if (!email.isEmpty()) {
+        if (updatedDetails.getEmail() != null && !updatedDetails.getEmail().isEmpty()) {
             user.setEmail(email.toLowerCase());
-        } else {
-            throw new UsernameNotFoundException(email);
         }
 
-        if (!updatedDetails.getFirstName().isEmpty()) {
+        if (updatedDetails.getFirstName() != null && !updatedDetails.getFirstName().isEmpty()) {
             user.setFirstName(updatedDetails.getFirstName().toLowerCase());
-        } else {
-            throw new UsernameNotFoundException("FirstName not here :(");
         }
-        if (!updatedDetails.getLastName().isEmpty()) {
+        if (updatedDetails.getLastName() != null && !updatedDetails.getLastName().isEmpty()) {
             user.setLastName(updatedDetails.getLastName().toLowerCase());
-        } else {
-            throw new UsernameNotFoundException("LastName not here :(");
         }
-        if (!updatedDetails.getPhone().isEmpty()) {
+
+        if (updatedDetails.getPhone() != null && !updatedDetails.getPhone().isEmpty()) {
             user.setPhone(updatedDetails.getPhone());
-        } else {
-            throw new UsernameNotFoundException("Phone not here :(");
         }
-        if (!updatedDetails.getPassword().isEmpty()) {
+        if (updatedDetails.getPassword() != null && !updatedDetails.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(updatedDetails.getPassword()));
-        }
-        else {
-            throw new UsernameNotFoundException("Password not here :(");
         }
 
         return userRepository.save(user);

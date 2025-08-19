@@ -38,7 +38,7 @@ const PasswordReset = () => {
         }
 
         try {
-            const response = await axios.post(
+            const response = await axios.put(
                 `${process.env.REACT_APP_BASE_API_URL}/user/updateProfile`,
                 {
                     email: data.email,
@@ -65,25 +65,25 @@ const PasswordReset = () => {
         <div className="container">
             <form onSubmit={handlePasswordReset}>
                 <label>
+                    Email:
+                    <input
+                        type="email"
+                        value={email}
+                        placeholder={data?.email || 'Enter your email'}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                </label>
+                <br />
+                <label>
                     Password:
                     <input
                         type="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        required
                     />
                 </label>
                 <br />
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        required
-                    />
-                </label>
-                <br />
+
 
                 <button type="submit">Update Profile</button>
             </form>
