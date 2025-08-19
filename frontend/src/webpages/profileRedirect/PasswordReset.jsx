@@ -7,10 +7,10 @@ const PasswordReset = () => {
     const [error, setError] = useState(null);
     const [apiLoading, setApiLoading] = useState(true);
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
 
     const navigate = useNavigate();
 
-    // Fetches user data on component mount
     useEffect(() => {
         const checkProfileAndFetchData = async () => {
             try {
@@ -74,7 +74,18 @@ const PasswordReset = () => {
                     />
                 </label>
                 <br />
-                <button type="submit">Change Password</button>
+                <label>
+                    Email:
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
+
+                <button type="submit">Update Profile</button>
             </form>
         </div>
     );
