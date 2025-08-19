@@ -75,13 +75,20 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         if (!updatedDetails.getLastName().isEmpty()) {
             user.setLastName(updatedDetails.getLastName().toLowerCase());
         } else {
-            user.setLastName(null);
+            throw new UsernameNotFoundException("LastName not here :(");
         }
         if (!updatedDetails.getPhone().isEmpty()) {
             user.setPhone(updatedDetails.getPhone());
         } else {
-            user.setPhone(null);
+            throw new UsernameNotFoundException("Phone not here :(");
         }
+        if (!updatedDetails.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(updatedDetails.getPassword()));
+        }
+        else {
+            throw new UsernameNotFoundException("Password not here :(");
+        }
+
         return userRepository.save(user);
     }
 

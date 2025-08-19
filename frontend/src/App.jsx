@@ -13,6 +13,7 @@ import Rooms from "./webpages/room/Rooms";
 import './styling/App.css';
 import RoomDetailsPageWrapper from "./webpages/room/RoomDetailWrapper";
 import Calendar from "./component/Calendar";
+import PasswordReset from "./webpages/profileRedirect/PasswordReset";
 
 const ThemeContext = createContext();
 const AuthContext = createContext();
@@ -175,6 +176,7 @@ const AppContent = () => {
                         <Route path="/profile" element={isAuthenticated ? <Profile /> : <Login />} />
                         <Route path="/rooms" element={isAuthenticated ? <Rooms /> : <Login />} />
                         <Route path="/complete-profile" element={isAuthenticated ? <CompleteProfile /> : <Login />} />
+                        <Route path="/reset-password" element={isAuthenticated ? <PasswordReset /> : <Login />} />
                         <Route path="/update-personal" element={isAuthenticated ? <Personal /> : <Login />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper />} />

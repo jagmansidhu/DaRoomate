@@ -3,6 +3,7 @@ package com.roomate.app.controller;
 import com.roomate.app.dto.AuthDto;
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
+import com.roomate.app.dto.UpdateProfileDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
@@ -31,6 +32,13 @@ public class AuthController {
     public ResponseEntity<AuthDto> register(@Valid @RequestBody RegisterDto req) {
         String token = userService.registerUser(req);
         return ResponseEntity.ok(new AuthDto(token));
+    }
+
+    @PutMapping("/updateProfile")
+    public ResponseEntity<UserEntity> updateProfile(@Valid @RequestBody UpdateProfileDto req, HttpServletRequest request) {
+        String email = request.getUserPrincipal().getName();
+        UserEntity updatedUser = userService.updateUserProfile(email, req);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PostMapping("/login")
