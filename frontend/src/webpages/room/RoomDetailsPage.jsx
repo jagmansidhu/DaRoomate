@@ -9,6 +9,11 @@ const RoomDetailsPage = ({
     const [inviteEmail, setInviteEmail] = useState('');
     const [inviteStatus, setInviteStatus] = useState('');
     const [user, setUser] = useState(null);
+    const [utilities, setUtilities] = useState([]);
+    const [showUtilityModal, setShowUtilityModal] = useState(false);
+    const [utilityData, setUtilityData] = useState({
+        utilityName: "", description: "", utilityPrice: 0, utilDistributionEnum: "EQUALSPLIT", customSplit: {}
+    });
     const [showChoreModal, setShowChoreModal] = useState(false);
     const [pendingChores, setPendingChores] = useState([]);
     const [choreData, setChoreData] = useState({
@@ -97,8 +102,20 @@ const RoomDetailsPage = ({
                 }
             }
         };
+
+        const fetchUtilities = async () => {
+            if (room?.id) {
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, {withCredentials: true});
+                    setUtilities(response.data);
+                } catch (err) {
+                    console.error("Error fetching utilities:", err);
+                }
+            }
+        };
         fetchCurrentUser();
         fetchChores();
+        fetchUtilities();
     }, [room]);
 
     const [isCustomChore, setIsCustomChore] = useState(false);
@@ -128,6 +145,33 @@ const RoomDetailsPage = ({
         } catch (error) {
             console.error(error);
             setInviteStatus('Failed to send invite.');
+        }
+    };
+
+    const handleSubmitUtility = async () => {
+        try {
+            const payload = {
+                ...utilityData, roomId: room.id,
+            };
+
+            const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/utility/create`, payload, {
+                withCredentials: true, headers: {"Content-Type": "application/json"}
+            });
+
+            if (response.status === 200) {
+                setShowUtilityModal(false);
+                setUtilityData({
+                    utilityName: "",
+                    description: "",
+                    utilityPrice: 0,
+                    utilDistributionEnum: "EQUALSPLIT",
+                    customSplit: {}
+                });
+                const refreshed = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, {withCredentials: true});
+                setUtilities(refreshed.data);
+            }
+        } catch (err) {
+            console.error("Error creating utility:", err);
         }
     };
 
@@ -207,20 +251,20 @@ const RoomDetailsPage = ({
                                         display: 'flex', flexWrap: 'wrap', gap: '0.5rem', padding: 0, margin: 0
                                     }}>
                                         {choresForDate.map(chore => (<li key={chore.id} style={{
-                                                listStyle: 'none',
-                                                background: '#f7f7f7',
-                                                borderRadius: '6px',
-                                                padding: '0.4rem 0.6rem',
-                                                minWidth: '90px',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
-                                            }}>
-                                                <span style={{fontWeight: 'bold'}}>{chore.choreName}</span>
-                                                <span style={{
-                                                    marginLeft: '0.3rem', color: '#555', fontSize: '0.9rem'
-                                                }}>{chore.choreFrequencyUnitEnum}</span>
-                                            </li>))}
+                                            listStyle: 'none',
+                                            background: '#f7f7f7',
+                                            borderRadius: '6px',
+                                            padding: '0.4rem 0.6rem',
+                                            minWidth: '90px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                                        }}>
+                                            <span style={{fontWeight: 'bold'}}>{chore.choreName}</span>
+                                            <span style={{
+                                                marginLeft: '0.3rem', color: '#555', fontSize: '0.9rem'
+                                            }}>{chore.choreFrequencyUnitEnum}</span>
+                                        </li>))}
                                     </ul>
                                 </li>));
                         })()}
@@ -238,135 +282,227 @@ const RoomDetailsPage = ({
                         </button>
                     </div>
                 </div>
-                {(isAssistantRoommate || isHeadRoommate) && (<div className="detail-section">
-                        <div className="management-actions">
-                            <button className="btn btn-secondary" onClick={() => setShowInviteModal(true)}>
-                                Invite User
-                            </button>
-                            <button className="btn btn-primary" onClick={() => setShowChoreModal(true)}>
-                                Create Chore List
-                            </button>
-                            {isHeadRoommate && (<div className="management-actions">
-                                    <button className="btn btn-danger" onClick={onDeleteRoom}>
-                                        Delete Room
-                                    </button>
-                                </div>)}
-                        </div>
-                    </div>)}
-                {showChoreModal && (<div className="modal-overlay">
-                        <div className="modal" style={{minWidth: '400px'}}>
+                <div className="detail-section">
+                    <h3>Utilities</h3>
+                    {utilities.length === 0 ? (<p>No utilities yet.</p>) : (<ul>
+                            {utilities.map(u => (<li key={u.id} style={{
+                                    marginBottom: "0.5rem",
+                                    padding: "0.5rem",
+                                    background: "#f7f7f7",
+                                    borderRadius: "6px"
+                                }}>
+                                    <strong>{u.utilityName}</strong> -
+                                    ${u.utilityPrice.toFixed(2)} ({u.utilDistributionEnum})
+                                    <p style={{margin: 0, fontSize: "0.9rem", color: "#555"}}>{u.description}</p>
+                                </li>))}
+                        </ul>)}
+
+                    {(isAssistantRoommate || isHeadRoommate) && (
+                        <button className="btn btn-primary" onClick={() => setShowUtilityModal(true)}>
+                            Add Utility
+                        </button>)}
+                </div>
+
+                {/* Utility Modal */}
+                {showUtilityModal && (<div className="modal-overlay">
+                        <div className="modal" style={{minWidth: "400px"}}>
                             <div className="modal-header">
-                                <h3>Create Chores</h3>
-                                <button className="modal-close" onClick={() => setShowChoreModal(false)}>×</button>
+                                <h3>Create Utility</h3>
+                                <button className="modal-close" onClick={() => setShowUtilityModal(false)}>×</button>
                             </div>
                             <div className="modal-body">
-                                <div style={{marginBottom: '1rem'}}>
-                                    <select
-                                        className="input"
-                                        value={isCustomChore ? "Other" : choreData.choreName}
-                                        onChange={e => {
-                                            if (e.target.value === "Other") {
-                                                setIsCustomChore(true);
-                                                setChoreData({...choreData, choreName: ""});
-                                            } else {
-                                                setIsCustomChore(false);
-                                                setChoreData({...choreData, choreName: e.target.value});
-                                            }
-                                        }}
-                                        style={{marginRight: '0.5rem'}}
-                                    >
-                                        <option value="">Select chore</option>
-                                        {CHORE_OPTIONS.map(opt => (<option key={opt} value={opt}>{opt}</option>))}
-                                    </select>
-                                    {isCustomChore && (<input
-                                            type="text"
-                                            // className="input"
-                                            placeholder="Custom chore name"
-                                            value={choreData.choreName}
-                                            onChange={e => setChoreData({...choreData, choreName: e.target.value})}
-                                            style={{marginRight: '0.5rem'}}
-                                        />)}
-                                    <select
-                                        // className="input"
-                                        value={choreData.frequencyUnit}
-                                        onChange={(e) => setChoreData({...choreData, frequencyUnit: e.target.value})}
-                                        style={{marginRight: '0.5rem'}}
-                                    >
-                                        <option value="WEEKLY">Weekly</option>
-                                        <option value="BIWEEKLY">Biweekly</option>
-                                        <option value="MONTHLY">Monthly</option>
-                                    </select>
-                                    <input
-                                        type="number"
-                                        className="input"
-                                        placeholder="Frequency (e.g. 1 for once per unit)"
-                                        value={choreData.frequency}
-                                        min={1}
-                                        onChange={(e) => setChoreData({
-                                            ...choreData, frequency: parseInt(e.target.value)
-                                        })}
-                                        style={{marginRight: '0.5rem', width: '120px'}}
-                                    />
-                                    <input
-                                        type="date"
-                                        className="input"
-                                        value={choreData.deadline}
-                                        onChange={e => setChoreData({...choreData, deadline: e.target.value})}
-                                        style={{marginRight: '0.5rem'}}
-                                        min={new Date().toISOString().split('T')[0]}
-                                        max={(() => {
-                                            let d = new Date();
-                                            d.setFullYear(d.getFullYear() + 1);
-                                            return d.toISOString().split('T')[0];
-                                        })()}
-                                    />
-                                    <button className="btn btn-success" onClick={addChoreToList}
-                                            style={{marginLeft: '0.5rem'}}
-                                            disabled={!choreData.choreName || !isValidDeadline(choreData.deadline)}>Add
-                                    </button>
-                                </div>
-                                <div>
-                                    <h4>Chores to be created:</h4>
-                                    {pendingChores.length === 0 ? <p>No chores added yet.</p> : (
-                                        <ul style={{paddingLeft: 0}}>
-                                            {pendingChores.map((chore, idx) => (<li key={idx} style={{
-                                                    listStyle: 'none',
-                                                    marginBottom: '0.5rem',
-                                                    background: '#f7f7f7',
-                                                    padding: '0.5rem',
-                                                    borderRadius: '6px',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'space-between'
-                                                }}>
-                                                    <span>{chore.choreName} - {chore.frequencyUnit} - {chore.frequency}x - Until: {new Date(chore.deadline).toLocaleDateString()}</span>
-                                                    <button className="btn btn-danger" style={{marginLeft: '1rem'}}
-                                                            onClick={() => removeChoreFromList(idx)}>Remove
-                                                    </button>
-                                                </li>))}
-                                        </ul>)}
-                                </div>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="Utility name"
+                                    value={utilityData.utilityName}
+                                    onChange={e => setUtilityData({...utilityData, utilityName: e.target.value})}
+                                    style={{marginBottom: "0.5rem"}}
+                                />
+                                <textarea
+                                    className="input"
+                                    placeholder="Description"
+                                    value={utilityData.description}
+                                    onChange={e => setUtilityData({...utilityData, description: e.target.value})}
+                                    style={{marginBottom: "0.5rem"}}
+                                />
+                                <input
+                                    type="number"
+                                    className="input"
+                                    placeholder="Total Price"
+                                    value={utilityData.utilityPrice}
+                                    onChange={e => setUtilityData({
+                                        ...utilityData, utilityPrice: e.target.value === " " ? " " : parseFloat(e.target.value)
+                                    })}
+                                    style={{marginBottom: "0.5rem"}}
+                                />
+                                <select
+                                    value={utilityData.utilDistributionEnum}
+                                    onChange={e => setUtilityData({
+                                        ...utilityData, utilDistributionEnum: e.target.value
+                                    })}
+                                    style={{marginBottom: "0.5rem"}}
+                                >
+                                    <option value="EQUALSPLIT">Equal Split</option>
+                                    <option value="CUSTOMSPLIT">Custom Split</option>
+                                </select>
+
+                                {utilityData.utilDistributionEnum === "CUSTOMSPLIT" && (<div>
+                                        <h4>Custom Split</h4>
+                                        {room.members.map(m => (<div key={m.id} style={{
+                                                display: "flex", alignItems: "center", marginBottom: "0.3rem"
+                                            }}>
+                                                <span style={{flex: 1}}>{m.name}</span>
+                                                <input
+                                                    type="number"
+                                                    placeholder="% share"
+                                                    value={utilityData.customSplit[m.id] || ""}
+                                                    onChange={e => setUtilityData({
+                                                        ...utilityData, customSplit: {
+                                                            ...utilityData.customSplit,
+                                                            [m.id]: parseFloat(e.target.value)
+                                                        }
+                                                    })}
+                                                    style={{width: "80px"}}
+                                                />
+                                            </div>))}
+                                    </div>)}
                             </div>
                             <div className="modal-actions">
-                                <button className="btn" onClick={() => setShowChoreModal(false)}>Cancel</button>
-                                <button className="btn btn-primary" onClick={handleSubmitChores}
-                                        disabled={pendingChores.length === 0}>Submit All Chores
+                                <button className="btn" onClick={() => setShowUtilityModal(false)}>Cancel</button>
+                                <button className="btn btn-primary" onClick={handleSubmitUtility}>Create Utility
                                 </button>
                             </div>
                         </div>
                     </div>)}
-                {showRoleModal && (<div className="modal-overlay">
-                        <div className="modal">
-                            <div className="modal-header">
-                                <h3>Manage Roles</h3>
-                                <button className="modal-close" onClick={() => setShowRoleModal(false)}>×</button>
+                {(isAssistantRoommate || isHeadRoommate) && (<div className="detail-section">
+                    <div className="management-actions">
+                        <button className="btn btn-secondary" onClick={() => setShowInviteModal(true)}>
+                            Invite User
+                        </button>
+                        <button className="btn btn-primary" onClick={() => setShowChoreModal(true)}>
+                            Create Chore List
+                        </button>
+                        {isHeadRoommate && (<div className="management-actions">
+                            <button className="btn btn-danger" onClick={onDeleteRoom}>
+                                Delete Room
+                            </button>
+                        </div>)}
+                    </div>
+                </div>)}
+                {showChoreModal && (<div className="modal-overlay">
+                    <div className="modal" style={{minWidth: '400px'}}>
+                        <div className="modal-header">
+                            <h3>Create Chores</h3>
+                            <button className="modal-close" onClick={() => setShowChoreModal(false)}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <div style={{marginBottom: '1rem'}}>
+                                <select
+                                    className="input"
+                                    value={isCustomChore ? "Other" : choreData.choreName}
+                                    onChange={e => {
+                                        if (e.target.value === "Other") {
+                                            setIsCustomChore(true);
+                                            setChoreData({...choreData, choreName: ""});
+                                        } else {
+                                            setIsCustomChore(false);
+                                            setChoreData({...choreData, choreName: e.target.value});
+                                        }
+                                    }}
+                                    style={{marginRight: '0.5rem'}}
+                                >
+                                    <option value="">Select chore</option>
+                                    {CHORE_OPTIONS.map(opt => (<option key={opt} value={opt}>{opt}</option>))}
+                                </select>
+                                {isCustomChore && (<input
+                                    type="text"
+                                    // className="input"
+                                    placeholder="Custom chore name"
+                                    value={choreData.choreName}
+                                    onChange={e => setChoreData({...choreData, choreName: e.target.value})}
+                                    style={{marginRight: '0.5rem'}}
+                                />)}
+                                <select
+                                    // className="input"
+                                    value={choreData.frequencyUnit}
+                                    onChange={(e) => setChoreData({...choreData, frequencyUnit: e.target.value})}
+                                    style={{marginRight: '0.5rem'}}
+                                >
+                                    <option value="WEEKLY">Weekly</option>
+                                    <option value="BIWEEKLY">Biweekly</option>
+                                    <option value="MONTHLY">Monthly</option>
+                                </select>
+                                <input
+                                    type="number"
+                                    className="input"
+                                    placeholder="Frequency (e.g. 1 for once per unit)"
+                                    value={choreData.frequency}
+                                    min={1}
+                                    onChange={(e) => setChoreData({
+                                        ...choreData, frequency: parseInt(e.target.value)
+                                    })}
+                                    style={{marginRight: '0.5rem', width: '120px'}}
+                                />
+                                <input
+                                    type="date"
+                                    className="input"
+                                    value={choreData.deadline}
+                                    onChange={e => setChoreData({...choreData, deadline: e.target.value})}
+                                    style={{marginRight: '0.5rem'}}
+                                    min={new Date().toISOString().split('T')[0]}
+                                    max={(() => {
+                                        let d = new Date();
+                                        d.setFullYear(d.getFullYear() + 1);
+                                        return d.toISOString().split('T')[0];
+                                    })()}
+                                />
+                                <button className="btn btn-success" onClick={addChoreToList}
+                                        style={{marginLeft: '0.5rem'}}
+                                        disabled={!choreData.choreName || !isValidDeadline(choreData.deadline)}>Add
+                                </button>
                             </div>
-                            <div className="modal-body">
-                                {/* Role management UI goes here */}
-                                <p>Role management functionality coming soon.</p>
+                            <div>
+                                <h4>Chores to be created:</h4>
+                                {pendingChores.length === 0 ? <p>No chores added yet.</p> : (
+                                    <ul style={{paddingLeft: 0}}>
+                                        {pendingChores.map((chore, idx) => (<li key={idx} style={{
+                                            listStyle: 'none',
+                                            marginBottom: '0.5rem',
+                                            background: '#f7f7f7',
+                                            padding: '0.5rem',
+                                            borderRadius: '6px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between'
+                                        }}>
+                                            <span>{chore.choreName} - {chore.frequencyUnit} - {chore.frequency}x - Until: {new Date(chore.deadline).toLocaleDateString()}</span>
+                                            <button className="btn btn-danger" style={{marginLeft: '1rem'}}
+                                                    onClick={() => removeChoreFromList(idx)}>Remove
+                                            </button>
+                                        </li>))}
+                                    </ul>)}
                             </div>
                         </div>
-                    </div>)}
+                        <div className="modal-actions">
+                            <button className="btn" onClick={() => setShowChoreModal(false)}>Cancel</button>
+                            <button className="btn btn-primary" onClick={handleSubmitChores}
+                                    disabled={pendingChores.length === 0}>Submit All Chores
+                            </button>
+                        </div>
+                    </div>
+                </div>)}
+                {showRoleModal && (<div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h3>Manage Roles</h3>
+                            <button className="modal-close" onClick={() => setShowRoleModal(false)}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>Role management functionality coming soon.</p>
+                        </div>
+                    </div>
+                </div>)}
                 {showInviteModal && (<div className="modal-overlay">
                     <div className="modal">
                         <div className="modal-header">
