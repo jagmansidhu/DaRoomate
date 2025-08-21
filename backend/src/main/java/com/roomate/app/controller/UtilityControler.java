@@ -5,10 +5,10 @@ import com.roomate.app.entities.UtilityEntity;
 import com.roomate.app.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +20,11 @@ public class UtilityControler {
     public ResponseEntity<UtilityEntity> createUtility(@RequestBody UtilityCreateDto dto) {
         UtilityEntity utility = utilityService.createUtility(dto);
         return ResponseEntity.ok(utility);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<List<UtilityEntity>> getUtilitiesByRoom(@PathVariable UUID roomId) {
+        return ResponseEntity.ok(utilityService.getUtilitiesByRoom(roomId));
     }
 
 

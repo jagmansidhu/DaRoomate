@@ -36,31 +36,29 @@ public class UtilityServiceImplt implements UtilityService {
         utility.setUtilDistributionEnum(dto.getUtilDistributionEnum());
         utility.setRoom(room);
 
-        // Handle equal split logic
         if (dto.getUtilDistributionEnum() == UtilDistributionEnum.EQUALSPLIT) {
             List<RoomMemberEntity> members = roomMemberRepository.findByRoomId(dto.getRoomId());
             double share = dto.getUtilityPrice() / members.size();
             for (RoomMemberEntity member : members) {
-                // You could either create a join table entity UtilityShareEntity
-                // OR assign one at a time (if just tracking responsibility)
-                // For now, let’s assign first member to utility for demo
                 utility.setAssignedToMember(member);
                 break;
             }
         }
 
-        // Handle custom split logic
         if (dto.getUtilDistributionEnum() == UtilDistributionEnum.CUSTOMSPLIT) {
             dto.getCustomSplit().forEach((memberId, percentage) -> {
                 RoomMemberEntity member = roomMemberRepository.findById(memberId)
                         .orElseThrow(() -> new EntityNotFoundException("Member not found"));
                 double shareAmount = (percentage / 100.0) * dto.getUtilityPrice();
 
-                // Same as above: you’ll probably want a UtilityShareEntity here
-                // so each member gets a record of their assigned cost
             });
         }
 
         return utilityRepository.save(utility);
+    }
+
+    @Override
+    public List<UtilityEntity> getUtilitiesByRoom(UUID roomId) {
+        return utilityRepository.findByRoomId(roomId);
     }
 }
