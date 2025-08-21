@@ -1,8 +1,8 @@
 package com.roomate.app.service.implementation;
 
-import com.roomate.app.dto.EventDto;
-import com.roomate.app.dto.EventRoomDto;
-import com.roomate.app.dto.EventUserDto;
+import com.roomate.app.dto.EventDTOS.EventDto;
+import com.roomate.app.dto.EventDTOS.EventRoomDto;
+import com.roomate.app.dto.EventDTOS.EventUserDto;
 import com.roomate.app.entities.EventEntity;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;

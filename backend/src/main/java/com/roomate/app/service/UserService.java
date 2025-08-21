@@ -1,7 +1,7 @@
 package com.roomate.app.service;
 
 import com.roomate.app.dto.RegisterDto;
-import com.roomate.app.dto.UpdateProfileDto;
+import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
 import com.roomate.app.entities.UserEntity;
 import org.springframework.dao.DuplicateKeyException;
 

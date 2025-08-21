@@ -1,4 +1,4 @@
-package com.roomate.app.dto;
+package com.roomate.app.dto.UserDTOS;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

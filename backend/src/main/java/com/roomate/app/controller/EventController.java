@@ -1,6 +1,6 @@
 package com.roomate.app.controller;
 
-import com.roomate.app.dto.EventDto;
+import com.roomate.app.dto.EventDTOS.EventDto;
 import com.roomate.app.service.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

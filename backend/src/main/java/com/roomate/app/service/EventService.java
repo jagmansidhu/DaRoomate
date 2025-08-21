@@ -1,6 +1,6 @@
 package com.roomate.app.service;
 
-import com.roomate.app.dto.EventDto;
+import com.roomate.app.dto.EventDTOS.EventDto;
 
 import java.util.List;
 import java.util.UUID;

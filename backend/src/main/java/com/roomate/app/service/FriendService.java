@@ -1,6 +1,6 @@
 //package com.roomate.app.service;
 //
-//import com.roomate.app.dto.UserDto;
+//import com.roomate.app.dto.UserDTOS.UserDto;
 //import com.roomate.app.entities.friendEntity.FriendEntity;
 //
 //import java.util.List;

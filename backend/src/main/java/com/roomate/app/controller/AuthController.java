@@ -3,7 +3,7 @@ package com.roomate.app.controller;
 import com.roomate.app.dto.AuthDto;
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
-import com.roomate.app.dto.UpdateProfileDto;
+import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;

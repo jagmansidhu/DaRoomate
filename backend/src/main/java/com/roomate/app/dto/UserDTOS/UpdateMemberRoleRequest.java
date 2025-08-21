@@ -1,4 +1,4 @@
-package com.roomate.app.dto;
+package com.roomate.app.dto.UserDTOS;
 
 import com.roomate.app.entities.room.RoomMemberEnum;
 import lombok.Getter;

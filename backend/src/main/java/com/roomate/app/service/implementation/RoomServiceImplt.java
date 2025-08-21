@@ -1,5 +1,6 @@
 package com.roomate.app.service.implementation;
 
+import com.roomate.app.dto.UserDTOS.UpdateMemberRoleRequest;
 import com.roomate.app.mailer.RoomInviteMailSender;
 import com.roomate.app.dto.*;
 import com.roomate.app.entities.UserEntity;

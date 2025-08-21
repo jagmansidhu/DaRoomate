@@ -3,7 +3,7 @@ package com.roomate.app.service;
 import com.roomate.app.dto.CreateRoomRequest;
 import com.roomate.app.dto.InviteUserRequest;
 import com.roomate.app.dto.RoomDto;
-import com.roomate.app.dto.UpdateMemberRoleRequest;
+import com.roomate.app.dto.UserDTOS.UpdateMemberRoleRequest;
 import com.roomate.app.exceptions.UserApiError;
 
 import java.util.List;

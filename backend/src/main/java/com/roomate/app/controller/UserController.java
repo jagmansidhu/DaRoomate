@@ -1,6 +1,6 @@
 package com.roomate.app.controller;
 
-import com.roomate.app.dto.UserDto;
+import com.roomate.app.dto.UserDTOS.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.service.implementation.UserServiceImplementation;
 import org.springframework.http.HttpStatus;

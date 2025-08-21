@@ -1,7 +1,7 @@
 package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.RegisterDto;
-import com.roomate.app.dto.UpdateProfileDto;
+import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;

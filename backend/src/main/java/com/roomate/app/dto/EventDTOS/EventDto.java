@@ -1,4 +1,4 @@
-package com.roomate.app.dto;
+package com.roomate.app.dto.EventDTOS;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

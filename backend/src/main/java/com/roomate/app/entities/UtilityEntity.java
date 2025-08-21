@@ -3,12 +3,14 @@ package com.roomate.app.entities;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Data
 public class UtilityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,8 +19,13 @@ public class UtilityEntity {
     private String utilityName;
     private String description;
 
+    private double utilityPrice;
+
     @Enumerated(EnumType.STRING)
     private ChoreFrequencyUnitEnum choreFrequencyUnitEnum;
+
+    @Enumerated(EnumType.STRING)
+    private UtilDistributionEnum utilDistributionEnum;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

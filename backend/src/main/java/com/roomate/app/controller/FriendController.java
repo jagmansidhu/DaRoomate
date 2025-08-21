@@ -1,6 +1,6 @@
 //package com.roomate.app.controller;
 //
-//import com.roomate.app.dto.UserDto;
+//import com.roomate.app.dto.UserDTOS.UserDto;
 //import com.roomate.app.entities.friendEntity.FriendEntity;
 //import com.roomate.app.repository.UserRepository;
 //import com.roomate.app.service.FriendService;

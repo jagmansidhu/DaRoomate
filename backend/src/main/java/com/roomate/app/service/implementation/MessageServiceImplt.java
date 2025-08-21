@@ -1,6 +1,6 @@
 //package com.roomate.app.service.implementation;
 //
-//import com.roomate.app.dto.UserDto;
+//import com.roomate.app.dto.UserDTOS.UserDto;
 //import com.roomate.app.entities.chatEntities.MessageEntity;
 //import com.roomate.app.repository.FriendRepository;
 //import com.roomate.app.repository.MessageRepository;

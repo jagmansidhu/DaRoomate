@@ -1,4 +1,4 @@
-package com.roomate.app.dto;
+package com.roomate.app.dto.EventDTOS;
 
 import lombok.Data;
 import lombok.Getter;
