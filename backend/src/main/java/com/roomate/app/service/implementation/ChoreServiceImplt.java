@@ -48,7 +48,7 @@ public class ChoreServiceImplt implements ChoreService {
 
         List<ChoreEntity> createdChores = new ArrayList<>();
         int memberIndex = 0;
-        LocalDateTime dueDate = now;
+        LocalDateTime dueDate = LocalDateTime.now();
         while (dueDate.isBefore(choreDTO.getDeadline()) || dueDate.isEqual(choreDTO.getDeadline())) {
             ChoreEntity chore = new ChoreEntity();
             chore.setChoreName(choreDTO.getChoreName());
@@ -56,7 +56,7 @@ public class ChoreServiceImplt implements ChoreService {
             chore.setChoreFrequencyUnitEnum(choreDTO.getFrequencyUnit());
             chore.setRoom(room);
             chore.setAssignedToMember(roomMembers.get(memberIndex % roomMembers.size()));
-            chore.setDueAt(dueDate);
+            chore.setDueAt(dueDate.plusMonths(8));
 
             choreRepository.save(chore);
             createdChores.add(chore);
