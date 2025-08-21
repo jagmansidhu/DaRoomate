@@ -11,6 +11,7 @@ public class ChoreDto {
     public LocalDateTime dueAt;
     public boolean isCompleted;
     public String assignedToMemberName;
+    public UUID roomid;
 
     public ChoreDto(UUID id, String choreName, int frequency, String frequencyUnit, LocalDateTime dueAt, boolean isCompleted, String assignedToMemberName) {
         this.id = id;
@@ -20,6 +21,17 @@ public class ChoreDto {
         this.dueAt = dueAt;
         this.isCompleted = isCompleted;
         this.assignedToMemberName = assignedToMemberName;
+    }
+
+    public ChoreDto(UUID id, String choreName, int frequency, String frequencyUnit, LocalDateTime dueAt, boolean isCompleted, String assignedToMemberName, UUID roomid) {
+        this.id = id;
+        this.choreName = choreName;
+        this.frequency = frequency;
+        this.frequencyUnit = frequencyUnit;
+        this.dueAt = dueAt;
+        this.isCompleted = isCompleted;
+        this.assignedToMemberName = assignedToMemberName;
+        this.roomid = roomid;
     }
 }
 

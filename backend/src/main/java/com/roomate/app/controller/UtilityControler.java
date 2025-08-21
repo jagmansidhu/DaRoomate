@@ -1,6 +1,7 @@
 package com.roomate.app.controller;
 
 import com.roomate.app.dto.UtilityCreateDto;
+import com.roomate.app.dto.UtilityDto;
 import com.roomate.app.entities.UtilityEntity;
 import com.roomate.app.service.UtilityService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class UtilityControler {
     }
 
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<List<UtilityEntity>> getUtilitiesByRoom(@PathVariable UUID roomId) {
+    public ResponseEntity<List<UtilityDto>> getUtilitiesByRoom(@PathVariable UUID roomId) {
         return ResponseEntity.ok(utilityService.getUtilitiesByRoom(roomId));
     }
 

@@ -1,5 +1,6 @@
 package com.roomate.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import jakarta.persistence.*;
@@ -34,6 +35,7 @@ public class ChoreEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
+    @JsonIgnore
     private RoomEntity room;
 
 

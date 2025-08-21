@@ -1,6 +1,7 @@
 package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.UtilityCreateDto;
+import com.roomate.app.dto.UtilityDto;
 import com.roomate.app.entities.UtilityEntity;
 import com.roomate.app.entities.UtilDistributionEnum;
 import com.roomate.app.entities.room.RoomEntity;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +62,14 @@ public class UtilityServiceImplt implements UtilityService {
     }
 
     @Override
-    public List<UtilityEntity> getUtilitiesByRoom(UUID roomId) {
-        return utilityRepository.findByRoomId(roomId);
+    @Transactional
+    public List<UtilityDto> getUtilitiesByRoom(UUID roomId) {
+        roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+
+        return utilityRepository.findByRoomId(roomId)
+                .stream()
+                .map(UtilityDto::new)
+                .collect(Collectors.toList());
     }
 }

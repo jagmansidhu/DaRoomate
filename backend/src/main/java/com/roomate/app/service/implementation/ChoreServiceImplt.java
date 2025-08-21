@@ -1,6 +1,7 @@
 package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.ChoreCreateDto;
+import com.roomate.app.dto.ChoreDto;
 import com.roomate.app.entities.ChoreEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,11 @@ public class ChoreServiceImplt implements ChoreService {
 
     @Override
     @Transactional
-    public List<ChoreEntity> distributeChores(UUID roomId, ChoreCreateDto choreDTO) {
-        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+    public List<ChoreDto> distributeChores(UUID roomId, ChoreCreateDto choreDTO) {
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomID(roomId);
+        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomId(roomId);
         if (roomMembers.isEmpty()) {
             throw new IllegalStateException("No members in room to assign chores to");
         }
@@ -46,10 +49,11 @@ public class ChoreServiceImplt implements ChoreService {
             throw new IllegalArgumentException("Deadline must be in the future");
         }
 
-        List<ChoreEntity> createdChores = new ArrayList<>();
+        List<ChoreDto> createdChores = new ArrayList<>();
         int memberIndex = 0;
-        LocalDateTime dueDate = LocalDateTime.now();
-        while (dueDate.isBefore(choreDTO.getDeadline()) || dueDate.isEqual(choreDTO.getDeadline())) {
+        LocalDateTime dueDate = now;
+
+        while (!dueDate.isAfter(choreDTO.getDeadline())) {
             ChoreEntity chore = new ChoreEntity();
             chore.setChoreName(choreDTO.getChoreName());
             chore.setFrequency(choreDTO.getFrequency());
@@ -59,44 +63,37 @@ public class ChoreServiceImplt implements ChoreService {
             chore.setDueAt(dueDate.plusMonths(8));
 
             choreRepository.save(chore);
-            createdChores.add(chore);
+            createdChores.add(toDto(chore));
+
             memberIndex++;
-            // Increment dueDate based on frequency unit
             switch (choreDTO.getFrequencyUnit()) {
                 case WEEKLY -> dueDate = dueDate.plusWeeks(1);
                 case BIWEEKLY -> dueDate = dueDate.plusWeeks(2);
                 case MONTHLY -> dueDate = dueDate.plusMonths(1);
             }
         }
-
         return createdChores;
     }
 
     @Override
-    public int calculateTotalInstances(ChoreCreateDto choreDTO) {
-        return switch (choreDTO.getFrequencyUnit()) {
-            case WEEKLY -> choreDTO.getFrequency() * 4;
-            case BIWEEKLY -> choreDTO.getFrequency() * 2;
-            case MONTHLY -> choreDTO.getFrequency();
-        };
+    @Transactional
+    public List<ChoreDto> getChoresByRoomId(UUID roomId) {
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+
+        return choreRepository.findByRoom(room).stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public LocalDateTime calculateDueDate(int instanceNumber, ChoreCreateDto choreDTO) {
-        LocalDateTime now = LocalDateTime.now();
-        return switch (choreDTO.getFrequencyUnit()) {
-            case WEEKLY -> now.plusWeeks(instanceNumber / choreDTO.getFrequency());
-            case BIWEEKLY -> now.plusWeeks((instanceNumber / choreDTO.getFrequency()) * 2);
-            case MONTHLY -> now.plusMonths(instanceNumber);
-        };
-    }
-
-    @Override
+    @Transactional
     public void redistributeChores(UUID roomId) {
-        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
         List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomId(roomId);
-        List<ChoreEntity> chores = choreRepository.findByRoomAndDueAtAfter(room, LocalDateTime.now());
+        List<ChoreEntity> chores = choreRepository.findByRoomWithMemberAndUser(room);
 
         int memberIndex = 0;
         for (ChoreEntity chore : chores) {
@@ -104,12 +101,6 @@ public class ChoreServiceImplt implements ChoreService {
             choreRepository.save(chore);
             memberIndex++;
         }
-    }
-
-    @Override
-    public List<ChoreEntity> getChoresByRoomId(UUID roomId) {
-        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
-        return choreRepository.findByRoom(room);
     }
 
     @Override
@@ -121,7 +112,24 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     public void deleteChoresByType(UUID roomId, String choreName) {
-        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
         choreRepository.deleteAllByRoomIdAndChoreName(roomId, choreName);
+    }
+
+    private ChoreDto toDto(ChoreEntity entity) {
+        String assignedTo = (entity.getAssignedToMember() != null && entity.getAssignedToMember().getUser() != null)
+                ? entity.getAssignedToMember().getUser().getEmail()
+                : null;
+        return new ChoreDto(
+                entity.getId(),
+                entity.getChoreName(),
+                entity.getFrequency(),
+                entity.getChoreFrequencyUnitEnum().name(),
+                entity.getDueAt(),
+                entity.isCompleted(),
+                assignedTo,
+                entity.getRoom() != null ? entity.getRoom().getId() : null
+        );
     }
 }
