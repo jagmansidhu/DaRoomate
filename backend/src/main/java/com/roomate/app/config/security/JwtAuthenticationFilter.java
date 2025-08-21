@@ -26,15 +26,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        System.out.println("JWT Auth Filter triggered. URI: " + request.getRequestURI());
 
-        if (request.getCookies() != null) {
-            for (var cookie : request.getCookies()) {
-                System.out.println("Cookie: " + cookie.getName() + "=" + cookie.getValue());
-            }
-        } else {
-            System.out.println("No cookies found in request.");
-        }
+//        if (request.getCookies() != null) {
+//            for (var cookie : request.getCookies()) {
+//                System.out.println("Cookie: " + cookie.getName() + "=" + cookie.getValue());
+//            }
+//        } else {
+//            System.out.println("No cookies found in request.");
+//        }
 
 
         final String authHeader = request.getHeader("Authorization");

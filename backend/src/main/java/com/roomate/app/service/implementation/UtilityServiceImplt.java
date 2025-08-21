@@ -10,6 +10,7 @@ import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UtilityRepository;
 import com.roomate.app.service.UtilityService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class UtilityServiceImplt implements UtilityService {
     private final RoomMemberRepository roomMemberRepository;
 
     @Override
+    @Transactional
     public UtilityEntity createUtility(UtilityCreateDto dto) {
         com.roomate.app.entities.room.RoomEntity room = roomRepository.findById(dto.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));

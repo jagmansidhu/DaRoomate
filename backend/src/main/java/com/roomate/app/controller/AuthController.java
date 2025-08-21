@@ -79,20 +79,17 @@ public class AuthController {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
-            System.out.println("Cookies are null");
             return ResponseEntity.status(401).body("Cookie Null");
         }
 
         String token = null;
         for (Cookie cookie : cookies) {
-            System.out.println("Found cookie: " + cookie.getName() + " = " + cookie.getValue());
             if ("jwt".equals(cookie.getName())) {
                 token = cookie.getValue();
             }
         }
 
         if (token == null || token.isEmpty() || !token.contains(".")) {
-            System.out.println("Malformed or missing token");
             return ResponseEntity.status(401).body("Invalid or missing token");
         }
 
