@@ -1,5 +1,6 @@
 package com.roomate.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import jakarta.persistence.*;
@@ -40,8 +41,8 @@ public class UtilityEntity {
     @JoinColumn(name = "room_id")
     private RoomEntity room;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "room_member_id")
     private RoomMemberEntity assignedToMember;
 

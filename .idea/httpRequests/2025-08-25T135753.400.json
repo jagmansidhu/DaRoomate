@@ -1,0 +1,4 @@
+{
+  "error": "HttpMessageNotReadableException",
+  "message": "JSON parse error: Cannot construct instance of `java.util.LinkedHashMap` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('0,0')"
+}

@@ -13,8 +13,10 @@ import com.roomate.app.service.UtilityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,47 +31,50 @@ public class UtilityServiceImplt implements UtilityService {
 
     @Override
     @Transactional
-    public UtilityEntity createUtility(UtilityCreateDto dto) {
-        com.roomate.app.entities.room.RoomEntity room = roomRepository.findById(dto.getRoomId())
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+    public List<UtilityEntity> createUtility(UtilityCreateDto dto) {
+        RoomEntity room = roomRepository.findById(dto.getRoomId()).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        Hibernate.initialize(room.getMembers());
 
-        UtilityEntity utility = new UtilityEntity();
-        utility.setUtilityName(dto.getUtilityName());
-        utility.setDescription(dto.getDescription());
-        utility.setUtilityPrice(dto.getUtilityPrice());
-        utility.setUtilDistributionEnum(dto.getUtilDistributionEnum());
-        utility.setRoom(room);
+        List<UtilityEntity> createdUtilities = new ArrayList<>();
 
         if (dto.getUtilDistributionEnum() == UtilDistributionEnum.EQUALSPLIT) {
-            List<RoomMemberEntity> members = roomMemberRepository.findByRoomId(dto.getRoomId());
+            List<RoomMemberEntity> members = room.getMembers();
             double share = dto.getUtilityPrice() / members.size();
-            for (RoomMemberEntity member : members) {
-                utility.setAssignedToMember(member);
-                break;
-            }
-        }
 
-        if (dto.getUtilDistributionEnum() == UtilDistributionEnum.CUSTOMSPLIT) {
+            for (RoomMemberEntity member : members) {
+                UtilityEntity utility = new UtilityEntity();
+                utility.setUtilityName(dto.getUtilityName());
+                utility.setDescription(dto.getDescription());
+                utility.setUtilityPrice(share);
+                utility.setUtilDistributionEnum(dto.getUtilDistributionEnum());
+                utility.setRoom(room);
+                utility.setAssignedToMember(member);
+                createdUtilities.add(utilityRepository.save(utility));
+            }
+        } else if (dto.getUtilDistributionEnum() == UtilDistributionEnum.CUSTOMSPLIT) {
             dto.getCustomSplit().forEach((memberId, percentage) -> {
-                RoomMemberEntity member = roomMemberRepository.findById(memberId)
-                        .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+                RoomMemberEntity member = roomMemberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("Member not found"));
                 double shareAmount = (percentage / 100.0) * dto.getUtilityPrice();
 
+                UtilityEntity utility = new UtilityEntity();
+                utility.setUtilityName(dto.getUtilityName());
+                utility.setDescription(dto.getDescription());
+                utility.setUtilityPrice(shareAmount);
+                utility.setUtilDistributionEnum(dto.getUtilDistributionEnum());
+                utility.setRoom(room);
+                utility.setAssignedToMember(member);
+                createdUtilities.add(utilityRepository.save(utility));
             });
         }
 
-        return utilityRepository.save(utility);
+        return createdUtilities;
     }
 
     @Override
     @Transactional
     public List<UtilityDto> getUtilitiesByRoom(UUID roomId) {
-        roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        return utilityRepository.findByRoomId(roomId)
-                .stream()
-                .map(UtilityDto::new)
-                .collect(Collectors.toList());
+        return utilityRepository.findByRoomId(roomId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(), utility.getRoom() != null ? utility.getRoom().getId() : null)).collect(Collectors.toList());
     }
 }

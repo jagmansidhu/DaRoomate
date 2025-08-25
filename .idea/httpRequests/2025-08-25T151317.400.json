@@ -1,0 +1,4 @@
+{
+  "error": "HttpMessageNotWritableException",
+  "message": "Could not write JSON: failed to lazily initialize a collection of role: com.roomate.app.entities.room.RoomEntity.members: could not initialize proxy - no Session"
+}

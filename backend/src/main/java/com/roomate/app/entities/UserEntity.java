@@ -38,6 +38,7 @@ public class UserEntity implements UserDetails{
 //    @JoinColumn(name = "addressId", referencedColumnName = "id")
 //    @JsonIgnore
 //    private AddressEntity address;
+    // TODO Remove EAGER loading and add dto to user/login
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<RolesEntity> roles = new HashSet<>();

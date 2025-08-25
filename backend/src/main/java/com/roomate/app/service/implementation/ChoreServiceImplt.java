@@ -33,7 +33,7 @@ public class ChoreServiceImplt implements ChoreService {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomId(roomId);
+        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomID(roomId);
         if (roomMembers.isEmpty()) {
             throw new IllegalStateException("No members in room to assign chores to");
         }
@@ -60,7 +60,7 @@ public class ChoreServiceImplt implements ChoreService {
             chore.setChoreFrequencyUnitEnum(choreDTO.getFrequencyUnit());
             chore.setRoom(room);
             chore.setAssignedToMember(roomMembers.get(memberIndex % roomMembers.size()));
-            chore.setDueAt(dueDate.plusMonths(8));
+            chore.setDueAt(now.plusWeeks(1));
 
             choreRepository.save(chore);
             createdChores.add(toDto(chore));
@@ -92,7 +92,7 @@ public class ChoreServiceImplt implements ChoreService {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomId(roomId);
+        List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomID(roomId);
         List<ChoreEntity> chores = choreRepository.findByRoomWithMemberAndUser(room);
 
         int memberIndex = 0;

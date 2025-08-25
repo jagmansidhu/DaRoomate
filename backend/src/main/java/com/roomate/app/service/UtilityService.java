@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UtilityService {
-    UtilityEntity createUtility(UtilityCreateDto dto);
+    List<UtilityEntity> createUtility(UtilityCreateDto dto);
     List<UtilityDto> getUtilitiesByRoom(UUID roomId);
 
 }

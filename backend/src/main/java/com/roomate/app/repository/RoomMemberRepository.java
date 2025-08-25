@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Repository
 public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UUID> {
-    List<RoomMemberEntity> findByRoomId(UUID roomId);
     Optional<RoomMemberEntity> findByRoomIdAndUserId(UUID roomId, Long userId);
     boolean existsByRoomIdAndUserId(UUID roomId, Long userId);
 

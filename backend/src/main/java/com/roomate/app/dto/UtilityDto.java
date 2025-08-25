@@ -18,6 +18,11 @@ public class UtilityDto {
         this.utilityPrice = entity.getUtilityPrice();
         this.roomId = entity.getRoom() != null ? entity.getRoom().getId() : null;
     }
+    public UtilityDto(UUID id, String utilityName, Double utilityPrice, UUID roomId) {
+        this.id = id;
+        this.utilityName = utilityName;
+        this.utilityPrice = utilityPrice;
+        this.roomId = roomId;
+    }
 
-    // getters and setters
 }

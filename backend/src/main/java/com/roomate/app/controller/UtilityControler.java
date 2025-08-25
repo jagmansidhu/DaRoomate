@@ -18,8 +18,8 @@ public class UtilityControler {
     private final UtilityService utilityService;
 
     @PostMapping("/create")
-    public ResponseEntity<UtilityEntity> createUtility(@RequestBody UtilityCreateDto dto) {
-        UtilityEntity utility = utilityService.createUtility(dto);
+    public ResponseEntity<List<UtilityEntity>> createUtility(@RequestBody UtilityCreateDto dto) {
+        List<UtilityEntity> utility = utilityService.createUtility(dto);
         return ResponseEntity.ok(utility);
     }
 
