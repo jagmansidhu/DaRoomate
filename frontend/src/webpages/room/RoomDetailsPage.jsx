@@ -15,6 +15,7 @@ const RoomDetailsPage = ({
         utilityName: "", description: "", utilityPrice: 0, utilDistributionEnum: "EQUALSPLIT", customSplit: {}
     });
     const [showChoreModal, setShowChoreModal] = useState(false);
+    const [showRemoveChoreModal, setShowRemoveChoreModal] = useState(false);
     const [pendingChores, setPendingChores] = useState([]);
     const [choreData, setChoreData] = useState({
         choreName: '', frequency: 1, frequencyUnit: 'WEEKLY', deadline: ''
@@ -295,29 +296,6 @@ const RoomDetailsPage = ({
                                 </li>));
                         })()}
                     </ul>
-                    {(isAssistantRoommate || isHeadRoommate) && chores.length > 0 && (<div style={{marginTop: '1rem'}}>
-                            <label htmlFor="choreTypeSelect">Remove all chores of type:</label>
-                            <select
-                                id="choreTypeSelect"
-                                value={selectedChoreType}
-                                onChange={e => setSelectedChoreType(e.target.value)}
-                                style={{marginLeft: '0.5rem'}}
-                            >
-                                <option value="">Select chore type</option>
-                                {[...new Set(chores.map(chore => chore.choreName))].map(name => (
-                                    <option key={name} value={name}>
-                                        {name}
-                                    </option>))}
-                            </select>
-                            <button
-                                className="btn btn-danger"
-                                style={{marginLeft: '0.5rem'}}
-                                onClick={handleRemoveChoresByType}
-                                disabled={!selectedChoreType}
-                            >
-                                Remove All
-                            </button>
-                        </div>)}
                 </div>
                 {/*<div className="detail-section">*/}
                 {/*    <h3>All Utilities</h3>*/}
@@ -431,11 +409,60 @@ const RoomDetailsPage = ({
                         <button className="btn btn-primary" onClick={() => setShowUtilityModal(true)}>
                             Add Utility
                         </button>
+                        <button className="btn btn-danger" onClick={() => setShowRemoveChoreModal(true)}>
+                            Remove Chore
+                        </button>
                         {isHeadRoommate && (<div className="management-actions">
                             <button className="btn btn-danger" onClick={onDeleteRoom}>
                                 Delete Room
                             </button>
                         </div>)}
+                    </div>
+                </div>)}
+                {showRemoveChoreModal && (<div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-header">
+                            <h3>Remove Chores</h3>
+                            <button
+                                className="modal-close"
+                                onClick={() => setShowRemoveChoreModal(false)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <label htmlFor="choreTypeSelectModal">Select chore type:</label>
+                            <select
+                                id="choreTypeSelectModal"
+                                value={selectedChoreType}
+                                onChange={e => setSelectedChoreType(e.target.value)}
+                                style={{marginLeft: '0.5rem'}}
+                            >
+                                <option value="">Select chore type</option>
+                                {[...new Set(chores.map(chore => chore.choreName))].map(name => (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>))}
+                            </select>
+                        </div>
+                        <div className="modal-actions">
+                            <button
+                                className="btn"
+                                onClick={() => setShowRemoveChoreModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={() => {
+                                    handleRemoveChoresByType();
+                                    setShowRemoveChoreModal(false);
+                                }}
+                                disabled={!selectedChoreType}
+                            >
+                                Remove
+                            </button>
+                        </div>
                     </div>
                 </div>)}
                 {showChoreModal && (<div className="modal-overlay">

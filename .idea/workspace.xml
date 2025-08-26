@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/ChoreServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/ChoreServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +304,7 @@
       <workItem from="1755398181468" duration="46669000" />
       <workItem from="1756074814909" duration="1335000" />
       <workItem from="1756076936693" duration="6319000" />
-      <workItem from="1756154825572" duration="16697000" />
+      <workItem from="1756154825572" duration="17302000" />
     </task>
     <servers />
   </component>
