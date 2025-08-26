@@ -114,12 +114,11 @@ public class RoomController {
         }
     }
 
-    @DeleteMapping("/{memberid}/leave")
-    public ResponseEntity<Void> leaveRoom(@PathVariable UUID memberid, @AuthenticationPrincipal UserDetails userDetails) {
+    @DeleteMapping("/{memberid}/leave/{roomid}")
+    public ResponseEntity<Void> leaveRoom(@PathVariable UUID memberid, @PathVariable UUID roomid, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             String email = userDetails.getUsername();
-            System.out.println("Member ID: " + memberid);
-            roomService.leaveRoom(memberid, email);
+            roomService.leaveRoom(memberid, email, roomid);
             return ResponseEntity.ok().build();
         } catch (UserApiError e) {
             e.printStackTrace();

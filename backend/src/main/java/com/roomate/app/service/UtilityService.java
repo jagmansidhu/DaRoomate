@@ -10,5 +10,9 @@ import java.util.UUID;
 public interface UtilityService {
     List<UtilityEntity> createUtility(UtilityCreateDto dto);
     List<UtilityDto> getUtilitiesByRoom(UUID roomId);
+    void deleteUtility(UUID utilityId);
+    void deleteAllUtilitiesByRoomIdandUserId(UUID roomId, String email);
 
+
+    boolean utilityExistsForUserandRoom(UUID utilityId, String email);
 }

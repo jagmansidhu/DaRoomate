@@ -34,7 +34,7 @@ const RoomDetailsPageWrapper = () => {
     const handleLeaveRoom = useCallback((memberId) => {
         const leaveRoom = async () => {
             try {
-                await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${memberId}/leave`, {
+                await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/api/rooms/${memberId}/leave/${roomId}`, {
                     withCredentials: true,
                 });
                 navigate('/rooms');

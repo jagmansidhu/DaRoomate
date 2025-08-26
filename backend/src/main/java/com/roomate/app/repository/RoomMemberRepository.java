@@ -40,4 +40,9 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
     @Query("DELETE FROM RoomMemberEntity m WHERE m.id = :id AND m.user.id = :userId")
     void deleteByMemberIdAndUserId(@Param("id") UUID id, @Param("userId") Long userId);
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM RoomMemberEntity m WHERE m.id = :id AND m.user.email = :email")
+    void deleteByMemberIdAndEmail(@Param("id") UUID id, @Param("email") String email);
+
 }

@@ -8,11 +8,9 @@ import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.exceptions.UserApiError;
-import com.roomate.app.repository.EventRepository;
-import com.roomate.app.repository.RoomMemberRepository;
-import com.roomate.app.repository.RoomRepository;
-import com.roomate.app.repository.UserRepository;
+import com.roomate.app.repository.*;
 import com.roomate.app.service.RoomService;
+import com.roomate.app.service.UtilityService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,10 @@ public class RoomServiceImplt implements RoomService {
     private final EventRepository eventRepository;
     @Autowired
     private RoomInviteMailSender mailSender;
+    @Autowired
+    private UtilityService utilityService;
+    @Autowired
+    private UtilityRepository utilityRepository;
 
     public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository, RoomMemberRepository roomMemberRepository,
                             EventRepository eventRepository) {
@@ -148,14 +150,24 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     @Transactional
-    public void leaveRoom(UUID memberid, String email) throws UserApiError {
+    public void leaveRoom(UUID memberid, String email, UUID roomid) throws UserApiError {
         UserEntity user = userRepository.getUserByEmail(email);
-        RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId())
+
+        RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityById(memberid)
                 .orElseThrow(() -> new UserApiError("Room member not found with ID: " + user.getId()));
 
         if (member.getRole() == RoomMemberEnum.HEAD_ROOMMATE) {
             throw new UserApiError("Cannot have the head roommate leave the room.");
         }
+
+        if (!member.getUser().getId().equals(user.getId())) {
+            throw new UserApiError("Not authorized to remove this member.");
+        }
+
+        utilityRepository.deleteAllByRoomMemberId(memberid);
+
+
+        utilityService.deleteAllUtilitiesByRoomIdandUserId(roomid, email);
 
         roomMemberRepository.deleteByMemberIdAndUserId(memberid, user.getId());
 

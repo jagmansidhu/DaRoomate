@@ -208,9 +208,9 @@ const RoomDetailsPage = ({
                             </div>);
                         })}
                     </div>
-                    <button className="btn btn-secondary" onClick={() => setShowRoleModal(true)}>
-                        Manage Roles
-                    </button>
+                    {/*<button className="btn btn-secondary" onClick={() => setShowRoleModal(true)}>*/}
+                    {/*    Manage Roles*/}
+                    {/*</button>*/}
                 </div>
                 <div className="detail-section">
                     <h3>Chores</h3>
