@@ -109,6 +109,8 @@ public class RoomServiceImplt implements RoomService {
 
         room.getMembers().add(member);
 
+//        utilityService.updateUtilitiesOnUserChange(room.getId());
+
         return convertToRoomDto(roomRepository.save(room));
     }
 
@@ -163,11 +165,11 @@ public class RoomServiceImplt implements RoomService {
         if (!member.getUser().getId().equals(user.getId())) {
             throw new UserApiError("Not authorized to remove this member.");
         }
+        if (!utilityRepository.findByRoomId(memberid).isEmpty()) {
+            utilityRepository.deleteAllByRoomMemberId(memberid);
+        }
 
-        utilityRepository.deleteAllByRoomMemberId(memberid);
-
-
-        utilityService.deleteAllUtilitiesByRoomIdandUserId(roomid, email);
+//        utilityService.updateUtilitiesOnUserChange(roomid);
 
         roomMemberRepository.deleteByMemberIdAndUserId(memberid, user.getId());
 

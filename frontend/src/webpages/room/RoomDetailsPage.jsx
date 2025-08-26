@@ -269,112 +269,120 @@ const RoomDetailsPage = ({
                                 </li>));
                         })()}
                     </ul>
-                    <div style={{marginTop: '1rem'}}>
+                    {(isAssistantRoommate || isHeadRoommate) && (<div style={{marginTop: '1rem'}}>
                         <label htmlFor="choreTypeSelect">Remove all chores of type:</label>
-                        <select id="choreTypeSelect" value={selectedChoreType}
-                                onChange={e => setSelectedChoreType(e.target.value)} style={{marginLeft: '0.5rem'}}>
+                        <select
+                            id="choreTypeSelect"
+                            value={selectedChoreType}
+                            onChange={e => setSelectedChoreType(e.target.value)}
+                            style={{marginLeft: '0.5rem'}}
+                        >
                             <option value="">Select chore type</option>
                             {[...new Set(chores.map(chore => chore.choreName))].map(name => (
-                                <option key={name} value={name}>{name}</option>))}
+                                <option key={name} value={name}>
+                                    {name}
+                                </option>))}
                         </select>
-                        <button className="btn btn-danger" style={{marginLeft: '0.5rem'}}
-                                onClick={handleRemoveChoresByType} disabled={!selectedChoreType}>Remove All
+                        <button
+                            className="btn btn-danger"
+                            style={{marginLeft: '0.5rem'}}
+                            onClick={handleRemoveChoresByType}
+                            disabled={!selectedChoreType}
+                        >
+                            Remove All
                         </button>
-                    </div>
+                    </div>)}
                 </div>
                 <div className="detail-section">
                     <h3>Utilities</h3>
                     {utilities.length === 0 ? (<p>No utilities yet.</p>) : (<ul>
-                            {utilities.map(u => (<li key={u.id} style={{
-                                    marginBottom: "0.5rem",
-                                    padding: "0.5rem",
-                                    background: "#f7f7f7",
-                                    borderRadius: "6px"
-                                }}>
-                                    <strong>{u.utilityName}</strong> -
-                                    ${u.utilityPrice.toFixed(2)} ({u.utilDistributionEnum})
-                                    <p style={{margin: 0, fontSize: "0.9rem", color: "#555"}}>{u.description}</p>
-                                </li>))}
-                        </ul>)}
-
-                    {(isAssistantRoommate || isHeadRoommate) && (
-                        <button className="btn btn-primary" onClick={() => setShowUtilityModal(true)}>
-                            Add Utility
-                        </button>)}
+                        {utilities.map(u => (<li key={u.id} style={{
+                            marginBottom: "0.5rem", padding: "0.5rem", background: "#f7f7f7", borderRadius: "6px"
+                        }}>
+                            <strong>{u.utilityName}</strong> -
+                            ${u.utilityPrice.toFixed(2)}
+                            <p style={{margin: 0, fontSize: "0.9rem", color: "#555"}}>{u.description}</p>
+                        </li>))}
+                    </ul>)}
                 </div>
 
                 {/* Utility Modal */}
                 {showUtilityModal && (<div className="modal-overlay">
-                        <div className="modal" style={{minWidth: "400px"}}>
-                            <div className="modal-header">
-                                <h3>Create Utility</h3>
-                                <button className="modal-close" onClick={() => setShowUtilityModal(false)}>×</button>
-                            </div>
-                            <div className="modal-body">
-                                <input
-                                    type="text"
-                                    className="input"
-                                    placeholder="Utility name"
-                                    value={utilityData.utilityName}
-                                    onChange={e => setUtilityData({...utilityData, utilityName: e.target.value})}
-                                    style={{marginBottom: "0.5rem"}}
-                                />
-                                <textarea
-                                    className="input"
-                                    placeholder="Description"
-                                    value={utilityData.description}
-                                    onChange={e => setUtilityData({...utilityData, description: e.target.value})}
-                                    style={{marginBottom: "0.5rem"}}
-                                />
-                                <input
-                                    type="number"
-                                    className="input"
-                                    placeholder="Total Price"
-                                    value={utilityData.utilityPrice}
-                                    onChange={e => setUtilityData({
-                                        ...utilityData, utilityPrice: e.target.value === " " ? " " : parseFloat(e.target.value)
-                                    })}
-                                    style={{marginBottom: "0.5rem"}}
-                                />
-                                <select
-                                    value={utilityData.utilDistributionEnum}
-                                    onChange={e => setUtilityData({
-                                        ...utilityData, utilDistributionEnum: e.target.value
-                                    })}
-                                    style={{marginBottom: "0.5rem"}}
-                                >
-                                    <option value="EQUALSPLIT">Equal Split</option>
-                                    <option value="CUSTOMSPLIT">Custom Split</option>
-                                </select>
-
-                                {utilityData.utilDistributionEnum === "CUSTOMSPLIT" && (<div>
-                                        <h4>Custom Split</h4>
-                                        {room.members.map(m => (<div key={m.id} style={{
-                                                display: "flex", alignItems: "center", marginBottom: "0.3rem"
-                                            }}>
-                                                <span style={{flex: 1}}>{m.name}</span>
-                                                <input
-                                                    type="number"
-                                                    placeholder="% share"
-                                                    value={utilityData.customSplit[m.id] || ""}
-                                                    onChange={e => setUtilityData({
-                                                        ...utilityData, customSplit: {
-                                                            ...utilityData.customSplit,
-                                                            [m.id]: parseFloat(e.target.value)
-                                                        }
-                                                    })}
-                                                    style={{width: "80px"}}
-                                                />
-                                            </div>))}
-                                    </div>)}
-                            </div>
-                            <div className="modal-actions">
-                                <button className="btn" onClick={() => setShowUtilityModal(false)}>Cancel</button>
-                                <button className="btn btn-primary" onClick={handleSubmitUtility}>Create Utility
-                                </button>
-                            </div>
+                    <div className="modal" style={{minWidth: "400px"}}>
+                        <div className="modal-header">
+                            <h3>Create Utility</h3>
+                            <button className="modal-close" onClick={() => setShowUtilityModal(false)}>×</button>
                         </div>
-                    </div>)}
+                        <div className="modal-body">
+                            <input
+                                type="text"
+                                className="input"
+                                placeholder="Utility name"
+                                value={utilityData.utilityName}
+                                onChange={e => setUtilityData({...utilityData, utilityName: e.target.value})}
+                                style={{marginBottom: "0.5rem"}}
+                            />
+                            <textarea
+                                className="input"
+                                placeholder="Description"
+                                value={utilityData.description}
+                                onChange={e => setUtilityData({...utilityData, description: e.target.value})}
+                                style={{marginBottom: "0.5rem"}}
+                            />
+                            <input
+                                type="number"
+                                className="input"
+                                placeholder="Total Price"
+                                value={utilityData.utilityPrice || ""}
+                                onChange={e => {
+                                    const value = parseFloat(e.target.value);
+                                    if (value >= 0 || e.target.value === "") {
+                                        setUtilityData({
+                                            ...utilityData,
+                                            utilityPrice: e.target.value === "" ? "" : value
+                                        });
+                                    }
+                                }}
+                                style={{marginBottom: "0.5rem"}}
+                            />
+                            <select
+                                value={utilityData.utilDistributionEnum}
+                                onChange={e => setUtilityData({
+                                    ...utilityData, utilDistributionEnum: e.target.value
+                                })}
+                                style={{marginBottom: "0.5rem"}}
+                            >
+                                <option value="EQUALSPLIT">Equal Split</option>
+                                {/*<option value="CUSTOMSPLIT">Custom Split</option>*/}
+                            </select>
+
+                            {utilityData.utilDistributionEnum === "CUSTOMSPLIT" && (<div>
+                                <h4>Custom Split</h4>
+                                {room.members.map(m => (<div key={m.id} style={{
+                                    display: "flex", alignItems: "center", marginBottom: "0.3rem"
+                                }}>
+                                    <span style={{flex: 1}}>{m.name}</span>
+                                    <input
+                                        type="number"
+                                        placeholder="% share"
+                                        value={utilityData.customSplit[m.id] || ""}
+                                        onChange={e => setUtilityData({
+                                            ...utilityData, customSplit: {
+                                                ...utilityData.customSplit, [m.id]: parseFloat(e.target.value)
+                                            }
+                                        })}
+                                        style={{width: "80px"}}
+                                    />
+                                </div>))}
+                            </div>)}
+                        </div>
+                        <div className="modal-actions">
+                            <button className="btn" onClick={() => setShowUtilityModal(false)}>Cancel</button>
+                            <button className="btn btn-primary" onClick={handleSubmitUtility}>Create Utility
+                            </button>
+                        </div>
+                    </div>
+                </div>)}
                 {(isAssistantRoommate || isHeadRoommate) && (<div className="detail-section">
                     <div className="management-actions">
                         <button className="btn btn-secondary" onClick={() => setShowInviteModal(true)}>
@@ -382,6 +390,9 @@ const RoomDetailsPage = ({
                         </button>
                         <button className="btn btn-primary" onClick={() => setShowChoreModal(true)}>
                             Create Chore List
+                        </button>
+                        <button className="btn btn-primary" onClick={() => setShowUtilityModal(true)}>
+                            Add Utility
                         </button>
                         {isHeadRoommate && (<div className="management-actions">
                             <button className="btn btn-danger" onClick={onDeleteRoom}>

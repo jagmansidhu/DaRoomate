@@ -81,37 +81,34 @@ public class UtilityServiceImplt implements UtilityService {
         return utilityRepository.findByRoomId(roomId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(), utility.getRoom() != null ? utility.getRoom().getId() : null)).collect(Collectors.toList());
     }
 
+    // TODO handle OVerall Logic for updating utilities when users are added or removed from a room
     @Override
     @Transactional
-    public void deleteUtility(UUID utilityId) {
-        UtilityEntity utility = utilityRepository.findById(utilityId).orElseThrow(() -> new EntityNotFoundException("Utility not found"));
-        utilityRepository.delete(utility);
-    }
-    @Override
-    @Transactional
-    public void deleteAllUtilitiesByRoomIdandUserId(UUID roomId, String email) {
-        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
-        UserEntity user = userRepository.getUserByEmail(email);
-        RoomMemberEntity member = roomMemberRepository.getRoomMemberEntityByUserId(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if (!roomMemberRepository.existsByRoomIdAndUserId(roomId, member.getUser().getId())) {
-            throw new EntityNotFoundException("User is not a member of the room");
+    public void updateUtilitiesOnUserChange(UUID roomId) {
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        Hibernate.initialize(room.getMembers());
+
+        List<RoomMemberEntity> members = room.getMembers();
+        if (members.isEmpty()) {
+            throw new IllegalStateException("Room has no members.");
         }
-        List<UtilityEntity> utilities = utilityRepository.findByRoomId(roomId).stream()
-                .filter(utility -> utility.getAssignedToMember() != null && utility.getAssignedToMember().getId().equals(member.getId()))
-                .collect(Collectors.toList());
 
-        utilityRepository.deleteAll(utilities);
-    }
+        List<UtilityEntity> utilities = utilityRepository.findByRoomId(roomId);
 
-    @Override
-    public boolean utilityExistsForUserandRoom(UUID utilityId, String email) {
-        UtilityEntity utility = utilityRepository.findById(utilityId).orElseThrow(() -> new EntityNotFoundException("Utility not found"));
-        UserEntity user = userRepository.getUserByEmail(email);
-
-        RoomEntity room = utility.getRoom();
-        if (room == null) {
-            return false;
+        for (UtilityEntity utility : utilities) {
+            if (utility.getUtilDistributionEnum() == UtilDistributionEnum.EQUALSPLIT) {
+                double share = utility.getUtilityPrice() / members.size();
+                for (RoomMemberEntity member : members) {
+                    utility.setAssignedToMember(member);
+                    utility.setUtilityPrice(share);
+                    utilityRepository.save(utility);
+                }
+            } else if (utility.getUtilDistributionEnum() == UtilDistributionEnum.CUSTOMSPLIT) {
+                // Handle CUSTOMSPLIT logic if needed
+                throw new UnsupportedOperationException("Custom split logic needs to be implemented.");
+            }
         }
-        return roomMemberRepository.existsByRoomIdAndUserId(room.getId(), roomMemberRepository.getRoomMemberEntityByUserId(user.getId()).orElseThrow(() -> new EntityNotFoundException("User not found")).getUser().getId());
     }
+
 }
