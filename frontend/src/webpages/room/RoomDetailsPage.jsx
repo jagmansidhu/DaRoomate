@@ -295,29 +295,29 @@ const RoomDetailsPage = ({
                                 </li>));
                         })()}
                     </ul>
-                    {(isAssistantRoommate || isHeadRoommate) && (<div style={{marginTop: '1rem'}}>
-                        <label htmlFor="choreTypeSelect">Remove all chores of type:</label>
-                        <select
-                            id="choreTypeSelect"
-                            value={selectedChoreType}
-                            onChange={e => setSelectedChoreType(e.target.value)}
-                            style={{marginLeft: '0.5rem'}}
-                        >
-                            <option value="">Select chore type</option>
-                            {[...new Set(chores.map(chore => chore.choreName))].map(name => (
-                                <option key={name} value={name}>
-                                    {name}
-                                </option>))}
-                        </select>
-                        <button
-                            className="btn btn-danger"
-                            style={{marginLeft: '0.5rem'}}
-                            onClick={handleRemoveChoresByType}
-                            disabled={!selectedChoreType}
-                        >
-                            Remove All
-                        </button>
-                    </div>)}
+                    {(isAssistantRoommate || isHeadRoommate) && chores.length > 0 && (<div style={{marginTop: '1rem'}}>
+                            <label htmlFor="choreTypeSelect">Remove all chores of type:</label>
+                            <select
+                                id="choreTypeSelect"
+                                value={selectedChoreType}
+                                onChange={e => setSelectedChoreType(e.target.value)}
+                                style={{marginLeft: '0.5rem'}}
+                            >
+                                <option value="">Select chore type</option>
+                                {[...new Set(chores.map(chore => chore.choreName))].map(name => (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>))}
+                            </select>
+                            <button
+                                className="btn btn-danger"
+                                style={{marginLeft: '0.5rem'}}
+                                onClick={handleRemoveChoresByType}
+                                disabled={!selectedChoreType}
+                            >
+                                Remove All
+                            </button>
+                        </div>)}
                 </div>
                 {/*<div className="detail-section">*/}
                 {/*    <h3>All Utilities</h3>*/}

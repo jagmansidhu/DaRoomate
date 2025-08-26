@@ -60,7 +60,7 @@ public class ChoreServiceImplt implements ChoreService {
             chore.setChoreFrequencyUnitEnum(choreDTO.getFrequencyUnit());
             chore.setRoom(room);
             chore.setAssignedToMember(roomMembers.get(memberIndex % roomMembers.size()));
-            chore.setDueAt(now.plusWeeks(1));
+            chore.setDueAt(dueDate);
 
             choreRepository.save(chore);
             createdChores.add(toDto(chore));
