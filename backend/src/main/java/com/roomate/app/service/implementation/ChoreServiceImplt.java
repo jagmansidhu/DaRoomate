@@ -30,8 +30,7 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     public List<ChoreDto> distributeChores(UUID roomId, ChoreCreateDto choreDTO) {
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
         List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomID(roomId);
         if (roomMembers.isEmpty()) {
@@ -78,19 +77,18 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     public List<ChoreDto> getChoresByRoomId(UUID roomId) {
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
-        return choreRepository.findByRoom(room).stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime twoWeeksAhead = now.plusWeeks(2);
+
+        return choreRepository.findByRoom(room).stream().filter(chore -> chore.getDueAt() != null && chore.getDueAt().isAfter(now) && chore.getDueAt().isBefore(twoWeeksAhead)).map(this::toDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public void redistributeChores(UUID roomId) {
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        RoomEntity room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
         List<RoomMemberEntity> roomMembers = roomMemberRepository.findByRoomID(roomId);
         List<ChoreEntity> chores = choreRepository.findByRoomWithMemberAndUser(room);
@@ -112,24 +110,12 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     public void deleteChoresByType(UUID roomId, String choreName) {
-        roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room not found"));
+        roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
         choreRepository.deleteAllByRoomIdAndChoreName(roomId, choreName);
     }
 
     private ChoreDto toDto(ChoreEntity entity) {
-        String assignedTo = (entity.getAssignedToMember() != null && entity.getAssignedToMember().getUser() != null)
-                ? entity.getAssignedToMember().getUser().getEmail()
-                : null;
-        return new ChoreDto(
-                entity.getId(),
-                entity.getChoreName(),
-                entity.getFrequency(),
-                entity.getChoreFrequencyUnitEnum().name(),
-                entity.getDueAt(),
-                entity.isCompleted(),
-                assignedTo,
-                entity.getRoom() != null ? entity.getRoom().getId() : null
-        );
+        String assignedTo = (entity.getAssignedToMember() != null && entity.getAssignedToMember().getUser() != null) ? entity.getAssignedToMember().getUser().getEmail() : null;
+        return new ChoreDto(entity.getId(), entity.getChoreName(), entity.getFrequency(), entity.getChoreFrequencyUnitEnum().name(), entity.getDueAt(), entity.isCompleted(), assignedTo, entity.getRoom() != null ? entity.getRoom().getId() : null);
     }
 }
