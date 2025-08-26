@@ -11,6 +11,7 @@ public class UtilityDto {
     private String utilityName;
     private Double utilityPrice;
     private UUID roomId;
+    private UUID roomMemberId;
 
     public UtilityDto(UtilityEntity entity) {
         this.id = entity.getId();

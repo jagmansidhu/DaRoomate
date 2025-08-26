@@ -22,6 +22,9 @@ const RoomDetailsPage = ({
     const [selectedChoreType, setSelectedChoreType] = useState('');
     const [chores, setChores] = useState([]);
     const [showRoleModal, setShowRoleModal] = useState(false);
+    const [userUtilities, setUserUtilities] = useState([]);
+    const [memberId, setMemberId] = useState(null);
+
     const resetChoreData = () => setChoreData({choreName: '', frequency: 1, frequencyUnit: 'WEEKLY'});
 
     const addChoreToList = () => {
@@ -32,7 +35,6 @@ const RoomDetailsPage = ({
     const removeChoreFromList = (idx) => {
         setPendingChores(pendingChores.filter((_, i) => i !== idx));
     };
-
     const handleSubmitChores = async () => {
         if (pendingChores.length === 0) return;
         try {
@@ -54,7 +56,6 @@ const RoomDetailsPage = ({
         }
     };
 
-    // Helper for deadline validation
     const isValidDeadline = (dateStr) => {
         if (!dateStr) return false;
         const date = new Date(dateStr);
@@ -90,6 +91,11 @@ const RoomDetailsPage = ({
                 console.error('Error fetching current user:', error);
             }
         };
+
+        fetchCurrentUser();
+    }, []); // Only runs once when the component mounts
+
+    useEffect(() => {
         const fetchChores = async () => {
             if (room?.id) {
                 try {
@@ -103,20 +109,40 @@ const RoomDetailsPage = ({
             }
         };
 
-        const fetchUtilities = async () => {
-            if (room?.id) {
+        // const fetchAllUtilities = async () => {
+        //     if (room?.id) {
+        //         try {
+        //             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, { withCredentials: true });
+        //             setUtilities(response.data);
+        //         } catch (err) {
+        //             console.error("Error fetching utilities:", err);
+        //         }
+        //     }
+        // };
+
+        const fetchUserUtilities = async () => {
+            if (room?.id && user?.email) {
                 try {
-                    const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, {withCredentials: true});
-                    setUtilities(response.data);
+                    const memberId = room.members?.find(m => m.userId === user.email)?.id;
+
+                    setMemberId(memberId);
+
+                    console.log(memberId);
+                    if (memberId) {
+                        const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/${memberId}/room/${room.id}`, {withCredentials: true});
+                        setUserUtilities(response.data);
+                    }
                 } catch (err) {
-                    console.error("Error fetching utilities:", err);
+                    console.error("Error fetching user utilities:", err);
                 }
             }
         };
-        fetchCurrentUser();
+
         fetchChores();
-        fetchUtilities();
-    }, [room]);
+        // fetchAllUtilities();
+        fetchUserUtilities();
+    }, [room, user]);
+
 
     const [isCustomChore, setIsCustomChore] = useState(false);
 
@@ -167,8 +193,11 @@ const RoomDetailsPage = ({
                     utilDistributionEnum: "EQUALSPLIT",
                     customSplit: {}
                 });
-                const refreshed = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, {withCredentials: true});
-                setUtilities(refreshed.data);
+
+                if (memberId) {
+                    const userUtilitiesResponse = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/${memberId}/room/${room.id}`, {withCredentials: true});
+                    setUserUtilities(userUtilitiesResponse.data);
+                }
             }
         } catch (err) {
             console.error("Error creating utility:", err);
@@ -208,9 +237,6 @@ const RoomDetailsPage = ({
                             </div>);
                         })}
                     </div>
-                    {/*<button className="btn btn-secondary" onClick={() => setShowRoleModal(true)}>*/}
-                    {/*    Manage Roles*/}
-                    {/*</button>*/}
                 </div>
                 <div className="detail-section">
                     <h3>Chores</h3>
@@ -293,14 +319,27 @@ const RoomDetailsPage = ({
                         </button>
                     </div>)}
                 </div>
+                {/*<div className="detail-section">*/}
+                {/*    <h3>All Utilities</h3>*/}
+                {/*    {utilities.length === 0 ? (<p>No utilities yet.</p>) : (<ul>*/}
+                {/*        {utilities.map(u => (<li key={u.id} style={{*/}
+                {/*            marginBottom: "0.5rem", padding: "0.5rem", background: "#f7f7f7", borderRadius: "6px"*/}
+                {/*        }}>*/}
+                {/*            <strong>{u.utilityName}</strong> -*/}
+                {/*            ${u.utilityPrice.toFixed(2)}*/}
+                {/*            <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>{u.description}</p>*/}
+                {/*        </li>))}*/}
+                {/*    </ul>)}*/}
+                {/*</div>*/}
+
+                {/* User-specific Utilities */}
                 <div className="detail-section">
-                    <h3>Utilities</h3>
-                    {utilities.length === 0 ? (<p>No utilities yet.</p>) : (<ul>
-                        {utilities.map(u => (<li key={u.id} style={{
+                    <h3>Your Assigned Utilities</h3>
+                    {userUtilities.length === 0 ? (<p>You have no utilities assigned yet.</p>) : (<ul>
+                        {userUtilities.map(u => (<li key={u.id} style={{
                             marginBottom: "0.5rem", padding: "0.5rem", background: "#f7f7f7", borderRadius: "6px"
                         }}>
-                            <strong>{u.utilityName}</strong> -
-                            ${u.utilityPrice.toFixed(2)}
+                            <strong>{u.utilityName}</strong> - ${u.utilityPrice.toFixed(2)}
                             <p style={{margin: 0, fontSize: "0.9rem", color: "#555"}}>{u.description}</p>
                         </li>))}
                     </ul>)}
@@ -338,8 +377,7 @@ const RoomDetailsPage = ({
                                     const value = parseFloat(e.target.value);
                                     if (value >= 0 || e.target.value === "") {
                                         setUtilityData({
-                                            ...utilityData,
-                                            utilityPrice: e.target.value === "" ? "" : value
+                                            ...utilityData, utilityPrice: e.target.value === "" ? "" : value
                                         });
                                     }
                                 }}
@@ -353,7 +391,6 @@ const RoomDetailsPage = ({
                                 style={{marginBottom: "0.5rem"}}
                             >
                                 <option value="EQUALSPLIT">Equal Split</option>
-                                {/*<option value="CUSTOMSPLIT">Custom Split</option>*/}
                             </select>
 
                             {utilityData.utilDistributionEnum === "CUSTOMSPLIT" && (<div>
@@ -428,14 +465,12 @@ const RoomDetailsPage = ({
                                 </select>
                                 {isCustomChore && (<input
                                     type="text"
-                                    // className="input"
                                     placeholder="Custom chore name"
                                     value={choreData.choreName}
                                     onChange={e => setChoreData({...choreData, choreName: e.target.value})}
                                     style={{marginRight: '0.5rem'}}
                                 />)}
                                 <select
-                                    // className="input"
                                     value={choreData.frequencyUnit}
                                     onChange={(e) => setChoreData({...choreData, frequencyUnit: e.target.value})}
                                     style={{marginRight: '0.5rem'}}

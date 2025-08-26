@@ -11,4 +11,6 @@ public interface UtilityService {
     List<UtilityEntity> createUtility(UtilityCreateDto dto);
     List<UtilityDto> getUtilitiesByRoom(UUID roomId);
     void updateUtilitiesOnUserChange(UUID roomId);
+
+    List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId);
 }

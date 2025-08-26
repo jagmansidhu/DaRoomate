@@ -81,6 +81,14 @@ public class UtilityServiceImplt implements UtilityService {
         return utilityRepository.findByRoomId(roomId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(), utility.getRoom() != null ? utility.getRoom().getId() : null)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId) {
+        roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
+
+
+        return utilityRepository.findByRoomIdAndMemberId(roomId, memberId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(), utility.getRoom() != null ? utility.getRoom().getId() : null)).collect(Collectors.toList());
+    }
+
     // TODO handle OVerall Logic for updating utilities when users are added or removed from a room
     @Override
     @Transactional
@@ -110,5 +118,7 @@ public class UtilityServiceImplt implements UtilityService {
             }
         }
     }
+
+
 
 }
