@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/user/register", "/user/login", "/user/status").permitAll()
+                        .requestMatchers("/user/register", "/user/login", "/user/status", "/user/verify").permitAll()
                         .requestMatchers("/public_resource").permitAll()
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/**").authenticated()

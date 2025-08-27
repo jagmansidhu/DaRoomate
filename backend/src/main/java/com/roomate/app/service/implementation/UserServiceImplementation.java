@@ -28,7 +28,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserServiceImplementation implements UserService, UserDetailsService {
 
-    public static final String VERIFY_EMAIL_URL = "http://localhost:8085/uesr/verify?token=";
+    public static final String VERIFY_EMAIL_URL = "http://localhost:8085/user/verify?token=";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
@@ -57,14 +57,21 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         user.setEnabled(false);
         UserEntity savedUser = userRepository.save(user);
 
-        String token = UUID.randomUUID().toString();
-        VerificationTokenEntity verificationToken = new VerificationTokenEntity(savedUser, token);
-        verificationTokenRepository.save(verificationToken);
+        String token = createToken(savedUser);
 
         sendVerificationEmail(user.getEmail(), token);
 
         return jwtService.generateToken(user);
 //        return "Successfully Logged in";
+    }
+
+    @Override
+    public String createToken(UserEntity savedUser) {
+        verificationTokenRepository.deleteByUser_Id(savedUser.getId());
+        String token = UUID.randomUUID().toString();
+        VerificationTokenEntity verificationToken = new VerificationTokenEntity(savedUser, token);
+        verificationTokenRepository.save(verificationToken);
+        return token;
     }
 
     @Override

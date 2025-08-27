@@ -5,6 +5,7 @@ import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
 import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
 import com.roomate.app.entities.UserEntity;
+import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -16,8 +17,11 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +31,28 @@ public class AuthController {
     private final UserService userService;
     private final JWTService jwtService;
     private final AuthenticationManager authManager;
+    private final UserRepository userRepository;
+
+    @GetMapping("/verify-status")
+    public ResponseEntity<Map<String, Object>> getUserStatus(@AuthenticationPrincipal UserDetails user) {
+        UserEntity usere = userRepository.getUserByEmail(user.getUsername());
+        Map<String, Object> response = new HashMap<>();
+        response.put("authenticated", usere != null);
+        response.put("verified", usere.isEnabled());
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<String> resendVerification(@AuthenticationPrincipal UserDetails user) {
+        UserEntity usere = userRepository.getUserByEmail(user.getUsername());
+        System.out.println(usere.getEmail() + " " + user.getUsername() + " " + usere.isEnabled());
+        if (!user.isEnabled()) {
+            return ResponseEntity.badRequest().body("User already verified or not logged in");
+        }
+        String token = userService.createToken(usere);
+        userService.sendVerificationEmail(user.getUsername(), token);
+        return ResponseEntity.ok("Verification email resent");
+    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthDto> register(@Valid @RequestBody RegisterDto req) {

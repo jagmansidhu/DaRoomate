@@ -140,20 +140,84 @@ const LoggedInNavbar = () => {
     );
 };
 
+const CheckEmailPage = () => {
+    const [hasSent, setHasSent] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+
+    const sendVerification = async () => {
+        try {
+            await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/resend-verification`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            setHasSent(true);
+        } catch (err) {
+            console.error('Error sending verification email:', err);
+        }
+    };
+
+    const handleClose = () => {
+        setIsVisible(false);
+    };
+
+    if (!isVisible) return null;
+
+    return (
+        <div className="check-email-page">
+            <h2>Email Verification Required</h2>
+            <p>
+                Your email is not verified. Please check your inbox and follow the link to verify your account.
+            </p>
+            <button onClick={sendVerification} disabled={hasSent}>
+                {hasSent ? "Verification Sent" : "Resend Verification Email"}
+            </button>
+            <button onClick={handleClose} style={{ marginLeft: '10px' }}>
+                Close
+            </button>
+        </div>
+    );
+};
+
+
 const AppContent = () => {
-    const { isAuthenticated, isLoading } = useAuth();
+    const { isAuthenticated, isLoading, logout } = useAuth();
     const navigate = useNavigate();
+    const [userVerified, setUserVerified] = useState(true); // assume true by default
     const hideNavbarPaths = ['/complete-profile'];
-    const [isPopupShowing, setIsPopupShowing] = useState(false);
-    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || isPopupShowing;
 
     useProfileCompletionRedirect();
 
     useEffect(() => {
-        if (isAuthenticated && !isLoading && window.location.pathname === '/') {
-            navigate('/dashboard');
+        if (isAuthenticated && !isLoading) {
+            const checkVerification = async () => {
+                try {
+                    const res = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/verify-status`, {
+                        method: 'GET',
+                        credentials: 'include'
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (!data.verified) {
+                            setUserVerified(false);
+
+                            // auto redirect to login after 5s
+                            setTimeout(() => {
+                                logout();
+                                navigate('/login');
+                            }, 5000);
+                        } else {
+                            setUserVerified(true);
+                            if (window.location.pathname === '/') navigate('/dashboard');
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error checking verification status:', err);
+                }
+            };
+
+            checkVerification();
         }
-    }, [isAuthenticated, isLoading, navigate]);
+    }, [isAuthenticated, isLoading, navigate, logout]);
 
     if (isLoading) {
         return (
@@ -164,15 +228,24 @@ const AppContent = () => {
         );
     }
 
+    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || !userVerified;
+
     return (
         <div className="App">
             {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar /> : <LoggedOutNavbar />)}
             <main className="main-content">
                 <div className="content-wrapper">
                     <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Login />} />
+                        <Route path="/" element={
+                            isAuthenticated ? (
+                                userVerified ? <Dashboard /> : <CheckEmailPage />
+                            ) : <Home />
+                        }/>
+                        <Route path="/dashboard" element={
+                            isAuthenticated ? (
+                                userVerified ? <Dashboard /> : <CheckEmailPage />
+                            ) : <Login />
+                        }/>
                         <Route path="/profile" element={isAuthenticated ? <Profile /> : <Login />} />
                         <Route path="/rooms" element={isAuthenticated ? <Rooms /> : <Login />} />
                         <Route path="/complete-profile" element={isAuthenticated ? <CompleteProfile /> : <Login />} />
@@ -185,7 +258,6 @@ const AppContent = () => {
                     </Routes>
                 </div>
             </main>
-            <VerificationPopup onPopupVisibilityChange={setIsPopupShowing} />
         </div>
     );
 };

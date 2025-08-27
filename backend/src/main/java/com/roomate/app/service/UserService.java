@@ -8,6 +8,8 @@ import org.springframework.dao.DuplicateKeyException;
 
 public interface UserService {
 
+    String createToken(UserEntity savedUser);
+
     void sendVerificationEmail(@NotNull String email, String token);
 
     boolean verifyToken(String token);
