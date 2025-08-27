@@ -12,7 +12,7 @@ public class RegisterDto {
     @NotNull
     private String email;
     @Size(min = 8, message = "Password must be at least 8 characters long.")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=_!])(?=\\S+$).{8,}$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")
     private String password;
     private String firstName;

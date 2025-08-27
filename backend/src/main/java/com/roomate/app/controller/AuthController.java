@@ -34,6 +34,13 @@ public class AuthController {
         return ResponseEntity.ok(new AuthDto(token));
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<Boolean> verify(@RequestParam("token") String token) {
+        Boolean result = userService.verifyToken(token);
+        return ResponseEntity.ok(result);
+    }
+
+
     @PutMapping("/updateProfile")
     public ResponseEntity<UserEntity> updateProfile(@Valid @RequestBody UpdateProfileDto req, HttpServletRequest request) {
         String email = request.getUserPrincipal().getName();

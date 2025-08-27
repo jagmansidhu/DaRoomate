@@ -1,5 +1,2 @@
 # domain	path	name	value	date
-
-
-
-localhost	/	jwt	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYzMjk0LCJleHAiOjE3NTgyMzY4OTR9.Fa_0ZUGgpGYhrQvj3xR-Xay02T8j8xZlBTwR8hjPrbw	Mon, 25-Aug-2025 23:18:18 GMT
+localhost	/	jwt	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MzI4ODc4LCJleHAiOjE3NTg0MDI0Nzh9.TdxvNaOfAmmWaGyBAUSzKPFtZxZGwAm0B81mRUIomNs	Wed, 27-Aug-2025 21:18:03 GMT

@@ -34,6 +34,10 @@ public class UserEntity implements UserDetails{
     @Column(nullable = true)
     private String password;
     private String phone;
+
+    @Column(nullable = false)
+    private boolean enabled = false;
+
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "addressId", referencedColumnName = "id")
 //    @JsonIgnore
