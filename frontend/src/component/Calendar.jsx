@@ -78,9 +78,9 @@ const Calendar = () => {
                 ]);
 
                 setEvents(eventsResponse.data);
-                setRooms(roomsResponse.data);
-                setChores(choresRes.data);
-                setUtilities(utilitiesRes.data);
+                setRooms(Array.isArray(roomsResponse.data) ? roomsResponse.data : (roomsResponse.data ? [roomsResponse.data] : []));
+                setChores(Array.isArray(choresRes.data) ? choresRes.data : (choresRes.data ? [choresRes.data] : []));
+                setUtilities(Array.isArray(utilitiesRes.data) ? utilitiesRes.data : (utilitiesRes.data ? [utilitiesRes.data] : []));
                 setError(null);
             } catch (err) {
                 console.error('Error fetching data:', err);
@@ -298,7 +298,6 @@ const Calendar = () => {
             return date.getDate() === 1;
         });
     };
-
 
     if (loading) {
         return (
