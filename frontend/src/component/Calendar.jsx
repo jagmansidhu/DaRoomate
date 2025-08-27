@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../styling/Calendar.css';
 
 const Calendar = () => {
+    const [user, setUser] = useState(null);
     const [events, setEvents] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -10,6 +11,8 @@ const Calendar = () => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [chores, setChores] = useState([]);
+    const [utilities, setUtilities] = useState([]);
 
     const [newEvent, setNewEvent] = useState({
         title: '',
@@ -22,40 +25,80 @@ const Calendar = () => {
     const [dateError, setDateError] = useState('');
 
     useEffect(() => {
-        fetchData();
+        const fetchUser = async () => {
+            try {
+                const userRes = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
+                    method: 'GET',
+                    withCredentials: true,
+                    credentials: 'include',
+                });
+                if (!userRes.ok) {
+                    throw new Error('Not authenticated');
+                }
+                const userData = await userRes.json();
+                const userEmail = userData.username || userData.email;
+                setUser(userEmail);
+                setError(null);
+            } catch (err) {
+                console.error('Error fetching user:', err);
+                setError('Failed to load user data. You might need to log in.');
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
     }, []);
 
-    const fetchData = async () => {
-        try {
-            const [eventsResponse, roomsResponse] = await Promise.all([
-                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/events/user`, {
-                    method: 'GET',
-                    withCredentials: true,
-                    credentials: 'include',
-                }),
-                axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
-                    method: 'GET',
-                    withCredentials: true,
-                    credentials: 'include',
-                })
-            ]);
-            console.log(eventsResponse);
-            setEvents(eventsResponse.data);
-            setRooms(roomsResponse.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setError('Failed to load calendar data');
-        } finally {
-            setLoading(false);
-        }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!user) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                const [eventsResponse, roomsResponse, choresRes, utilitiesRes] = await Promise.all([
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/events/user`, {
+                        withCredentials: true,
+                        credentials: 'include',
+                    }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/rooms`, {
+                        withCredentials: true,
+                        credentials: 'include',
+                    }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/chores/upcoming?id=${user}`, {
+                        withCredentials: true,
+                        credentials: 'include',
+                    }),
+                    axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/upcoming?id=${user}`, {
+                        withCredentials: true,
+                        credentials: 'include',
+                    }),
+                ]);
+
+                setEvents(eventsResponse.data);
+                setRooms(roomsResponse.data);
+                setChores(choresRes.data);
+                setUtilities(utilitiesRes.data);
+                setError(null);
+            } catch (err) {
+                console.error('Error fetching data:', err);
+                setError('Failed to load calendar data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [user]);
 
     const createEvent = async (e) => {
         e.preventDefault();
-        
+
         setError('');
         setDateError('');
-        
+
         if (!newEvent.roomId) {
             setError('Please select a room');
             return;
@@ -64,7 +107,7 @@ const Calendar = () => {
         if (newEvent.startTime && newEvent.endTime) {
             const startDate = new Date(newEvent.startTime);
             const endDate = new Date(newEvent.endTime);
-            
+
             if (endDate <= startDate) {
                 setDateError('End time must be after start time');
                 return;
@@ -74,16 +117,16 @@ const Calendar = () => {
         try {
             const startDateTime = new Date(newEvent.startTime).toISOString();
             const endDateTime = new Date(newEvent.endTime).toISOString();
-            
+
             const requestData = {
                 title: newEvent.title,
                 description: newEvent.description,
                 startTime: startDateTime,
                 endTime: endDateTime
             };
-            
+
             console.log('Sending event data:', requestData);
-            
+
             await axios.post(`${process.env.REACT_APP_BASE_API_URL}/api/events/room/${newEvent.roomId}`, requestData, {
                 method: 'POST',
                 withCredentials: true,
@@ -99,7 +142,7 @@ const Calendar = () => {
                 roomId: ''
             });
             setDateError('');
-            fetchData();
+            // fetchData();
         } catch (error) {
             console.error('Error creating event:', error);
             if (error.response && error.response.data) {
@@ -128,7 +171,7 @@ const Calendar = () => {
                 withCredentials: true,
                 credentials: 'include',
             });
-            fetchData();
+            // fetchData();
         } catch (error) {
             console.error('Error deleting event:', error);
             setError('Failed to delete event');
@@ -147,18 +190,18 @@ const Calendar = () => {
     };
 
     const formatTime = (dateTime) => {
-        return new Date(dateTime).toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+        return new Date(dateTime).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
         });
     };
 
     const formatDate = (date) => {
-        return date.toLocaleDateString([], { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        return date.toLocaleDateString([], {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
     };
 
@@ -171,7 +214,7 @@ const Calendar = () => {
         const startingDayOfWeek = firstDay.getDay();
 
         const days = [];
-        
+
         for (let i = 0; i < startingDayOfWeek; i++) {
             days.push(null);
         }
@@ -207,17 +250,17 @@ const Calendar = () => {
         const newStartTime = e.target.value;
         setNewEvent(prev => {
             const updated = { ...prev, startTime: newStartTime };
-            
+
             if (updated.endTime && newStartTime) {
                 const startDate = new Date(newStartTime);
                 const endDate = new Date(updated.endTime);
-                
+
                 if (endDate <= startDate) {
                     const newEndTime = new Date(startDate.getTime() + 60 * 60 * 1000);
                     updated.endTime = newEndTime.toISOString().slice(0, 16);
                 }
             }
-            
+
             return updated;
         });
         setDateError('');
@@ -227,21 +270,35 @@ const Calendar = () => {
         const newEndTime = e.target.value;
         setNewEvent(prev => {
             const updated = { ...prev, endTime: newEndTime };
-            
+
             if (newEndTime && prev.startTime) {
                 const startDate = new Date(prev.startTime);
                 const endDate = new Date(newEndTime);
-                
+
                 if (endDate <= startDate) {
                     setDateError('End time must be after start time');
                 } else {
                     setDateError('');
                 }
             }
-            
+
             return updated;
         });
     };
+
+    const getChoresForDate = (date) => {
+        return chores.filter(chore => {
+            const choreDate = new Date(chore.dueAt);
+            return choreDate.toDateString() === date.toDateString();
+        });
+    };
+
+    const getUtilitiesForDate = (date) => {
+        return utilities.filter(utility => {
+            return date.getDate() === 1;
+        });
+    };
+
 
     if (loading) {
         return (
@@ -259,7 +316,7 @@ const Calendar = () => {
             <div className="calendar-container">
                 <div className="error">
                     <p>{error}</p>
-                    <button onClick={fetchData} className="btn btn-primary">Retry</button>
+                    {/*<button onClick={fetchData} className="btn btn-primary">Retry</button>*/}
                 </div>
             </div>
         );
@@ -272,7 +329,7 @@ const Calendar = () => {
         <div className="calendar-container">
             <div className="calendar-header">
                 <h2>Calendar</h2>
-                <button 
+                <button
                     className="btn btn-primary"
                     onClick={() => openEventModal()}
                 >
@@ -296,11 +353,11 @@ const Calendar = () => {
                         <div key={day} className="weekday">{day}</div>
                     ))}
                 </div>
-                
+
                 <div className="calendar-days">
                     {days.map((day, index) => (
-                        <div 
-                            key={index} 
+                        <div
+                            key={index}
                             className={`calendar-day ${day ? '' : 'empty'} ${day && day.toDateString() === new Date().toDateString() ? 'today' : ''}`}
                             onClick={() => day && openEventModal(day)}
                         >
@@ -309,8 +366,8 @@ const Calendar = () => {
                                     <span className="day-number">{day.getDate()}</span>
                                     <div className="day-events">
                                         {getEventsForDate(day).slice(0, 2).map(event => (
-                                            <div 
-                                                key={event.id} 
+                                            <div
+                                                key={event.id}
                                                 className="event-bar"
                                                 title={`${event.title} - ${getRoomName(event.rooms)} (${formatTime(event.startTime)} - ${formatTime(event.endTime)})`}
                                                 onClick={(e) => {
@@ -321,6 +378,25 @@ const Calendar = () => {
                                                 <span className="event-title">{event.title}</span>
                                             </div>
                                         ))}
+                                        {getEventsForDate(day).length > 2 && (
+                                            <div className="more-events-bar">
+                                                <span className="more-events-text">+{getEventsForDate(day).length - 2} more</span>
+                                            </div>
+                                        )}
+                                        {getChoresForDate(day).map(chore => (
+                                            <div key={chore.id} className={`chore-bar ${chore.isCompleted ? 'completed' : ''}`}>
+                                                <span className="chore-title">🧹 {chore.choreName}</span>
+                                            </div>
+                                        ))}
+
+                                        {/* Utilities */}
+                                        {getUtilitiesForDate(day).map(utility => (
+                                            <div key={utility.id} className="utility-bar">
+                                                <span className="utility-title">💰 {utility.utilityName}</span>
+                                            </div>
+                                        ))}
+
+                                        {/* Extra events overflow */}
                                         {getEventsForDate(day).length > 2 && (
                                             <div className="more-events-bar">
                                                 <span className="more-events-text">+{getEventsForDate(day).length - 2} more</span>
@@ -340,7 +416,7 @@ const Calendar = () => {
                     <div className="modal">
                         <div className="modal-header">
                             <h3>Create New Event</h3>
-                            <button 
+                            <button
                                 className="close-btn"
                                 onClick={() => setShowEventModal(false)}
                             >
@@ -357,7 +433,7 @@ const Calendar = () => {
                                     required
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Room *</label>
                                 <select
@@ -393,7 +469,7 @@ const Calendar = () => {
                                         required
                                     />
                                 </div>
-                                
+
                                 <div className="form-group">
                                     <label>End Time *</label>
                                     <input
@@ -405,7 +481,7 @@ const Calendar = () => {
                                     />
                                 </div>
                             </div>
-                            
+
                             {dateError && (
                                 <div className="form-error">
                                     <p className="error-message">{dateError}</p>
@@ -431,7 +507,7 @@ const Calendar = () => {
                     <div className="modal">
                         <div className="modal-header">
                             <h3>{selectedEvent.title}</h3>
-                            <button 
+                            <button
                                 className="close-btn"
                                 onClick={() => setSelectedEvent(null)}
                             >
@@ -446,13 +522,13 @@ const Calendar = () => {
                             <p><strong>Created by:</strong> {selectedEvent.user?.firstName && selectedEvent.user?.lastName ? `${selectedEvent.user.firstName} ${selectedEvent.user.lastName}` : selectedEvent.user?.email || 'Unknown'}</p>
                         </div>
                         <div className="modal-actions">
-                            <button 
+                            <button
                                 onClick={() => deleteEvent(selectedEvent.id)}
                                 className="btn btn-danger"
                             >
                                 Delete Event
                             </button>
-                            <button 
+                            <button
                                 onClick={() => setSelectedEvent(null)}
                                 className="btn btn-secondary"
                             >
@@ -466,4 +542,4 @@ const Calendar = () => {
     );
 };
 
-export default Calendar; 
+export default Calendar;
