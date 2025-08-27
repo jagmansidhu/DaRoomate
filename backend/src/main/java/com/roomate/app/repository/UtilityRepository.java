@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -20,12 +19,14 @@ public interface UtilityRepository extends JpaRepository<UtilityEntity , Long> {
     @Query("SELECT u FROM UtilityEntity u WHERE u.room.id = :roomId AND u.assignedToMember.id = :roomMemberId")
     List<UtilityEntity> findByRoomIdAndMemberId(@Param("roomId") UUID roomId, @Param("roomMemberId")UUID memberId);
 
-    Optional<UtilityEntity> findById(UUID utilityId);
+    @Query("SELECT u FROM UtilityEntity u WHERE u.assignedToMember = :userId")
+    List<UtilityEntity> findAllByUserId(@Param("userId") Long id);
 
-    
     @Modifying
     @Transactional
     @Query("DELETE FROM UtilityEntity u WHERE u.assignedToMember.id = :roomMemberId")
     void deleteAllByRoomMemberId(@Param("roomMemberId") UUID roomMemberId);
 
+    @Query("SELECT u FROM UtilityEntity u WHERE u.assignedToMember.id IN :roomMemberIds")
+    List<UtilityEntity> findAllByRoomMemberIds(@Param("roomMemberIds") List<UUID> roomMemberIds);
 }

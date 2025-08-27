@@ -3,6 +3,7 @@ package com.roomate.app.service;
 import com.roomate.app.dto.UtilityCreateDto;
 import com.roomate.app.dto.UtilityDto;
 import com.roomate.app.entities.UtilityEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,4 +14,6 @@ public interface UtilityService {
     void updateUtilitiesOnUserChange(UUID roomId);
 
     List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId);
+
+    List<UtilityDto> getUpcomingUtilities(String id);
 }

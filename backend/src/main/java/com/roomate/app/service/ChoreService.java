@@ -14,4 +14,6 @@ public interface ChoreService {
     List<ChoreDto> getChoresByRoomId(UUID roomId);
     void deleteChore(UUID choreId);
     void deleteChoresByType(UUID roomId, String choreName);
+
+    List<ChoreDto> getChoresByUserId(String id);
 }

@@ -16,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -87,6 +88,29 @@ public class UtilityServiceImplt implements UtilityService {
 
 
         return utilityRepository.findByRoomIdAndMemberId(roomId, memberId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(), utility.getRoom() != null ? utility.getRoom().getId() : null)).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<UtilityDto> getUpcomingUtilities(String id) {
+        UserEntity user = userRepository.findByEmail(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        List<UUID> roomMemberIds = roomMemberRepository.findAllByUserId(user.getId())
+                .stream()
+                .map(RoomMemberEntity::getId)
+                .collect(Collectors.toList());
+
+        return utilityRepository.findAllByRoomMemberIds(roomMemberIds)
+                .stream()
+                .map(utility -> new UtilityDto(
+                        utility.getId(),
+                        utility.getUtilityName(),
+                        utility.getUtilityPrice(),
+                        utility.getRoom() != null ? utility.getRoom().getName() : null,
+                        utility.getDueAt()
+                ))
+                .collect(Collectors.toList());
     }
 
     // TODO handle OVerall Logic for updating utilities when users are added or removed from a room

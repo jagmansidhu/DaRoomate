@@ -36,6 +36,13 @@ public class ChoreController {
         return ResponseEntity.ok(choreService.getChoresByRoomId(roomId));
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<ChoreDto>> getUpcomingChores(@RequestParam String id) {
+        List<ChoreDto> chores = choreService.getChoresByUserId(id);
+
+        return ResponseEntity.ok(chores);
+    }
+
     @DeleteMapping("/{choreId}")
     public ResponseEntity<Void> deleteChore(@PathVariable UUID choreId) {
         choreService.deleteChore(choreId);

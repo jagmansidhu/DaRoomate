@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,4 +46,6 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
     @Query("DELETE FROM RoomMemberEntity m WHERE m.id = :id AND m.user.email = :email")
     void deleteByMemberIdAndEmail(@Param("id") UUID id, @Param("email") String email);
 
+    @Query("SELECT rm FROM RoomMemberEntity rm WHERE rm.user.id = :userId")
+    List<RoomMemberEntity> findAllByUserId(@Param("userId") Long userId);
 }

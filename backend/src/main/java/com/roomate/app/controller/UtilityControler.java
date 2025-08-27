@@ -33,6 +33,14 @@ public class UtilityControler {
         return ResponseEntity.ok(utilityService.getUtilitiesByRoomandMemberId(roomId,memberId));
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<UtilityDto>> getUpcomingUtilities(@RequestParam String id) {
+        List<UtilityDto> utilities = utilityService.getUpcomingUtilities(id);
+        if (utilities.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
+        return ResponseEntity.ok(utilities);
+    }
 
 }

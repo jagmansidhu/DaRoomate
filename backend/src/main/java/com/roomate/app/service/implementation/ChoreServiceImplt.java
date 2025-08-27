@@ -2,12 +2,15 @@ package com.roomate.app.service.implementation;
 
 import com.roomate.app.dto.ChoreCreateDto;
 import com.roomate.app.dto.ChoreDto;
+import com.roomate.app.dto.UtilityDto;
 import com.roomate.app.entities.ChoreEntity;
+import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
 import com.roomate.app.repository.ChoreRepository;
 import com.roomate.app.repository.RoomMemberRepository;
 import com.roomate.app.repository.RoomRepository;
+import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.ChoreService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -26,6 +29,7 @@ public class ChoreServiceImplt implements ChoreService {
     private final RoomRepository roomRepository;
     private final ChoreRepository choreRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -112,6 +116,28 @@ public class ChoreServiceImplt implements ChoreService {
     public void deleteChoresByType(UUID roomId, String choreName) {
         roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
         choreRepository.deleteAllByRoomIdAndChoreName(roomId, choreName);
+    }
+
+    @Override
+    @Transactional
+    public List<ChoreDto> getChoresByUserId(String id) {
+        UserEntity user = userRepository.findByEmail(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        List<UUID> roomMemberIds = roomMemberRepository.findAllByUserId(user.getId())
+                .stream()
+                .map(RoomMemberEntity::getId)
+                .collect(Collectors.toList());
+
+        return choreRepository.findAllByRoomMemberIds(roomMemberIds)
+                .stream()
+                .map(chore -> new ChoreDto(
+                        chore.getId(),
+                        chore.getChoreName(),
+                        chore.getDueAt(),
+                        chore.getRoom().getName()
+                ))
+                .collect(Collectors.toList());
     }
 
     private ChoreDto toDto(ChoreEntity entity) {

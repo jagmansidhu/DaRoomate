@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,4 +23,7 @@ public interface ChoreRepository extends JpaRepository<ChoreEntity, Long> {
             "WHERE c.room = :room")
     List<ChoreEntity> findByRoomWithMemberAndUser(@Param("room") RoomEntity room);
     void deleteAllByRoomIdAndChoreName(UUID roomId, String choreName);
+
+    @Query("SELECT u FROM ChoreEntity u WHERE u.assignedToMember.id IN :roomMemberIds")
+    List<ChoreEntity> findAllByRoomMemberIds(List<UUID> roomMemberIds);
 }
