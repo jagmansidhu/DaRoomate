@@ -4,56 +4,55 @@ import '../styling/Dashboard.css';
 const Dashboard = () => {
     const [email, setEmail] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [authError, setAuthError] = useState(null); // 🔑 separate error
+    const [dataError, setDataError] = useState(null);
     const [chores, setChores] = useState([]);
     const [utilities, setUtilities] = useState([]);
 
+    // Fetch user once
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchUser = async () => {
             try {
-                const userRes = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
+                const res = await fetch(`${process.env.REACT_APP_BASE_API_URL}/user/status`, {
                     method: 'GET',
                     withCredentials: true,
                     credentials: 'include',
                 });
-                if (!userRes.ok) {
-                    throw new Error('Not authenticated');
-                }
-                const userData = await userRes.json();
-                const userEmail = userData.username || userData.email;
-                setEmail(userEmail);
+                if (!res.ok) throw new Error('Not authenticated');
+                const data = await res.json();
+                setEmail(data.username || data.email);
+            } catch (err) {
+                setAuthError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUser();
+    }, []);
 
+    // Fetch chores & utilities once user is known
+    useEffect(() => {
+        if (!email) return;
+        const fetchData = async () => {
+            try {
                 const [choresRes, utilitiesRes] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_BASE_API_URL}/api/chores/upcoming?id=${userEmail}`, {
+                    fetch(`${process.env.REACT_APP_BASE_API_URL}/api/chores/upcoming?id=${email}`, {
                         method: 'GET',
                         withCredentials: true,
                         credentials: 'include',
                     }),
-                    fetch(`${process.env.REACT_APP_BASE_API_URL}/api/utility/upcoming?id=${userEmail}`, {
+                    fetch(`${process.env.REACT_APP_BASE_API_URL}/api/utility/upcoming?id=${email}`, {
                         method: 'GET',
                         withCredentials: true,
                         credentials: 'include',
                     }),
                 ]);
-
-                if (choresRes.ok) {
-                    const choresData = await choresRes.json();
-                    setChores(choresData);
-                }
-
-                if (utilitiesRes.ok) {
-                    const utilitiesData = await utilitiesRes.json();
-                    setUtilities(utilitiesData);
-                }
+                if (choresRes.ok) setChores(await choresRes.json());
+                if (utilitiesRes.ok) setUtilities(await utilitiesRes.json());
             } catch (err) {
-                setError(err.message);
-                setEmail(null);
-                console.error('Error fetching data:', err);
-            } finally {
-                setLoading(false);
+                setDataError(err.message);
             }
         };
-
         fetchData();
     }, [email]);
 
@@ -61,7 +60,8 @@ const Dashboard = () => {
         return <div>Loading...</div>;
     }
 
-    if (error || !email) {
+    // 🔑 Only authError means “log in required”
+    if (authError || !email) {
         return (
             <div>
                 <h1>Dashboard</h1>
@@ -82,6 +82,8 @@ const Dashboard = () => {
                 <p>Welcome back, {email}!</p>
             </div>
             <div className="dashboard-content">
+                {/*{dataError && <p className="error">⚠️ Failed to load some data: {dataError}</p>}*/}
+
                 <h2>Upcoming Chores</h2>
                 {upcomingChores.length > 0 ? (
                     <ul>

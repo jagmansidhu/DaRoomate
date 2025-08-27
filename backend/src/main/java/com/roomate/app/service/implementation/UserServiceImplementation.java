@@ -63,8 +63,8 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
 
         sendVerificationEmail(user.getEmail(), token);
 
-//        return jwtService.generateToken(user)
-        return "Successfully Logged in";
+        return jwtService.generateToken(user);
+//        return "Successfully Logged in";
     }
 
     @Override
