@@ -5,7 +5,10 @@ import com.roomate.app.dto.InviteUserRequest;
 import com.roomate.app.dto.RoomDto;
 import com.roomate.app.dto.UserDTOS.UpdateMemberRoleRequest;
 import com.roomate.app.exceptions.UserApiError;
+import com.roomate.app.repository.ChoreRepository;
+import com.roomate.app.repository.UtilityRepository;
 import com.roomate.app.service.RoomService;
+import com.roomate.app.service.UtilityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +22,15 @@ import java.util.UUID;
 public class RoomController {
 
     private final RoomService roomService;
+    private final UtilityService utilityService;
+    private final UtilityRepository utilityRepository;
+    private final ChoreRepository choreRepository;
 
-    public RoomController(RoomService roomService) {
+    public RoomController(RoomService roomService, UtilityService utilityService, UtilityRepository utilityRepository, ChoreRepository choreRepository) {
         this.roomService = roomService;
+        this.utilityService = utilityService;
+        this.utilityRepository = utilityRepository;
+        this.choreRepository = choreRepository;
     }
 
     @GetMapping

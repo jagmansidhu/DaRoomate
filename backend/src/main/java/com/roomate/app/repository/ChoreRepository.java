@@ -3,9 +3,11 @@ package com.roomate.app.repository;
 import com.roomate.app.entities.ChoreEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -26,4 +28,9 @@ public interface ChoreRepository extends JpaRepository<ChoreEntity, Long> {
 
     @Query("SELECT u FROM ChoreEntity u WHERE u.assignedToMember.id IN :roomMemberIds")
     List<ChoreEntity> findAllByRoomMemberIds(List<UUID> roomMemberIds);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ChoreEntity m WHERE m.room.id = :roomId")
+    void deleteAllByRoomId(@Param("roomId") UUID roomId);
 }

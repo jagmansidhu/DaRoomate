@@ -11,7 +11,7 @@ import com.roomate.app.exceptions.UserApiError;
 import com.roomate.app.repository.*;
 import com.roomate.app.service.RoomService;
 import com.roomate.app.service.UtilityService;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -33,9 +33,9 @@ public class RoomServiceImplt implements RoomService {
     @Autowired
     private RoomInviteMailSender mailSender;
     @Autowired
-    private UtilityService utilityService;
-    @Autowired
     private UtilityRepository utilityRepository;
+    @Autowired
+    private ChoreRepository choreRepository;
 
     public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository, RoomMemberRepository roomMemberRepository,
                             EventRepository eventRepository) {
@@ -190,6 +190,10 @@ public class RoomServiceImplt implements RoomService {
         if (!room.getHeadRoommateId().equals(requesterEmail)) {
             throw new UserApiError("Not authorized to delete room.");
         }
+
+        utilityRepository.deleteAllByRoomId(roomId);
+
+        choreRepository.deleteAllByRoomId(roomId);
 
         eventRepository.deleteAllByEventId(roomId);
 
