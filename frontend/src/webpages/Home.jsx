@@ -54,11 +54,11 @@ const Home = () => {
                     </div>
                     
                     <div className="features-grid">
-                        <div className="feature-card">
-                            <div className="feature-icon">💬</div>
-                            <h3>Messaging & Communication</h3>
-                            <p>Stay connected with your roommates through real-time messaging. Share updates, discuss house matters, and keep everyone in the loop.</p>
-                        </div>
+                        {/*<div className="feature-card">*/}
+                        {/*    <div className="feature-icon">💬</div>*/}
+                        {/*    <h3>Messaging & Communication</h3>*/}
+                        {/*    <p>Stay connected with your roommates through real-time messaging. Share updates, discuss house matters, and keep everyone in the loop.</p>*/}
+                        {/*</div>*/}
                         
                         <div className="feature-card">
                             <div className="feature-icon">💰</div>
@@ -86,7 +86,7 @@ const Home = () => {
                         
                         <div className="feature-card">
                             <div className="feature-icon">📊</div>
-                            <h3>Analytics & Reports</h3>
+                            <h3>Analytics & Reports (Coming Soon)</h3>
                             <p>Get insights into spending patterns, payment history, and household expenses with detailed reports.</p>
                         </div>
                     </div>
@@ -114,14 +114,14 @@ const Home = () => {
                             <p>Input your shared expenses, utility bills, and rent payments to start tracking.</p>
                         </div>
                         
-                        <div className="step-card">
-                            <div className="step-number">3</div>
-                            <h3>Coordinate & Communicate</h3>
-                            <p>Use the messaging system and shared calendar to coordinate with your roommates.</p>
-                        </div>
+                        {/*<div className="step-card">*/}
+                        {/*    <div className="step-number">3</div>*/}
+                        {/*    <h3>Coordinate & Communicate</h3>*/}
+                        {/*    <p>Use the messaging system and shared calendar to coordinate with your roommates.</p>*/}
+                        {/*</div>*/}
                         
                         <div className="step-card">
-                            <div className="step-number">4</div>
+                            <div className="step-number">3</div>
                             <h3>Stay Organized</h3>
                             <p>Monitor payments, track expenses, and maintain harmony in your shared living space.</p>
                         </div>
@@ -133,7 +133,7 @@ const Home = () => {
             <section className="future-plans-section">
                 <div className="container">
                     <div className="section-header">
-                        <h2>Coming Soon</h2>
+                        <h2>The Future</h2>
                         <p>We're expanding to make roommate management even better</p>
                     </div>
                     
@@ -175,9 +175,9 @@ const Home = () => {
                             <Link to="/login" className="btn btn-primary btn-lg">
                                 Start Managing Today
                             </Link>
-                            <Link to="/login" className="btn btn-secondary btn-lg">
-                                Learn More
-                            </Link>
+                            {/*<Link to="/login" className="btn btn-secondary btn-lg">*/}
+                            {/*    Learn More*/}
+                            {/*</Link>*/}
                         </div>
                     </div>
                 </div>

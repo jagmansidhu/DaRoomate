@@ -33,6 +33,7 @@ const Register = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     First Name:
+                    <br/>
                     <input
                         type="text"
                         value={firstName}
@@ -42,6 +43,7 @@ const Register = () => {
                 </label><br/>
                 <label>
                     Last Name:
+                    <br/>
                     <input
                         type="text"
                         value={lastName}
@@ -51,6 +53,7 @@ const Register = () => {
                 </label><br/>
                 <label>
                     Email:
+                    <br/>
                     <input
                         type="email"
                         value={email}
@@ -60,6 +63,7 @@ const Register = () => {
                 </label><br/>
                 <label>
                     Password:
+                    <br/>
                     <input
                         type="password"
                         value={password}
@@ -67,6 +71,7 @@ const Register = () => {
                         required
                     />
                 </label><br/>
+                <br/>
                 <button type="submit">Register</button>
             </form>
         </div>

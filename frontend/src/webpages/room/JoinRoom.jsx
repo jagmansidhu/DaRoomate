@@ -50,6 +50,7 @@ const JoinRoomModal = ({ show, onClose, onRoomJoined }) => {
                             placeholder="Enter room code"
                             required
                         />
+                        <br/>
                         <small>Ask the head roommate for the room code</small>
                     </div>
                     <div className="modal-actions">

@@ -162,6 +162,7 @@ input, textarea, select {
     font-family: inherit;
     font-size: var(--font-size-base);
     width: 100%; /* Make elements full width */
+    max-width: 400px; /* optional cap */
     border: 1px solid var(--gray-300);
     border-radius: var(--radius-md);
     padding: var(--spacing-3) var(--spacing-4);
