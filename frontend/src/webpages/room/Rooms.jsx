@@ -75,7 +75,7 @@ const Rooms = () => {
         <div className="rooms-container">
             <div className="rooms-header">
                 <h1>My Rooms</h1>
-                <p>Manage your shared living spaces</p>
+                <p>Manage your shared living spaces (Max 3 rooms)</p>
                 <div className="rooms-actions">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
                         Create New Room

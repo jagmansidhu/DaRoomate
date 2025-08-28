@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7cb309f2-844b-4ce8-a410-f3683ee9d490/storage_v2/_src_/database/appDatabase.vD49lw/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/JWTServiceImplt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/RoomRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RoomServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/RoomServiceImplt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/Rooms.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +309,7 @@
       <workItem from="1756154825572" duration="32355000" />
       <workItem from="1756325445643" duration="1983000" />
       <workItem from="1756328000236" duration="11726000" />
-      <workItem from="1756401050202" duration="1524000" />
+      <workItem from="1756401050202" duration="2098000" />
     </task>
     <servers />
   </component>

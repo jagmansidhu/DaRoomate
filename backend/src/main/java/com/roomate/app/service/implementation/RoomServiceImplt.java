@@ -67,6 +67,9 @@ public class RoomServiceImplt implements RoomService {
             throw new UserApiError("Head roommate user not found with ID: " + headRoomateEmail);
         }
 
+        if (roomRepository.countRoomsByUserId(user.getId()) >= 3) {
+            throw new UserApiError("User has reached the maximum number of rooms (3).");
+        }
         String roomCode = generateUniqueRoomCode();
 
         RoomEntity room = new RoomEntity(request.getName(), request.getAddress(), request.getDescription(), roomCode, headRoomateEmail, new ArrayList<>());
@@ -93,6 +96,10 @@ public class RoomServiceImplt implements RoomService {
         UserEntity user = userRepository.getUserByEmail(email);
         if (user == null) {
             throw new UserApiError("User not found with ID: " + email);
+        }
+
+        if (roomRepository.countRoomsByUserId(user.getId()) >= 3) {
+            throw new UserApiError("User has reached the maximum number of rooms (3).");
         }
 
         RoomEntity room = roomRepository.findByRoomCode(roomCode)

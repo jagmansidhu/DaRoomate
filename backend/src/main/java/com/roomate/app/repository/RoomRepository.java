@@ -25,4 +25,6 @@ public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
     Optional<RoomEntity> getRoomEntityById(UUID id);
 
 
+    @Query("SELECT COUNT(r) FROM RoomEntity r JOIN r.members m WHERE m.user.id = :id")
+    int countRoomsByUserId(Long id);
 }
