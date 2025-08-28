@@ -22,7 +22,7 @@ const AuthContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 export const useAuth = () => useContext(AuthContext);
 
-const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({children}) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const saved = localStorage.getItem('darkMode');
         return saved ? JSON.parse(saved) : true;
@@ -34,13 +34,13 @@ const ThemeProvider = ({ children }) => {
     }, [isDarkMode]);
 
     return (
-        <ThemeContext.Provider value={{ isDarkMode, toggleTheme: () => setIsDarkMode(prev => !prev) }}>
+        <ThemeContext.Provider value={{isDarkMode, toggleTheme: () => setIsDarkMode(prev => !prev)}}>
             {children}
         </ThemeContext.Provider>
     );
 };
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -86,7 +86,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{isAuthenticated, isLoading, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
 
 
 const LoggedOutNavbar = () => {
-    const { toggleTheme, isDarkMode } = useTheme();
+    const {toggleTheme, isDarkMode} = useTheme();
 
     return (
         <header className="App-header">
@@ -116,8 +116,8 @@ const LoggedOutNavbar = () => {
 };
 
 const LoggedInNavbar = () => {
-    const { logout } = useAuth();
-    const { toggleTheme, isDarkMode } = useTheme();
+    const {logout} = useAuth();
+    const {toggleTheme, isDarkMode} = useTheme();
 
     return (
         <header className="App-header">
@@ -172,7 +172,7 @@ const CheckEmailPage = () => {
             <button onClick={sendVerification} disabled={hasSent}>
                 {hasSent ? "Verification Sent" : "Resend Verification Email"}
             </button>
-            <button onClick={handleClose} style={{ marginLeft: '10px' }}>
+            <button onClick={handleClose} style={{marginLeft: '10px'}}>
                 Close
             </button>
         </div>
@@ -181,9 +181,9 @@ const CheckEmailPage = () => {
 
 
 const AppContent = () => {
-    const { isAuthenticated, isLoading, logout } = useAuth();
+    const {isAuthenticated, isLoading, logout} = useAuth();
     const navigate = useNavigate();
-    const [userVerified, setUserVerified] = useState(true); // assume true by default
+    const [userVerified, setUserVerified] = useState(true);
     const hideNavbarPaths = ['/complete-profile'];
 
     useProfileCompletionRedirect();
@@ -200,11 +200,6 @@ const AppContent = () => {
                         const data = await res.json();
                         if (!data.verified) {
                             setUserVerified(false);
-
-                            setTimeout(() => {
-                                logout();
-                                navigate('/login');
-                            }, 5000);
                         } else {
                             setUserVerified(true);
                             if (window.location.pathname === '/') navigate('/dashboard');
@@ -228,34 +223,49 @@ const AppContent = () => {
         );
     }
 
-    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname) || !userVerified;
+    const shouldHideNavbar = hideNavbarPaths.includes(window.location.pathname);
+    const showLoggedOutNavbar = window.location.pathname === '/verify';
 
     return (
         <div className="App">
-            {!shouldHideNavbar && (isAuthenticated ? <LoggedInNavbar /> : <LoggedOutNavbar />)}
+            {!shouldHideNavbar && (showLoggedOutNavbar ? <LoggedOutNavbar /> : (isAuthenticated ? <LoggedInNavbar /> : <LoggedOutNavbar />))}
             <main className="main-content">
                 <div className="content-wrapper">
                     <Routes>
                         <Route path="/" element={
                             isAuthenticated ? (
-                                userVerified ? <Dashboard /> : <CheckEmailPage />
-                            ) : <Home />
+                                userVerified ? <Dashboard/> : <CheckEmailPage/>
+                            ) : <Home/>
                         }/>
                         <Route path="/dashboard" element={
                             isAuthenticated ? (
-                                userVerified ? <Dashboard /> : <CheckEmailPage />
-                            ) : <Login />
+                                userVerified ? <Dashboard/> : <CheckEmailPage/>
+                            ) : <Login/>
                         }/>
-                        <Route path="/profile" element={isAuthenticated ? <Profile /> : <Login />} />
-                        <Route path="/rooms" element={isAuthenticated ? <Rooms /> : <Login />} />
-                        <Route path="/complete-profile" element={isAuthenticated ? <CompleteProfile /> : <Login />} />
-                        <Route path="/reset-password" element={isAuthenticated ? <PasswordReset /> : <Login />} />
-                        <Route path="/update-personal" element={isAuthenticated ? <Personal /> : <Login />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/calendar" element={<Calendar />} />
-                        <Route path="/verify" element={<VerifyHandler />} />
+                        <Route path="/profile" element={
+                            isAuthenticated ? (
+                                userVerified ? <Profile/> : <CheckEmailPage/>
+                            ) : <Login/>
+                        }/>
+                        <Route path="/rooms" element={
+                            isAuthenticated ? (
+                                userVerified ? <Rooms/> : <CheckEmailPage/>
+                            ) : <Login/>
+                        }/>
+                        <Route path="/calendar" element={  isAuthenticated ? (
+                            userVerified ? <Calendar/> : <CheckEmailPage/>
+                        ) : <Login/>}/>
+                        {/*<Route path="/complete-profile" element={*/}
+                        {/*    isAuthenticated ? ( */}
+                        {/*        userVerified <CompleteProfile/>*/}
+                        {/*    ) : <Login/>}*/}
+                        {/*/>*/}
+                        <Route path="/reset-password" element={isAuthenticated ? <PasswordReset/> : <Login/>}/>
+                        <Route path="/update-personal" element={isAuthenticated ? <Personal/> : <Login/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/verify" element={<VerifyHandler/>}/>
+                        <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper/>}/>
+                        <Route path="/register" element={<Register/>}/>
                     </Routes>
                 </div>
             </main>
@@ -268,7 +278,7 @@ export default function App() {
         <ThemeProvider>
             <AuthProvider>
                 <Router>
-                    <AppContent />
+                    <AppContent/>
                 </Router>
             </AuthProvider>
         </ThemeProvider>
