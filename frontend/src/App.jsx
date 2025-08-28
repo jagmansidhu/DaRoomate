@@ -14,6 +14,7 @@ import './styling/App.css';
 import RoomDetailsPageWrapper from "./webpages/room/RoomDetailWrapper";
 import Calendar from "./component/Calendar";
 import PasswordReset from "./webpages/profileRedirect/PasswordReset";
+import VerifyHandler from "./webpages/VerifyHandler";
 
 const ThemeContext = createContext();
 const AuthContext = createContext();
@@ -200,7 +201,6 @@ const AppContent = () => {
                         if (!data.verified) {
                             setUserVerified(false);
 
-                            // auto redirect to login after 5s
                             setTimeout(() => {
                                 logout();
                                 navigate('/login');
@@ -255,6 +255,7 @@ const AppContent = () => {
                         <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/calendar" element={<Calendar />} />
+                        <Route path="/verify" element={<VerifyHandler />} />
                     </Routes>
                 </div>
             </main>

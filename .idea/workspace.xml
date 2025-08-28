@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/webpages/VerifyHandler.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/entities/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/VerificationTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/VerificationTokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UserServiceImplementation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/component/VerificationPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/VerificationPopup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/webpages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/auth/Login.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +46,7 @@
   }
 }</component>
   <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;86f4bf904acfa18770d0978bbcf519c8650ec77e&quot; value=&quot;###&amp;#10;POST http://localhost:8085/user/register&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;email&amp;quot;: &amp;quot;jefef358@gmail.com&amp;quot;,&amp;#10;  &amp;quot;password&amp;quot;: &amp;quot;Test_123!&amp;quot;,&amp;#10;  &amp;quot;firstName&amp;quot;: &amp;quot;Joesph&amp;quot;,&amp;#10;  &amp;quot;lastName&amp;quot;: &amp;quot;Monkey&amp;quot;&amp;#10;}&quot; /&gt;&#10;  &lt;entry key=&quot;fde7b3bebbd26b5665170c4b2a29159a196454ee&quot; value=&quot;###&amp;#10;POST http://localhost:8085/api/rooms/invite&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;email&amp;quot;: &amp;quot;jefef358@gmail.com&amp;quot;,&amp;#10;  &amp;quot;roomId&amp;quot;: &amp;quot;939cf363-cb18-49a0-9270-2ee28a26bfbf&amp;quot;&amp;#10;}&quot; /&gt;&#10;  &lt;entry key=&quot;bba4d3f5f7e4b480a0eeecc546f339791263c3b2&quot; value=&quot;###&amp;#10;POST http://localhost:8085/user/login&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;email&amp;quot;: &amp;quot;jeffpezo2@gmail.com&amp;quot;,&amp;#10;  &amp;quot;password&amp;quot;: &amp;quot;1234&amp;quot;&amp;#10;}&quot; /&gt;&#10;  &lt;entry key=&quot;24f9e62c9feb82e26ad9acdfd3171554ae2c1af5&quot; value=&quot;###&amp;#10;GET http://localhost:8085/user/verify?token=b338ef07-ed0d-49a8-941f-b45565ad7c7d&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests /&gt;" />
   </component>
   <component name="HttpClientOnboardingState">{
   &quot;isOnboardingCommentShown&quot;: true
@@ -315,7 +311,7 @@
       <workItem from="1756076936693" duration="6319000" />
       <workItem from="1756154825572" duration="32355000" />
       <workItem from="1756325445643" duration="1983000" />
-      <workItem from="1756328000236" duration="8333000" />
+      <workItem from="1756328000236" duration="11075000" />
     </task>
     <servers />
   </component>

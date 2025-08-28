@@ -44,7 +44,9 @@ const Login = () => {
                         onChange={e => setEmail(e.target.value)}
                         required
                     />
-                </label><br />
+                </label>
+                <br />
+                <br />
                 <label>
                     Password:
                     <input
@@ -53,8 +55,11 @@ const Login = () => {
                         onChange={e => setPassword(e.target.value)}
                         required
                     />
-                </label><br />
+                </label>
+                <br />
+                <br />
                 <button type="submit">Log In</button>
+                <br />
                 <br />
                 <button type="button" onClick={() => navigate('/register')}>
                     Register
