@@ -23,7 +23,6 @@ public class JWTServiceImplt implements JWTService {
     private static final int secondsToAdd = 60*60*24*24;
     @Value("${spring.jwt.secret}")
     private String SECRET;
-
     private SecretKey key;
 
     @PostConstruct

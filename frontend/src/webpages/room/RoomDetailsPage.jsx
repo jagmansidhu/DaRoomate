@@ -220,7 +220,7 @@ const RoomDetailsPage = ({
                     <p><strong>Room Code:</strong> <code>{room.roomCode}</code></p>
                 </div>
                 <div className="detail-section">
-                    <h3>Members</h3>
+                    <h3>Members {room.members?.length || 0} / 6</h3>
                     <div className="members-list">
                         {room.members?.map((member) => {
                             const isSelf = member.userId === user.email;

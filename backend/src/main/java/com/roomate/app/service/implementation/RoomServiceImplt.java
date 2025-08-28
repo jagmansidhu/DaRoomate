@@ -98,6 +98,10 @@ public class RoomServiceImplt implements RoomService {
         RoomEntity room = roomRepository.findByRoomCode(roomCode)
                 .orElseThrow(() -> new UserApiError("Room not found with code: " + roomCode));
 
+        if (room.getMembers().size() >= 6) {
+            throw new UserApiError("Room is full. Maximum of 6 members allowed.");
+        }
+
         boolean alreadyMember = room.getMembers().stream()
                 .anyMatch(member -> member.getUser().getId().equals(user.getId()));
 
