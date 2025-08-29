@@ -113,6 +113,11 @@ public class UtilityServiceImplt implements UtilityService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteUtility(UUID utilityId) {
+        utilityRepository.deleteById(utilityId);
+    }
+
     // TODO handle OVerall Logic for updating utilities when users are added or removed from a room
     @Override
     @Transactional

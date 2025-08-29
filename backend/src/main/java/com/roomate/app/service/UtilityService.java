@@ -16,4 +16,6 @@ public interface UtilityService {
     List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId);
 
     List<UtilityDto> getUpcomingUtilities(String id);
+
+    void deleteUtility(UUID utilityId);
 }

@@ -28,6 +28,10 @@ public interface UtilityRepository extends JpaRepository<UtilityEntity , Long> {
     void deleteAllByRoomMemberId(@Param("roomMemberId") UUID roomMemberId);
 
     @Modifying
+    @Transactional
+    void deleteById(UUID utilityId);
+
+    @Modifying
     @org.springframework.transaction.annotation.Transactional
     @Query("DELETE FROM UtilityEntity m WHERE m.room.id = :roomId")
     void deleteAllByRoomId(@Param("roomId") UUID roomId);

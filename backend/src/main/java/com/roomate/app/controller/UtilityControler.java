@@ -43,4 +43,10 @@ public class UtilityControler {
         return ResponseEntity.ok(utilities);
     }
 
+    @DeleteMapping("/{utilityId}")
+    public ResponseEntity<Boolean> deleteUtility(@PathVariable UUID utilityId) {
+        utilityService.deleteUtility(utilityId);
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -1,3 +1,74 @@
+DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+content-length: 0
+
+###
+
+DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+content-length: 0
+
+###
+
+DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+content-length: 0
+
+###
+
+GET http://localhost:8085/api/get-user
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+
+<> 2025-08-28T184537.200.json
+
+###
+
+DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+content-length: 0
+
+###
+
+DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZlZjM1OEBnbWFpbC5jb20iLCJpZCI6IjgiLCJpYXQiOjE3NTY0MzE4MTIsImV4cCI6MTc1ODUwNTQxMn0.ncZvVHMDpj-RM9zhY8zPqKRIk9qDK1MgH1dUU67mYks
+content-length: 0
+
+###
+
+POST http://localhost:8085/user/login
+Content-Type: application/json
+Content-Length: 62
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "email": "jefef358@gmail.com",
+  "password": "Test_123!"
+}
+
+<> 2025-08-28T184332.200.json
+
+###
+
 GET http://localhost:8085/user/verify?token=b338ef07-ed0d-49a8-941f-b45565ad7c7d
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -751,118 +822,6 @@ Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWw
 }
 
 <> 2025-08-25T152918.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152917.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152916.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152914.401.json
-
-###
-
-GET http://localhost:8085/api/rooms
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-<> 2025-08-25T152852.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152838.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152828.401.json
-
-###
-
-POST http://localhost:8085/user/login
-Content-Type: application/json
-Content-Length: 58
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1 RC
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZWZmcGV6bzJAZ21haWwuY29tIiwiaWQiOiIzIiwiaWF0IjoxNzU2MTYwNjI1LCJleHAiOjE3NTgyMzQyMjV9.XNTLWfzHpeiED_rjue65psotZn-f8o4vBhCi6ev2MCc
-
-{
-  "email": "jeffpezo2@gmail.com",
-  "password": "1234"
-}
-
-<> 2025-08-25T152821.401.json
 
 ###
 
