@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a8a1bfc5-0837-44f8-95cb-f6b4ba5ce695" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UtilityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/repository/UtilityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UtilityServiceImplt.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/roomate/app/service/implementation/UtilityServiceImplt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/webpages/room/RoomDetailsPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,9 +43,6 @@
     &quot;accountId&quot;: &quot;7118550c-bc2a-4e78-841b-2c2fb156d0fe&quot;
   }
 }</component>
-  <component name="HttpClientEndpointsTabState">
-    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;bba4d3f5f7e4b480a0eeecc546f339791263c3b2&quot; value=&quot;###&amp;#10;POST http://localhost:8085/user/login&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;email&amp;quot;: &amp;quot;jefef358@gmail.com&amp;quot;,&amp;#10;  &amp;quot;password&amp;quot;: &amp;quot;Test_123!&amp;quot;&amp;#10;}&quot; /&gt;&#10;  &lt;entry key=&quot;9a8ca8b0992564921ba5640aaf65a656a26d5be4&quot; value=&quot;DELETE http://localhost:8085/api/utility/d6b6524b-0e79-452e-9e23-26c1d5d3d9cb&quot; /&gt;&#10;  &lt;entry key=&quot;867dc307fe246f6cad9385205f7029e0a6682df7&quot; value=&quot;###&amp;#10;GET http://localhost:8085/api/get-user&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
-  </component>
   <component name="HttpClientOnboardingState">{
   &quot;isOnboardingCommentShown&quot;: true
 }</component>
@@ -312,7 +307,8 @@
       <workItem from="1756154825572" duration="32355000" />
       <workItem from="1756325445643" duration="1983000" />
       <workItem from="1756328000236" duration="11726000" />
-      <workItem from="1756401050202" duration="13756000" />
+      <workItem from="1756401050202" duration="17316000" />
+      <workItem from="1756504246637" duration="177000" />
     </task>
     <servers />
   </component>
