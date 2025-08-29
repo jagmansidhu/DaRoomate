@@ -115,6 +115,9 @@ public class UtilityServiceImplt implements UtilityService {
 
     @Override
     public void deleteUtility(UUID utilityId) {
+        if (!utilityRepository.existsById(utilityId)) {
+            throw new EntityNotFoundException("Utility with id " + utilityId + " not found");
+        }
         utilityRepository.deleteById(utilityId);
     }
 

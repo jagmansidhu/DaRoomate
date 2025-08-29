@@ -10,6 +10,8 @@ const RoomDetailsPage = ({
     const [inviteStatus, setInviteStatus] = useState('');
     const [user, setUser] = useState(null);
     const [utilities, setUtilities] = useState([]);
+    const [showRemoveUtilityModal, setShowRemoveUtilityModal] = useState(false);
+    const [selectedUtilityId, setSelectedUtilityId] = useState("");
     const [showUtilityModal, setShowUtilityModal] = useState(false);
     const [utilityData, setUtilityData] = useState({
         utilityName: "", description: "", utilityPrice: 0, utilDistributionEnum: "EQUALSPLIT", customSplit: {}
@@ -94,7 +96,7 @@ const RoomDetailsPage = ({
         };
 
         fetchCurrentUser();
-    }, []); // Only runs once when the component mounts
+    }, []);
 
     useEffect(() => {
         const fetchChores = async () => {
@@ -110,16 +112,16 @@ const RoomDetailsPage = ({
             }
         };
 
-        // const fetchAllUtilities = async () => {
-        //     if (room?.id) {
-        //         try {
-        //             const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, { withCredentials: true });
-        //             setUtilities(response.data);
-        //         } catch (err) {
-        //             console.error("Error fetching utilities:", err);
-        //         }
-        //     }
-        // };
+        const fetchAllUtilities = async () => {
+            if (room?.id) {
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/utility/room/${room.id}`, { withCredentials: true });
+                    setUtilities(response.data);
+                } catch (err) {
+                    console.error("Error fetching utilities:", err);
+                }
+            }
+        };
 
         const fetchUserUtilities = async () => {
             if (room?.id && user?.email) {
@@ -140,7 +142,7 @@ const RoomDetailsPage = ({
         };
 
         fetchChores();
-        // fetchAllUtilities();
+        fetchAllUtilities();
         fetchUserUtilities();
     }, [room, user]);
 
@@ -206,6 +208,32 @@ const RoomDetailsPage = ({
     };
 
     const CHORE_OPTIONS = ["Broom", "Sweep", "Trash", "Mop", "Vacuum", "Kitchen", "Other"];
+
+    const handleRemoveUtility = async () => {
+        if (!selectedUtilityId) return;
+
+        try {
+            await axios.delete(
+                `${process.env.REACT_APP_BASE_API_URL}/api/utility/${selectedUtilityId}`,
+                { withCredentials: true }
+            );
+
+            // await fetchAllUtilities();
+            if (memberId) {
+                const userUtilitiesResponse = await axios.get(
+                    `${process.env.REACT_APP_BASE_API_URL}/api/utility/${memberId}/room/${room.id}`,
+                    { withCredentials: true }
+                );
+                setUserUtilities(userUtilitiesResponse.data);
+            }
+
+            setShowRemoveUtilityModal(false);
+            setSelectedUtilityId("");
+        } catch (err) {
+            console.error("Error removing utility:", err);
+        }
+    };
+
 
     return (<div>
         <div>
@@ -297,18 +325,6 @@ const RoomDetailsPage = ({
                         })()}
                     </ul>
                 </div>
-                {/*<div className="detail-section">*/}
-                {/*    <h3>All Utilities</h3>*/}
-                {/*    {utilities.length === 0 ? (<p>No utilities yet.</p>) : (<ul>*/}
-                {/*        {utilities.map(u => (<li key={u.id} style={{*/}
-                {/*            marginBottom: "0.5rem", padding: "0.5rem", background: "#f7f7f7", borderRadius: "6px"*/}
-                {/*        }}>*/}
-                {/*            <strong>{u.utilityName}</strong> -*/}
-                {/*            ${u.utilityPrice.toFixed(2)}*/}
-                {/*            <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>{u.description}</p>*/}
-                {/*        </li>))}*/}
-                {/*    </ul>)}*/}
-                {/*</div>*/}
 
                 {/* User-specific Utilities */}
                 <div className="detail-section">
@@ -322,6 +338,53 @@ const RoomDetailsPage = ({
                         </li>))}
                     </ul>)}
                 </div>
+                {/* Remove Utility Modal */}
+                {showRemoveUtilityModal && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <div className="modal-header">
+                                <h3>Remove Utility</h3>
+                                <button
+                                    className="modal-close"
+                                    onClick={() => setShowRemoveUtilityModal(false)}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <label htmlFor="utilitySelectModal">Select utility:</label>
+                                <select
+                                    id="utilitySelectModal"
+                                    value={selectedUtilityId}
+                                    onChange={e => setSelectedUtilityId(e.target.value)}
+                                    style={{ marginLeft: "0.5rem" }}
+                                >
+                                    <option value="">Select a utility</option>
+                                    {utilities.map(u => (
+                                        <option key={u.id} value={u.id}>
+                                            {u.utilityName} - ${u.utilityPrice.toFixed(2)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="modal-actions">
+                                <button
+                                    className="btn"
+                                    onClick={() => setShowRemoveUtilityModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={handleRemoveUtility}
+                                    disabled={!selectedUtilityId}
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Utility Modal */}
                 {showUtilityModal && (<div className="modal-overlay">
@@ -411,6 +474,9 @@ const RoomDetailsPage = ({
                         </button>
                         <button className="btn btn-danger" onClick={() => setShowRemoveChoreModal(true)}>
                             Remove Chore
+                        </button>
+                        <button className="btn btn-danger" onClick={() => setShowRemoveUtilityModal(true)}>
+                            Remove Utility
                         </button>
                         {isHeadRoommate && (<div className="management-actions">
                             <button className="btn btn-danger" onClick={onDeleteRoom}>

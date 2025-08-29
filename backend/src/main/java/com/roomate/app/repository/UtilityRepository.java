@@ -16,6 +16,8 @@ import java.util.UUID;
 public interface UtilityRepository extends JpaRepository<UtilityEntity , Long> {
     List<UtilityEntity> findByRoomId(UUID roomId);
 
+    Boolean existsById(UUID utilityId);
+
     @Query("SELECT u FROM UtilityEntity u WHERE u.room.id = :roomId AND u.assignedToMember.id = :roomMemberId")
     List<UtilityEntity> findByRoomIdAndMemberId(@Param("roomId") UUID roomId, @Param("roomMemberId")UUID memberId);
 
