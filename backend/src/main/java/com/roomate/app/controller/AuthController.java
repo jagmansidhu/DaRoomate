@@ -45,7 +45,7 @@ public class AuthController {
     @PostMapping("/resend-verification")
     public ResponseEntity<String> resendVerification(@AuthenticationPrincipal UserDetails user) {
         UserEntity usere = userRepository.getUserByEmail(user.getUsername());
-        System.out.println(usere.getEmail() + " " + user.getUsername() + " " + usere.isEnabled());
+//        System.out.println(usere.getEmail() + " " + user.getUsername() + " " + usere.isEnabled());
         if (!user.isEnabled()) {
             return ResponseEntity.badRequest().body("User already verified or not logged in");
         }

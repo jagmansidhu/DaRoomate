@@ -228,7 +228,8 @@ const AppContent = () => {
 
     return (
         <div className="App">
-            {!shouldHideNavbar && (showLoggedOutNavbar ? <LoggedOutNavbar /> : (isAuthenticated ? <LoggedInNavbar /> : <LoggedOutNavbar />))}
+            {!shouldHideNavbar && (showLoggedOutNavbar ? <LoggedOutNavbar/> : (isAuthenticated ? <LoggedInNavbar/> :
+                <LoggedOutNavbar/>))}
             <main className="main-content">
                 <div className="content-wrapper">
                     <Routes>
@@ -252,9 +253,16 @@ const AppContent = () => {
                                 userVerified ? <Rooms/> : <CheckEmailPage/>
                             ) : <Login/>
                         }/>
-                        <Route path="/calendar" element={  isAuthenticated ? (
-                            userVerified ? <Calendar/> : <CheckEmailPage/>
-                        ) : <Login/>}/>
+                        <Route path="/calendar" element={
+                            isAuthenticated ? (
+                                userVerified ? <Calendar/> : <CheckEmailPage/>
+                            ) : <Login/>
+                        }/>
+                        <Route path="/rooms/:roomId" element={
+                            isAuthenticated ? (
+                                userVerified ? <RoomDetailsPageWrapper/> : <CheckEmailPage/>
+                            ) : <Login/>
+                        }/>
                         {/*<Route path="/complete-profile" element={*/}
                         {/*    isAuthenticated ? ( */}
                         {/*        userVerified <CompleteProfile/>*/}
@@ -264,7 +272,6 @@ const AppContent = () => {
                         <Route path="/update-personal" element={isAuthenticated ? <Personal/> : <Login/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/verify" element={<VerifyHandler/>}/>
-                        <Route path="/rooms/:roomId" element={<RoomDetailsPageWrapper/>}/>
                         <Route path="/register" element={<Register/>}/>
                     </Routes>
                 </div>

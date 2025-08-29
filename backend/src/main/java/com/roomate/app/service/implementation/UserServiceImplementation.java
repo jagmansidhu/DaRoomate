@@ -81,6 +81,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         String body = "Click the link to verify your account: " + verificationUrl;
 
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("DaRoommate Team <roomate@example.com>");
         message.setTo(email);
         message.setSubject(subject);
         message.setText(body);
