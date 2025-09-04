@@ -1,7 +1,6 @@
 package com.roomate.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.roomate.app.entities.friendEntity.FriendEntity;
 import com.roomate.app.entities.roleEntity.RolesEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
