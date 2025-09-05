@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,9 +57,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthDto> register(@Valid @RequestBody RegisterDto req) {
-        String token = userService.registerUser(req);
-        return ResponseEntity.ok(new AuthDto(token));
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDto req) {
+        try {
+            String token = userService.registerUser(req);
+            return ResponseEntity.ok(new AuthDto(token));
+        } catch (DuplicateKeyException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "User with this email already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        }
     }
 
     @GetMapping("/verify")
