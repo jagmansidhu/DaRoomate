@@ -9,7 +9,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState("");
     const [error, setError] = useState('');
-    const [showPasswordRules, setShowPasswordRules] = useState(false); // ✅ track focus
+    const [showPasswordRules, setShowPasswordRules] = useState(false);
 
     const passwordRules = [
         { test: /.{8,}/, message: "At least 8 characters" },
@@ -104,13 +104,12 @@ const Register = () => {
                         type="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        onFocus={() => setShowPasswordRules(true)}   // ✅ show on focus
-                        onBlur={() => setShowPasswordRules(false)}   // ✅ hide on blur
+                        onFocus={() => setShowPasswordRules(true)}
+                        onBlur={() => setShowPasswordRules(false)}
                         required
                     />
                 </label>
 
-                {/* ✅ Only show when input is focused */}
                 {showPasswordRules && (
                     <ul style={{ listStyle: "none", paddingLeft: 0 }}>
                         {passwordRules.map((rule, i) => (

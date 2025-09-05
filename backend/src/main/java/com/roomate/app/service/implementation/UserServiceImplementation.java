@@ -10,7 +10,9 @@ import com.roomate.app.service.JWTService;
 import com.roomate.app.service.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -124,12 +127,14 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         if (updatedDetails.getPhone() != null && !updatedDetails.getPhone().isEmpty()) {
             user.setPhone(updatedDetails.getPhone());
         }
+
         if (updatedDetails.getCurPassword() != null &&
                 updatedDetails.getPassword() != null &&
                 !updatedDetails.getPassword().isEmpty()) {
 
             if (!passwordEncoder.matches(updatedDetails.getCurPassword(), user.getPassword())) {
-                throw new IllegalArgumentException("Current password is incorrect");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Current password is incorrect");
+
             }
 
             user.setPassword(passwordEncoder.encode(updatedDetails.getPassword()));

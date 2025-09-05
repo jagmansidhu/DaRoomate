@@ -1,28 +1,47 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const PasswordReset = () => {
     const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    const [validationError, setValidationError] = useState('');
+    const [apiError, setApiError] = useState('');
     const [apiLoading, setApiLoading] = useState(true);
     const [password, setPassword] = useState('');
     const [curPassword, setCurPassword] = useState('');
-    const [email, setEmail] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [showPasswordRules, setShowPasswordRules] = useState(false);
 
     const navigate = useNavigate();
+
+    const passwordRules = [
+        { test: /.{8,}/, message: "At least 8 characters" },
+        { test: /[A-Z]/, message: "At least one uppercase letter" },
+        { test: /[a-z]/, message: "At least one lowercase letter" },
+        { test: /[0-9]/, message: "At least one number" },
+        { test: /[@#$%^&+=!]/, message: "At least one special character (@#$%^&+=!)" },
+    ];
+
+    function validatePassword(password) {
+        for (let rule of passwordRules) {
+            if (!rule.test.test(password)) {
+                return rule.message;
+            }
+        }
+        return null;
+    }
 
     useEffect(() => {
         const checkProfileAndFetchData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/api/get-user`, {
-                    withCredentials: true,
-                });
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BASE_API_URL}/api/get-user`,
+                    { withCredentials: true }
+                );
                 setData(response.data);
             } catch (err) {
                 console.error('Error fetching protected resource:', err);
-                setError(err);
+                setApiError("Failed to load user data.");
             } finally {
                 setApiLoading(false);
             }
@@ -34,8 +53,9 @@ const PasswordReset = () => {
     const handlePasswordReset = async (e) => {
         e.preventDefault();
 
-        if (!password) {
-            setError("Please enter a new password.");
+        const validationError = validatePassword(password);
+        if (validationError) {
+            setValidationError(validationError);
             return;
         }
 
@@ -47,24 +67,22 @@ const PasswordReset = () => {
                     curPassword: curPassword,
                     password: password
                 },
-                {
-                    withCredentials: true,
-                }
+                { withCredentials: true }
             );
 
             if (response.status === 200) {
                 setSuccessMessage("Password reset successful ✅");
+                setValidationError('');
+                setApiError('');
 
                 // redirect after 2 seconds
-                setTimeout(() => {
-                    navigate('/profile');
-                }, 2000);
+                setTimeout(() => navigate('/profile'), 2000);
             } else {
-                setError("Password reset failed.");
+                setApiError("Password reset failed.");
             }
         } catch (err) {
             console.error('Error resetting password:', err);
-            setError("An error occurred while resetting the password.");
+            setApiError("An error occurred while resetting the password.");
         }
     };
 
@@ -76,9 +94,8 @@ const PasswordReset = () => {
                         Email:
                         <input
                             type="email"
-                            value={email}
-                            placeholder={data?.email || 'Enter your email'}
-                            onChange={e => setEmail(e.target.value)}
+                            value={data?.email || ''}
+                            disabled
                         />
                     </label>
                 </div>
@@ -91,6 +108,7 @@ const PasswordReset = () => {
                             type="password"
                             value={curPassword}
                             onChange={e => setCurPassword(e.target.value)}
+                            required
                         />
                     </label>
                 </div>
@@ -103,12 +121,33 @@ const PasswordReset = () => {
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
+                            onFocus={() => setShowPasswordRules(true)}
+                            required
                         />
                     </label>
                 </div>
-                <br/>
 
-                <button type="submit">Update Profile</button>
+                {showPasswordRules && (
+                    <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+                        {passwordRules.map((rule, i) => (
+                            <li
+                                key={i}
+                                style={{
+                                    color: rule.test.test(password) ? "green" : "red",
+                                    fontSize: "0.9em"
+                                }}
+                            >
+                                {rule.message}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+
+                {validationError && <p style={{ color: 'red' }}>{validationError}</p>}
+                {apiError && <p style={{ color: 'red' }}>{apiError}</p>}
+
+                <br/>
+                <button type="submit" disabled={apiLoading}>Update Profile</button>
             </form>
 
             {successMessage && (
