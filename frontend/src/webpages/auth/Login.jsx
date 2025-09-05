@@ -34,7 +34,6 @@ const Login = () => {
     return (
         <div className="login-container">
             <h2>Login</h2>
-            {error && <p className="error-text">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label>
                     Email:
@@ -59,10 +58,11 @@ const Login = () => {
                     />
                 </label>
                 <br />
-                <br />
+                {error && <p style={{ color: "red" }} className="error-text">{error}</p>}
                 <button type="submit">Log In</button>
                 <br />
                 <br />
+
                 <button type="button" onClick={() => navigate('/register')}>
                     Register
                 </button>
