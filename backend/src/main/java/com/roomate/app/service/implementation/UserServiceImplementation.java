@@ -124,7 +124,14 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         if (updatedDetails.getPhone() != null && !updatedDetails.getPhone().isEmpty()) {
             user.setPhone(updatedDetails.getPhone());
         }
-        if (updatedDetails.getPassword() != null && !updatedDetails.getPassword().isEmpty()) {
+        if (updatedDetails.getCurPassword() != null &&
+                updatedDetails.getPassword() != null &&
+                !updatedDetails.getPassword().isEmpty()) {
+
+            if (!passwordEncoder.matches(updatedDetails.getCurPassword(), user.getPassword())) {
+                throw new IllegalArgumentException("Current password is incorrect");
+            }
+
             user.setPassword(passwordEncoder.encode(updatedDetails.getPassword()));
         }
 

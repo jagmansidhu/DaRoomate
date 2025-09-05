@@ -7,7 +7,9 @@ const PasswordReset = () => {
     const [error, setError] = useState(null);
     const [apiLoading, setApiLoading] = useState(true);
     const [password, setPassword] = useState('');
+    const [curPassword, setCurPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ const PasswordReset = () => {
         e.preventDefault();
 
         if (!password) {
-            alert('Please enter a new password.');
+            setError("Please enter a new password.");
             return;
         }
 
@@ -42,6 +44,7 @@ const PasswordReset = () => {
                 `${process.env.REACT_APP_BASE_API_URL}/user/updateProfile`,
                 {
                     email: data.email,
+                    curPassword: curPassword,
                     password: password
                 },
                 {
@@ -50,14 +53,18 @@ const PasswordReset = () => {
             );
 
             if (response.status === 200) {
-                alert('Password reset successful');
-                navigate('/profile'); // Redirect to profile page
+                setSuccessMessage("Password reset successful ✅");
+
+                // redirect after 2 seconds
+                setTimeout(() => {
+                    navigate('/profile');
+                }, 2000);
             } else {
-                alert('Password reset failed');
+                setError("Password reset failed.");
             }
         } catch (err) {
             console.error('Error resetting password:', err);
-            alert('An error occurred while resetting the password');
+            setError("An error occurred while resetting the password.");
         }
     };
 
@@ -79,7 +86,19 @@ const PasswordReset = () => {
                 <br/>
                 <div className="Label">
                     <label>
-                        Password:
+                        Current Password:
+                        <input
+                            type="password"
+                            value={curPassword}
+                            onChange={e => setCurPassword(e.target.value)}
+                        />
+                    </label>
+                </div>
+
+                <br/>
+                <div className="Label">
+                    <label>
+                        New Password:
                         <input
                             type="password"
                             value={password}
@@ -89,9 +108,24 @@ const PasswordReset = () => {
                 </div>
                 <br/>
 
-
                 <button type="submit">Update Profile</button>
             </form>
+
+            {successMessage && (
+                <div style={{
+                    position: "fixed",
+                    bottom: "20px",
+                    right: "20px",
+                    background: "#4CAF50",
+                    color: "white",
+                    padding: "12px 20px",
+                    borderRadius: "6px",
+                    boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+                    fontSize: "14px"
+                }}>
+                    {successMessage}
+                </div>
+            )}
         </div>
     );
 };

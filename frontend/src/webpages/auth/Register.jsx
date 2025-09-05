@@ -42,6 +42,7 @@ const Register = () => {
                 firstName,
                 lastName,
                 email,
+
                 password
             });
             navigate('/login');
