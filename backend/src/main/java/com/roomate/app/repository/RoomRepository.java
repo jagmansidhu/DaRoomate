@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
 
     @Query("SELECT DISTINCT r FROM RoomEntity r JOIN FETCH r.members m JOIN FETCH m.user WHERE r.id IN (SELECT r2.id FROM RoomEntity r2 JOIN r2.members m2 WHERE m2.user.id = :userId)")
-    List<RoomEntity> findByMemberUserId(@Param("userId") Long userId);
+    List<RoomEntity> findByMemberUserId(@Param("userId") UUID userId);
 
     Optional<RoomEntity> findByRoomCode(String roomCode);
 
@@ -27,5 +27,5 @@ public interface RoomRepository extends JpaRepository<RoomEntity, UUID> {
 
 
     @Query("SELECT COUNT(r) FROM RoomEntity r JOIN r.members m WHERE m.user.id = :id")
-    int countRoomsByUserId(Long id);
+    int countRoomsByUserId(UUID id);
 }

@@ -5,18 +5,20 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Data
 public class UserDto {
     private String authId;
-    private Long id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
 
-    public UserDto(Long id, String firstName, String lastName, @NotNull String email) {
+    public UserDto(UUID id, String firstName, String lastName, @NotNull String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,7 +33,7 @@ public class UserDto {
 
     }
 
-    public UserDto(Long id, String firstName, String lastName) {
+    public UserDto(UUID id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

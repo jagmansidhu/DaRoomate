@@ -41,7 +41,7 @@ class RoomServiceUnitTest {
     @BeforeEach
     void setUp() {
         mockUser = new UserEntity();
-        mockUser.setId(1L);
+        mockUser.setId(new UUID(1, 10));
         mockUser.setEmail("head@example.com");
         mockUser.setFirstName("Head");
         mockUser.setLastName("User");
@@ -88,7 +88,7 @@ class RoomServiceUnitTest {
         String joinCode = "JOIN123";
         
         UserEntity joiner = new UserEntity();
-        joiner.setId(2L);
+        joiner.setId(new UUID(2, 20));
         joiner.setEmail("joiner@example.com");
 
         RoomEntity room = new RoomEntity("Test Room", "Address", "Desc", joinCode, mockUser.getEmail(), new ArrayList<>());

@@ -14,13 +14,13 @@ import java.util.UUID;
 
 @Repository
 public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UUID> {
-    Optional<RoomMemberEntity> findByRoomIdAndUserId(UUID roomId, Long userId);
+    Optional<RoomMemberEntity> findByRoomIdAndUserId(UUID roomId, UUID userId);
 
-    boolean existsByRoomIdAndUserId(UUID roomId, Long userId);
+    boolean existsByRoomIdAndUserId(UUID roomId, UUID userId);
 
     Optional<RoomMemberEntity> getRoomMemberEntityById(UUID id);
 
-    Optional<RoomMemberEntity> getRoomMemberEntityByUserId(Long userId);
+    Optional<RoomMemberEntity> getRoomMemberEntityByUserId(UUID userId);
 
     @Query("SELECT m FROM RoomMemberEntity m WHERE m.room.id = :roomId")
     List<RoomMemberEntity> findByRoomID(@Param("roomId") UUID roomId);
@@ -33,12 +33,12 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
     @Modifying
     @Transactional
     @Query("DELETE FROM RoomMemberEntity m WHERE m.room.id = :roomId AND m.user.id = :userId")
-    void deleteByRoomIdAndUserId(@Param("roomId") UUID roomId, @Param("userId") Long userId);
+    void deleteByRoomIdAndUserId(@Param("roomId") UUID roomId, @Param("userId") UUID userId);
 
     @Modifying
     @Transactional
     @Query("DELETE FROM RoomMemberEntity m WHERE m.id = :id AND m.user.id = :userId")
-    void deleteByMemberIdAndUserId(@Param("id") UUID id, @Param("userId") Long userId);
+    void deleteByMemberIdAndUserId(@Param("id") UUID id, @Param("userId") UUID userId);
 
     @Modifying
     @Transactional
@@ -46,7 +46,7 @@ public interface RoomMemberRepository extends JpaRepository<RoomMemberEntity, UU
     void deleteByMemberIdAndEmail(@Param("id") UUID id, @Param("email") String email);
 
     @Query("SELECT rm FROM RoomMemberEntity rm WHERE rm.user.id = :userId")
-    List<RoomMemberEntity> findAllByUserId(@Param("userId") Long userId);
+    List<RoomMemberEntity> findAllByUserId(@Param("userId") UUID userId);
 
     @Query("SELECT rm FROM RoomMemberEntity rm WHERE rm.room.id = :roomId AND rm.user.email = :email")
     Optional<RoomMemberEntity> findByRoomIdAndUserEmail(@Param("roomId") UUID roomId, @Param("email") String email);

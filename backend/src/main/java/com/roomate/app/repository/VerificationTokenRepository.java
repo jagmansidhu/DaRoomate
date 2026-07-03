@@ -9,14 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface VerificationTokenRepository extends JpaRepository<VerificationTokenEntity, Long> {
+public interface VerificationTokenRepository extends JpaRepository<VerificationTokenEntity, UUID> {
     Optional<VerificationTokenEntity> findByToken(String token);
 
     @Modifying
     @Transactional
     @Query("DELETE FROM VerificationTokenEntity u WHERE u.user.id = :userid")
-    void deleteByUser_Id(@Param("userid") Long userid);
+    void deleteByUser_Id(@Param("userid") UUID userid);
 
 }

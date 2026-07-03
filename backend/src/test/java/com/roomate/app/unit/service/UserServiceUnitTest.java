@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +47,7 @@ class UserServiceUnitTest {
     @BeforeEach
     void setUp() {
         mockUser = new UserEntity();
-        mockUser.setId(1L);
+        mockUser.setId(new UUID(1,10));
         mockUser.setEmail("test@example.com");
         mockUser.setFirstName("Test");
         mockUser.setLastName("User");
@@ -65,7 +66,7 @@ class UserServiceUnitTest {
         when(passwordEncoder.encode("rawPassword")).thenReturn("hashedPassword");
         
         UserEntity savedArg = new UserEntity();
-        savedArg.setId(2L);
+        mockUser.setId(new UUID(1,10));
         savedArg.setEmail("newuser@example.com");
         when(userRepository.save(any(UserEntity.class))).thenReturn(savedArg);
         when(jwtService.generateToken(any(UserEntity.class))).thenReturn("fake-jwt-token");

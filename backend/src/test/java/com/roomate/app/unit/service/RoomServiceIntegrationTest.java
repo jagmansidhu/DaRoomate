@@ -8,6 +8,7 @@ import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.exceptions.UserApiError;
 import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UserRepository;
+import com.roomate.app.service.RoomService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
