@@ -44,7 +44,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     }
 
     @Override
-    public String registerUser(RegisterDto req) throws DuplicateKeyException {
+    public void registerUser(RegisterDto req) throws DuplicateKeyException {
         UserEntity user = new UserEntity();
         String email = req.getEmail();
 
@@ -57,14 +57,11 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setEnabled(true); // TODO: Set back to false to re-enable email verification
-        UserEntity savedUser = userRepository.save(user);
+        userRepository.save(user);
 
         // TODO: Uncomment to re-enable email verification
         // String token = createToken(savedUser);
-
         // sendVerificationEmail(user.getEmail(), token);
-
-        return jwtService.generateToken(user);
     }
 
     @Override
@@ -83,7 +80,7 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
         String body = "Click the link to verify your account: " + verificationUrl;
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("DaRoommate Team <roomate@example.com>");
+        message.setFrom("TheRoommate Team <roomate@example.com>");
         message.setTo(email);
         message.setSubject(subject);
         message.setText(body);

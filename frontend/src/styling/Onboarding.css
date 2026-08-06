@@ -1,5 +1,5 @@
 /* ==========================================
-   Onboarding Page - Full Screen Experience
+   Onboarding Page — Living Paper
    ========================================== */
 
 .onboarding-page {
@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    background: var(--lp-cream);
     padding: var(--spacing-8);
 }
 
@@ -25,8 +25,9 @@
     width: 80px;
     height: 80px;
     margin: 0 auto var(--spacing-6);
-    background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
-    border-radius: var(--radius-2xl);
+    background: var(--lp-orange);
+    border-radius: 4px;
+    box-shadow: 4px 4px 0 var(--lp-ink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,15 +40,17 @@
 }
 
 .onboarding-header h1 {
+    font-family: var(--f-display);
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
+    color: var(--lp-ink);
     margin-bottom: var(--spacing-4);
 }
 
 .onboarding-header p {
+    font-family: var(--f-body);
     font-size: var(--font-size-lg);
-    color: var(--text-secondary);
+    color: var(--lp-ink-soft);
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.6;
@@ -62,12 +65,12 @@
 }
 
 .onboarding-card {
-    background-color: var(--bg-elevated);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-2xl);
+    background-color: var(--lp-card);
+    border: 1.5px solid var(--lp-border);
+    border-radius: 4px;
     padding: var(--spacing-10);
     cursor: pointer;
-    transition: all var(--transition-normal);
+    transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,30 +78,22 @@
 }
 
 .onboarding-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--primary-300);
-}
-
-[data-theme="dark"] .onboarding-card:hover {
-    border-color: var(--primary-500);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--lp-orange);
+    border-color: var(--lp-orange);
 }
 
 .card-icon {
     width: 64px;
     height: 64px;
-    background-color: var(--primary-50);
-    border-radius: var(--radius-xl);
+    background-color: var(--lp-parchment);
+    border: 1.5px solid var(--lp-border);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: var(--spacing-6);
-    color: var(--primary-600);
-}
-
-[data-theme="dark"] .card-icon {
-    background-color: rgba(99, 102, 241, 0.15);
-    color: var(--primary-400);
+    color: var(--lp-orange);
 }
 
 .card-icon svg {
@@ -107,15 +102,17 @@
 }
 
 .onboarding-card h2 {
+    font-family: var(--f-label);
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
+    color: var(--lp-ink);
     margin-bottom: var(--spacing-3);
 }
 
 .onboarding-card p {
+    font-family: var(--f-body);
     font-size: var(--font-size-md);
-    color: var(--text-tertiary);
+    color: var(--lp-ink-muted);
     margin-bottom: var(--spacing-6);
     line-height: 1.5;
     flex: 1;
@@ -130,7 +127,8 @@
 .onboarding-skip {
     background: none;
     border: none;
-    color: var(--text-tertiary);
+    color: var(--lp-ink-muted);
+    font-family: var(--f-body);
     font-size: var(--font-size-sm);
     cursor: pointer;
     padding: var(--spacing-3) var(--spacing-6);
@@ -138,7 +136,7 @@
 }
 
 .onboarding-skip:hover {
-    color: var(--text-secondary);
+    color: var(--lp-ink-soft);
 }
 
 /* Responsive */

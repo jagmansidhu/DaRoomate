@@ -25,28 +25,32 @@ public class UtilityControler {
 
     @PostMapping("/create")
     public ResponseEntity<List<UtilityEntity>> createUtility(@RequestBody UtilityCreateDto dto) {
-        List<UtilityEntity> utility = utilityService.createUtility(dto);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<UtilityEntity> utility = utilityService.createUtility(dto, email);
         return ResponseEntity.ok(utility);
     }
 
     @GetMapping("/{roomId}")
     public ResponseEntity<List<UtilityDto>> getUtilitiesByRoom(@PathVariable UUID roomId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(30, TimeUnit.SECONDS).cachePrivate())
-                .body(utilityService.getUtilitiesByRoom(roomId));
+                .body(utilityService.getUtilitiesByRoom(roomId, email));
     }
 
     @GetMapping("/{memberId}/room/{roomId}")
     public ResponseEntity<List<UtilityDto>> getUtilitiesByRoomabdMemberId(@PathVariable UUID roomId,
                                                                           @PathVariable UUID memberId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(30, TimeUnit.SECONDS).cachePrivate())
-                .body(utilityService.getUtilitiesByRoomandMemberId(roomId, memberId));
+                .body(utilityService.getUtilitiesByRoomandMemberId(roomId, memberId, email));
     }
 
     @GetMapping("/upcoming")
-    public ResponseEntity<List<UtilityDto>> getUpcomingUtilities(@RequestParam String id) {
-        List<UtilityDto> utilities = utilityService.getUpcomingUtilities(id);
+    public ResponseEntity<List<UtilityDto>> getUpcomingUtilities() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<UtilityDto> utilities = utilityService.getUpcomingUtilities(email);
         if (utilities.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -69,7 +73,8 @@ public class UtilityControler {
 
     @DeleteMapping("/{utilityId}")
     public ResponseEntity<Boolean> deleteUtility(@PathVariable UUID utilityId) {
-        utilityService.deleteUtility(utilityId);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        utilityService.deleteUtility(utilityId, email);
         return ResponseEntity.ok().build();
     }
 

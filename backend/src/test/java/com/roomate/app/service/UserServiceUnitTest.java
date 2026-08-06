@@ -68,14 +68,12 @@ class UserServiceUnitTest {
         savedArg.setId(2L);
         savedArg.setEmail("newuser@example.com");
         when(userRepository.save(any(UserEntity.class))).thenReturn(savedArg);
-        when(jwtService.generateToken(any(UserEntity.class))).thenReturn("fake-jwt-token");
 
-        String result = userService.registerUser(dto);
+        userService.registerUser(dto);
 
-        assertNotNull(result);
-        assertEquals("fake-jwt-token", result);
         verify(userRepository, times(1)).save(any(UserEntity.class));
         verify(passwordEncoder, times(1)).encode("rawPassword");
+        verify(jwtService, never()).generateToken(any(UserEntity.class));
     }
 
     @Test

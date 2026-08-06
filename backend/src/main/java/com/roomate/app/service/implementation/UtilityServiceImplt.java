@@ -6,9 +6,11 @@ import com.roomate.app.entities.UtilityEntity;
 import com.roomate.app.entities.UtilDistributionEnum;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
+import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.repository.RoomMemberRepository;
 import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UtilityRepository;
+import com.roomate.app.service.RoomAuthorizationService;
 import com.roomate.app.service.UtilityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -32,11 +34,15 @@ public class UtilityServiceImplt implements UtilityService {
     private final UtilityRepository utilityRepository;
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final RoomAuthorizationService roomAuthorizationService;
 
     @Override
     @Transactional
     @CacheEvict(value = {"roomUtilities", "userUtilities"}, allEntries = true)
-    public List<UtilityEntity> createUtility(UtilityCreateDto dto) {
+    public List<UtilityEntity> createUtility(UtilityCreateDto dto, String email) {
+        roomAuthorizationService.assertRoomRole(dto.getRoomId(), email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
+
         RoomEntity room = roomRepository.findById(dto.getRoomId())
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
         Hibernate.initialize(room.getMembers());
@@ -145,7 +151,8 @@ public class UtilityServiceImplt implements UtilityService {
     @Override
     @Transactional
     @Cacheable(value = "roomUtilities", key = "#roomId")
-    public List<UtilityDto> getUtilitiesByRoom(UUID roomId) {
+    public List<UtilityDto> getUtilitiesByRoom(UUID roomId, String email) {
+        roomAuthorizationService.assertRoomMember(roomId, email);
         return utilityRepository
                 .findByRoomId(roomId).stream().map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(),
                         utility.getUtilityPrice(),
@@ -158,7 +165,8 @@ public class UtilityServiceImplt implements UtilityService {
 
     @Override
     @Cacheable(value = "roomUtilities", key = "#roomId + '-' + #memberId")
-    public List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId) {
+    public List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId, String email) {
+        roomAuthorizationService.assertRoomMember(roomId, email);
         return utilityRepository.findByRoomIdAndMemberId(roomId, memberId).stream()
                 .map(utility -> new UtilityDto(utility.getId(), utility.getUtilityName(), utility.getUtilityPrice(),
                         utility.getRoom() != null ? utility.getRoom().getId() : null,
@@ -185,11 +193,16 @@ public class UtilityServiceImplt implements UtilityService {
     }
 
     @Override
+    @Transactional
     @CacheEvict(value = {"roomUtilities", "userUtilities"}, allEntries = true)
-    public void deleteUtility(UUID utilityId) {
-        if (!utilityRepository.existsById(utilityId)) {
-            throw new EntityNotFoundException("Utility with id " + utilityId + " not found");
+    public void deleteUtility(UUID utilityId, String email) {
+        UtilityEntity utility = utilityRepository.findByUtilityId(utilityId)
+                .orElseThrow(() -> new EntityNotFoundException("Utility with id " + utilityId + " not found"));
+        if (utility.getRoom() == null) {
+            throw new EntityNotFoundException("Utility is not associated with a room");
         }
+        roomAuthorizationService.assertRoomRole(utility.getRoom().getId(), email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
         utilityRepository.deleteById(utilityId);
     }
 

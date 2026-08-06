@@ -30,6 +30,7 @@ public class UserEntity implements UserDetails {
     @Column(unique = true)
     private String email;
     @Column(nullable = true)
+    @JsonIgnore
     private String password;
     private String phone;
 
@@ -123,6 +124,7 @@ public class UserEntity implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

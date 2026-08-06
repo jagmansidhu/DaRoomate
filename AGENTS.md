@@ -14,15 +14,16 @@ Canonical AI coding guidance for this repository. Keep this file as the source o
 - Use `frontend/src/apiClient.js` for HTTP (`withCredentials: true`, base URL from `REACT_APP_BASE_API_URL`).
 
 ## Auth and Request Flow
-- `/user/login` (`AuthController`) returns token and sets HttpOnly `jwt` cookie.
+- `/user/login` (`AuthController`) sets HttpOnly `jwt` cookie only (no JWT in response body). Cookie `maxAge` matches JWT expiry (4h).
 - `JwtAuthenticationFilter` validates JWT from `jwt` cookie only (stateless, no bearer fallback).
-- **CSRF Protection**: Enabled via double-submit cookie pattern (`CookieCsrfTokenRepository`).
+- **CSRF Protection**: Enabled via double-submit cookie pattern (`CookieCsrfTokenRepository` in `SecurityConfig`).
   - Token stored in public `XSRF-TOKEN` cookie, sent via `X-CSRF-TOKEN` header on state-changing requests.
-  - See `CSRF_PROTECTION.md` for implementation details.
-  - Excluded endpoints: `/user/login`, `/user/register`, `/user/logout`, `/user/status`, `/user/verify`.
+  - CSRF-ignored endpoints: `/user/login`, `/user/register`, `/user/logout`, `/user/verify`.
+  - `/user/status` is not ignored so GET can mint `XSRF-TOKEN` (`CsrfCookieFilter` forces deferred token write).
 - Frontend boot path is `/user/status` -> `/api/get-user` -> `/api/profile-status` (see `frontend/src/App.jsx`).
   - `/user/status` GET triggers CSRF token generation on client.
 - `apiClient.js` automatically adds CSRF token to POST/PUT/DELETE/PATCH requests via interceptor.
+- Room-scoped mutations use `RoomAuthorizationService` (`assertRoomMember` / `assertRoomRole`) — head/assistant for invite and chore/utility mutates.
 - `frontend/src/component/userProfileRedirection.jsx` still uses Auth0 hooks; treat this as mixed/legacy auth context.
 
 ## Developer Workflows
@@ -40,7 +41,7 @@ Canonical AI coding guidance for this repository. Keep this file as the source o
 - Preserve eager vs lazy app-data loading behavior in `frontend/src/App.jsx` when adding UI data fetches.
 
 ## Integrations and Operational Notes
-- **Security**: CSRF protection enabled via double-submit cookie pattern (see `CSRF_PROTECTION.md`); rate limiting is Bucket4j + Redis (fail-open when Redis down).
+- **Security**: CSRF double-submit cookie pattern (`SecurityConfig` + `CsrfCookieFilter`); actuator limited to `health`/`info` anonymously; rate limiting is Bucket4j + Redis (fail-open when Redis down; disabled under `test` profile).
 - Rate limiting is `RateLimitingFilter`, `RedisRateLimitConfig`; intentionally fail-open when Redis is down.
 - Email invite/verification relies on SMTP env vars (`EMAIL_*`) via `RoomInviteMailSender` and `UserServiceImplementation`.
 - WebSocket chat is scaffolded but inactive (`backend/src/main/java/com/roomate/app/websocket/WebSocketConfig.java` is commented; `frontend/src/webpages/Message.jsx` is placeholder).

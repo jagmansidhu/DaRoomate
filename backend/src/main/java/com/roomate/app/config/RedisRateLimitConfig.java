@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Creates the Redis-backed Bucket4j ProxyManager used for distributed rate limiting.
@@ -31,6 +32,7 @@ public class RedisRateLimitConfig {
      * The filter checks for null and degrades gracefully.
      */
     @Bean
+    @Profile("!test")
     public ProxyManager<String> rateLimitProxyManager(
             @Value("${spring.data.redis.url:redis://localhost:6379}") String redisUrl) {
         try {

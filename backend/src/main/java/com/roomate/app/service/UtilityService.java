@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UtilityService {
-    List<UtilityEntity> createUtility(UtilityCreateDto dto);
+    List<UtilityEntity> createUtility(UtilityCreateDto dto, String email);
 
-    List<UtilityDto> getUtilitiesByRoom(UUID roomId);
+    List<UtilityDto> getUtilitiesByRoom(UUID roomId, String email);
 
-    List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId);
+    List<UtilityDto> getUtilitiesByRoomandMemberId(UUID roomId, UUID memberId, String email);
 
     List<UtilityDto> getUpcomingUtilities(String id);
 
-    void deleteUtility(UUID utilityId);
+    void deleteUtility(UUID utilityId, String email);
 
     UtilityDto updateCompletion(UUID utilityId, String userEmail, boolean completed);
 }

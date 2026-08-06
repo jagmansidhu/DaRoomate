@@ -1,9 +1,9 @@
 package com.roomate.app.controller;
 
-import com.roomate.app.dto.AuthDto;
 import com.roomate.app.dto.LoginDto;
 import com.roomate.app.dto.RegisterDto;
 import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
+import com.roomate.app.dto.UserDTOS.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.JWTService;
@@ -47,8 +47,6 @@ public class AuthController {
     @PostMapping("/resend-verification")
     public ResponseEntity<String> resendVerification(@AuthenticationPrincipal UserDetails user) {
         UserEntity usere = userRepository.getUserByEmail(user.getUsername());
-        // System.out.println(usere.getEmail() + " " + user.getUsername() + " " +
-        // usere.isEnabled());
         if (!user.isEnabled()) {
             return ResponseEntity.badRequest().body("User already verified or not logged in");
         }
@@ -60,8 +58,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDto req) {
         try {
-            String token = userService.registerUser(req);
-            return ResponseEntity.ok(new AuthDto(token));
+            userService.registerUser(req);
+            return ResponseEntity.ok(Map.of("message", "Registration successful"));
         } catch (DuplicateKeyException e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "User with this email already exists.");
@@ -76,26 +74,26 @@ public class AuthController {
     }
 
     @PutMapping("/updateProfile")
-    public ResponseEntity<UserEntity> updateProfile(@Valid @RequestBody UpdateProfileDto req,
+    public ResponseEntity<UserDto> updateProfile(@Valid @RequestBody UpdateProfileDto req,
             HttpServletRequest request) {
         String email = request.getUserPrincipal().getName();
         UserEntity updatedUser = userService.updateUserProfile(email, req);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(UserDto.fromEntity(updatedUser));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDto> login(@Valid @RequestBody LoginDto req, HttpServletRequest request,
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto req, HttpServletRequest request,
             HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                Cookie cleared = new Cookie(cookie.getName(), "");
-                cleared.setPath("/");
-                cleared.setMaxAge(0);
-                cleared.setHttpOnly(true);
-                response.addCookie(cleared);
-            }
-        }
+        // Clear only a prior jwt cookie — do not wipe unrelated cookies (e.g. XSRF-TOKEN).
+        ResponseCookie clearJwt = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto")))
+                .path("/")
+                .sameSite((request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto")))
+                        ? "None" : "Lax")
+                .maxAge(0)
+                .build();
+        response.addHeader("Set-Cookie", clearJwt.toString());
 
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
@@ -111,12 +109,13 @@ public class AuthController {
                 .secure(isSecure)
                 .path("/")
                 .sameSite(isSecure ? "None" : "Lax")
-                .maxAge(7 * 24 * 60 * 60)
+                .maxAge(jwtService.getTokenExpirySeconds())
                 .build();
 
-        response.setHeader("Set-Cookie", cookie.toString());
+        response.addHeader("Set-Cookie", cookie.toString());
 
-        return ResponseEntity.ok(new AuthDto(token));
+        // Cookie-only auth for browser clients — JWT is not returned in the body.
+        return ResponseEntity.ok(Map.of("authenticated", true));
     }
 
     @GetMapping("/status")

@@ -1,5 +1,5 @@
 /* ==========================================
-   DaRoomate — App Layout & Navigation
+   TheRoommate — App Layout & Navigation
    Living-Paper Aesthetic
    ========================================== */
 
@@ -383,8 +383,8 @@
 
 .form-input:focus {
   outline: none;
-  border-color: var(--primary-500);
-  box-shadow: 0 0 0 3px var(--primary-100);
+  border-color: var(--lp-orange);
+  box-shadow: 3px 3px 0 var(--lp-orange);
 }
 
 .form-input:disabled {

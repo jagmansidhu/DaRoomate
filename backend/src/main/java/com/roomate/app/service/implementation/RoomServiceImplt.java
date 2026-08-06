@@ -9,6 +9,7 @@ import com.roomate.app.entities.room.RoomMemberEntity;
 import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.exceptions.UserApiError;
 import com.roomate.app.repository.*;
+import com.roomate.app.service.RoomAuthorizationService;
 import com.roomate.app.service.RoomService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class RoomServiceImplt implements RoomService {
     private final RoomRepository roomRepository;
     private final RoomMemberRepository roomMemberRepository;
     private final EventRepository eventRepository;
+    private final RoomAuthorizationService roomAuthorizationService;
     @Autowired
     private RoomInviteMailSender mailSender;
     @Autowired
@@ -42,11 +44,13 @@ public class RoomServiceImplt implements RoomService {
 
     public RoomServiceImplt(UserRepository userRepository, RoomRepository roomRepository,
             RoomMemberRepository roomMemberRepository,
-            EventRepository eventRepository) {
+            EventRepository eventRepository,
+            RoomAuthorizationService roomAuthorizationService) {
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.roomMemberRepository = roomMemberRepository;
         this.eventRepository = eventRepository;
+        this.roomAuthorizationService = roomAuthorizationService;
     }
 
     @Override
@@ -265,11 +269,15 @@ public class RoomServiceImplt implements RoomService {
 
     @Override
     public void inviteUserToRoom(InviteUserRequest request, String email) throws UserApiError {
-        RoomEntity room = roomRepository.findById(UUID.fromString(request.getRoomId()))
-                .orElseThrow(() -> new UserApiError("Room not found with ID: " + request.getRoomId()));
         if (request.getRoomId() == null) {
             throw new UserApiError("Room ID cannot be null.");
         }
+        UUID roomId = UUID.fromString(request.getRoomId());
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + request.getRoomId()));
+
+        roomAuthorizationService.assertRoomRole(roomId, email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
 
         if (!userRepository.existsByEmail(request.getEmail())) {
             mailSender.sendMail(request.email, "Room Invitation",

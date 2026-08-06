@@ -22,5 +22,5 @@ public interface UserService {
 
     boolean userExists(String email);
 
-    String registerUser(RegisterDto req) throws DuplicateKeyException;
+    void registerUser(RegisterDto req) throws DuplicateKeyException;
 }

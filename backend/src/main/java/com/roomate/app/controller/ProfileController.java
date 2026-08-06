@@ -1,6 +1,7 @@
 package com.roomate.app.controller;
 
 import com.roomate.app.dto.UserDTOS.UpdateProfileDto;
+import com.roomate.app.dto.UserDTOS.UserDto;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,7 @@ public class ProfileController {
         String email = userDetails.getUsername();
         UserEntity updateUser = userService.updateUserProfile(email, updatedDetails);
 
-
-        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+        return new ResponseEntity<>(UserDto.fromEntity(updateUser), HttpStatus.OK);
     }
 
 }

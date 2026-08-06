@@ -7,10 +7,12 @@ import com.roomate.app.entities.EventEntity;
 import com.roomate.app.entities.UserEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.exceptions.EventAPIException;
+import com.roomate.app.exceptions.UserApiError;
 import com.roomate.app.repository.EventRepository;
 import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.repository.UserRepository;
 import com.roomate.app.service.EventService;
+import com.roomate.app.service.RoomAuthorizationService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,14 @@ public class EventServiceimplt implements EventService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final EventRepository eventRepository;
+    private final RoomAuthorizationService roomAuthorizationService;
 
-    public EventServiceimplt(EventRepository eventRepository, UserRepository userRepository, RoomRepository roomRepository) {
+    public EventServiceimplt(EventRepository eventRepository, UserRepository userRepository,
+            RoomRepository roomRepository, RoomAuthorizationService roomAuthorizationService) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
+        this.roomAuthorizationService = roomAuthorizationService;
     }
 
     @Override
@@ -40,20 +45,30 @@ public class EventServiceimplt implements EventService {
 
     @Override
     public List<EventDto> getEventsForUserRoom(UUID roomID, String email) {
-        List<EventEntity> events = eventRepository.getAllEventsForUserRoom(roomID, email);
+        roomAuthorizationService.assertRoomMember(roomID, email);
+        List<EventEntity> events = eventRepository.getAllEventsForUserRoom(roomID);
         return events.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void createEventForRoom(EventDto eventDto,UUID roomid, String email) {
+    public void createEventForRoom(EventDto eventDto, UUID roomid, String email) {
+        roomAuthorizationService.assertRoomMember(roomid, email);
+
+        RoomEntity room = roomRepository.getRoomEntityById(roomid)
+                .orElseThrow(() -> new UserApiError("Room not found with ID: " + roomid));
+        UserEntity user = userRepository.getUserByEmail(email);
+        if (user == null) {
+            throw new UserApiError("User not found");
+        }
+
         EventEntity eventEntity = new EventEntity();
         eventEntity.setTitle(eventDto.getTitle());
         eventEntity.setDescription(eventDto.getDescription());
         eventEntity.setStartTime(eventDto.getStartTime());
         eventEntity.setEndTime(eventDto.getEndTime());
-        eventEntity.setRoom(roomRepository.getRoomEntityById(roomid).orElse(null));
-        eventEntity.setUser(userRepository.getUserByEmail(email));
+        eventEntity.setRoom(room);
+        eventEntity.setUser(user);
         eventEntity.setCreated(LocalDateTime.now());
         eventEntity.setUpdated(null);
         eventRepository.save(eventEntity);

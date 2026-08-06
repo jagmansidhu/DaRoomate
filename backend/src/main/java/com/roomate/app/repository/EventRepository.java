@@ -15,8 +15,8 @@ public interface EventRepository extends JpaRepository<EventEntity, UUID> {
     @Query("SELECT e FROM EventEntity e WHERE e.room.id IN (SELECT r.id FROM RoomEntity r JOIN r.members m WHERE m.user.email = :email)")
     List<EventEntity> getAllEventsForUserRooms(@Param("email") String email);
 
-    @Query("SELECT u from EventEntity u WHERE u.user.email = :email AND u.room.id = :roomid" )
-    List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid, @Param("email") String email);
+    @Query("SELECT e FROM EventEntity e WHERE e.room.id = :roomid")
+    List<EventEntity> getAllEventsForUserRoom(@Param("roomid") UUID roomid);
 
     @Query("SELECT e FROM EventEntity e WHERE e.user.email = :email AND e.id = :id")
     EventEntity getEventById(@Param("email") String email, @Param("id") UUID id);

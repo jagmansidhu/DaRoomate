@@ -5,10 +5,12 @@ import com.roomate.app.dto.ChoreDto;
 import com.roomate.app.entities.ChoreEntity;
 import com.roomate.app.entities.room.RoomEntity;
 import com.roomate.app.entities.room.RoomMemberEntity;
+import com.roomate.app.entities.room.RoomMemberEnum;
 import com.roomate.app.repository.ChoreRepository;
 import com.roomate.app.repository.RoomMemberRepository;
 import com.roomate.app.repository.RoomRepository;
 import com.roomate.app.service.ChoreService;
+import com.roomate.app.service.RoomAuthorizationService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +33,15 @@ public class ChoreServiceImplt implements ChoreService {
     private final RoomRepository roomRepository;
     private final ChoreRepository choreRepository;
     private final RoomMemberRepository roomMemberRepository;
+    private final RoomAuthorizationService roomAuthorizationService;
 
     @Override
     @Transactional
     @CacheEvict(value = {"roomChores", "userChores"}, allEntries = true)
-    public List<ChoreDto> distributeChores(UUID roomId, ChoreCreateDto choreDTO) {
+    public List<ChoreDto> distributeChores(UUID roomId, ChoreCreateDto choreDTO, String email) {
+        roomAuthorizationService.assertRoomRole(roomId, email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
+
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
@@ -85,7 +91,9 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     @Cacheable(value = "roomChores", key = "#roomId")
-    public List<ChoreDto> getChoresByRoomId(UUID roomId) {
+    public List<ChoreDto> getChoresByRoomId(UUID roomId, String email) {
+        roomAuthorizationService.assertRoomMember(roomId, email);
+
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
@@ -101,7 +109,10 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     @CacheEvict(value = {"roomChores", "userChores"}, allEntries = true)
-    public void redistributeChores(UUID roomId) {
+    public void redistributeChores(UUID roomId, String email) {
+        roomAuthorizationService.assertRoomRole(roomId, email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
+
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room not found"));
 
@@ -125,14 +136,23 @@ public class ChoreServiceImplt implements ChoreService {
     @Override
     @Transactional
     @CacheEvict(value = {"roomChores", "userChores"}, allEntries = true)
-    public void deleteChore(UUID choreId) {
+    public void deleteChore(UUID choreId, String email) {
+        ChoreEntity chore = choreRepository.findByChoreId(choreId)
+                .orElseThrow(() -> new EntityNotFoundException("Chore not found"));
+        if (chore.getRoom() == null) {
+            throw new EntityNotFoundException("Chore is not associated with a room");
+        }
+        roomAuthorizationService.assertRoomRole(chore.getRoom().getId(), email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
         choreRepository.deleteById(choreId);
     }
 
     @Override
     @Transactional
     @CacheEvict(value = {"roomChores", "userChores"}, allEntries = true)
-    public void deleteChoresByType(UUID roomId, String choreName) {
+    public void deleteChoresByType(UUID roomId, String choreName, String email) {
+        roomAuthorizationService.assertRoomRole(roomId, email,
+                RoomMemberEnum.HEAD_ROOMMATE, RoomMemberEnum.ASSISTANT);
         roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room not found"));
         choreRepository.deleteAllByRoomIdAndChoreName(roomId, choreName);
     }

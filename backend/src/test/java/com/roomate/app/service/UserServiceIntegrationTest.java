@@ -33,11 +33,8 @@ class UserServiceIntegrationTest {
         dto.setPassword("SecretPass123!");
 
         // Act
-        String token = userService.registerUser(dto);
+        userService.registerUser(dto);
 
-        // Assert
-        assertNotNull(token);
-        
         // Retrieve directly from DB to verify persistence and JPA mappings
         UserEntity savedUser = userRepository.findByEmail("integration@example.com").orElse(null);
         assertNotNull(savedUser);

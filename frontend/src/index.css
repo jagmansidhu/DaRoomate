@@ -1,5 +1,5 @@
 /* ==========================================
-   TheRoomate Design System - Minimal/Clean
+   TheRoommate Design System — Living Paper
    ========================================== */
 
 * {
@@ -30,85 +30,85 @@
   --lp-yellow:    #F0DC78;
   --lp-border:    #C9C2B4;
   --lp-rule:      #C0B8A8;
-  /* Primary Colors - Clean Blue (trusted, professional) */
-  --primary-50: #eff6ff;
-  --primary-100: #dbeafe;
-  --primary-200: #bfdbfe;
-  --primary-300: #93c5fd;
-  --primary-400: #60a5fa;
-  --primary-500: #3b82f6;
-  --primary-600: #2563eb;
-  --primary-700: #1d4ed8;
-  --primary-800: #1e40af;
-  --primary-900: #1e3a8a;
 
-  /* Neutral Colors - Warmer Grays */
-  --gray-50: #fafafa;
-  --gray-100: #f5f5f5;
-  --gray-200: #e5e5e5;
-  --gray-300: #d4d4d4;
-  --gray-400: #a3a3a3;
-  --gray-500: #737373;
-  --gray-600: #525252;
-  --gray-700: #404040;
-  --gray-800: #262626;
-  --gray-900: #171717;
+  /* Primary scale — burnt sienna (aliases for legacy var(--primary-*) usage) */
+  --primary-50:  #FDF3EE;
+  --primary-100: #F7D9CC;
+  --primary-200: #EFB39A;
+  --primary-300: #E38866;
+  --primary-400: #D66A3A;
+  --primary-500: #C94A1A;
+  --primary-600: #A83D15;
+  --primary-700: #8B3210;
+  --primary-800: #6B260C;
+  --primary-900: #4A1A08;
+
+  /* Neutral Colors - Warm parchment grays */
+  --gray-50: #faf8f5;
+  --gray-100: #f3efe8;
+  --gray-200: #e5dfd4;
+  --gray-300: #d0c8ba;
+  --gray-400: #a89f90;
+  --gray-500: #7a7166;
+  --gray-600: #5c544a;
+  --gray-700: #433e37;
+  --gray-800: #2c2823;
+  --gray-900: #18120A;
 
   /* Semantic Colors */
-  --success-50: #f0fdf4;
-  --success-100: #dcfce7;
-  --success-500: #22c55e;
-  --success-600: #16a34a;
-  --success-700: #15803d;
+  --success-50: #f0f7f2;
+  --success-100: #d8ebe0;
+  --success-500: #2d6a4f;
+  --success-600: #1E3B2A;
+  --success-700: #163022;
 
-  --error-50: #fef2f2;
-  --error-100: #fee2e2;
-  --error-500: #f87171;
-  --error-600: #ef4444;
-  --error-700: #dc2626;
+  --error-50: #fdf3ee;
+  --error-100: #f7d9cc;
+  --error-500: #C94A1A;
+  --error-600: #A83D15;
+  --error-700: #8B3210;
 
-  --warning-50: #fffbeb;
-  --warning-100: #fef3c7;
-  --warning-500: #fbbf24;
-  --warning-600: #f59e0b;
-  --warning-700: #d97706;
+  --warning-50: #fdf8e8;
+  --warning-100: #f8efc0;
+  --warning-500: #E5C84A;
+  --warning-600: #C4A82E;
+  --warning-700: #8A7420;
 
-  --info-50: #eff6ff;
-  --info-100: #dbeafe;
-  --info-500: #60a5fa;
-  --info-600: #3b82f6;
+  --info-50: #eef4f0;
+  --info-100: #d4e5db;
+  --info-500: #3d6b52;
+  --info-600: #1E3B2A;
 
-  /* Theme Variables - Light Mode (Warmer) */
-  --bg-primary: #fefefe;
-  --bg-secondary: #fafaf9;
-  --bg-tertiary: #f5f5f4;
-  --bg-elevated: #ffffff;
+  /* Theme surfaces — living paper */
+  --bg-primary: var(--lp-cream);
+  --bg-secondary: var(--lp-parchment);
+  --bg-tertiary: #E0D9C8;
+  --bg-elevated: var(--lp-card);
 
-  --text-primary: #1c1917;
-  --text-secondary: #44403c;
-  --text-tertiary: #78716c;
-  --text-muted: #a8a29e;
+  --text-primary: var(--lp-ink);
+  --text-secondary: var(--lp-ink-soft);
+  --text-tertiary: var(--lp-ink-muted);
+  --text-muted: #A89F90;
   --text-inverse: #ffffff;
 
-  --border-light: #e7e5e4;
-  --border-default: #d6d3d1;
-  --border-strong: #a8a29e;
+  --border-light: var(--lp-rule);
+  --border-default: var(--lp-border);
+  --border-strong: #A89F90;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-xs: 0 1px 2px rgba(24, 18, 10, 0.04);
+  --shadow-sm: 0 1px 3px rgba(24, 18, 10, 0.06), 0 1px 2px rgba(24, 18, 10, 0.04);
   --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    0 4px 6px -1px rgba(24, 18, 10, 0.08), 0 2px 4px -1px rgba(24, 18, 10, 0.04);
   --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    0 10px 15px -3px rgba(24, 18, 10, 0.08), 0 4px 6px -2px rgba(24, 18, 10, 0.04);
   --shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    0 20px 25px -5px rgba(24, 18, 10, 0.08), 0 10px 10px -5px rgba(24, 18, 10, 0.02);
 
-  /* Typography */
-  --font-family:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  /* Typography scale */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
+  --font-size-md: 1rem;
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
@@ -163,23 +163,23 @@
 }
 
 /* ==========================================
-   Dark Theme
+   Dark Theme — warm ink (not slate-blue)
    ========================================== */
 [data-theme="dark"] {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --bg-elevated: #1e293b;
+  --bg-primary: #14100C;
+  --bg-secondary: #1E1812;
+  --bg-tertiary: #2A221A;
+  --bg-elevated: #241C14;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #94a3b8;
-  --text-muted: #64748b;
-  --text-inverse: #0f172a;
+  --text-primary: #F5F0E8;
+  --text-secondary: #D4C8B8;
+  --text-tertiary: #A89F90;
+  --text-muted: #7A7166;
+  --text-inverse: #18120A;
 
-  --border-light: #334155;
-  --border-default: #475569;
-  --border-strong: #64748b;
+  --border-light: #2A221A;
+  --border-default: #3D342A;
+  --border-strong: #5C544A;
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -482,7 +482,7 @@ select:disabled {
 }
 
 [data-theme="dark"] .badge-primary {
-  background-color: rgba(99, 102, 241, 0.2);
+  background-color: rgba(201, 74, 26, 0.2);
   color: var(--primary-300);
 }
 [data-theme="dark"] .badge-success {
@@ -557,7 +557,7 @@ select:disabled {
 }
 
 [data-theme="dark"] .avatar {
-  background-color: rgba(99, 102, 241, 0.2);
+  background-color: rgba(201, 74, 26, 0.2);
   color: var(--primary-300);
 }
 

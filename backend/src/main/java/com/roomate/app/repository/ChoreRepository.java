@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 public interface ChoreRepository extends JpaRepository<ChoreEntity, Long> {
-    @Query("SELECT c FROM ChoreEntity c LEFT JOIN FETCH c.assignedToMember m LEFT JOIN FETCH m.user WHERE c.id = :choreId")
+    @Query("SELECT c FROM ChoreEntity c LEFT JOIN FETCH c.room LEFT JOIN FETCH c.assignedToMember m LEFT JOIN FETCH m.user WHERE c.id = :choreId")
     Optional<ChoreEntity> findByChoreId(@Param("choreId") UUID choreId);
 
     @Query("SELECT c FROM ChoreEntity c LEFT JOIN FETCH c.assignedToMember m LEFT JOIN FETCH m.user WHERE c.room = :room AND c.dueAt >= :start AND c.dueAt < :end")

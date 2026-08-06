@@ -29,7 +29,7 @@ const OnboardingPage = ({ onComplete }) => {
                             <path d="M9 21V12H15V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </div>
-                    <h1>Welcome to DaRoommate</h1>
+                    <h1>Welcome to TheRoommate</h1>
                     <p>Your all-in-one platform for managing shared living spaces. Get started by creating your first room or joining an existing one.</p>
                 </div>
 

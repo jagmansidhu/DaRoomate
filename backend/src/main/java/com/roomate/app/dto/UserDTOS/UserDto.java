@@ -1,5 +1,6 @@
 package com.roomate.app.dto.UserDTOS;
 
+import com.roomate.app.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -35,5 +36,11 @@ public class UserDto {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public static UserDto fromEntity(UserEntity user) {
+        UserDto dto = new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+        dto.setPhone(user.getPhone());
+        return dto;
     }
 }

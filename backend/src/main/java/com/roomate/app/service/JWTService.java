@@ -12,4 +12,7 @@ public interface JWTService {
     boolean isTokenValid(String token);
 
     java.util.List<String> extractRoles(String token);
+
+    /** Cookie maxAge should match this JWT lifetime (seconds). */
+    int getTokenExpirySeconds();
 }

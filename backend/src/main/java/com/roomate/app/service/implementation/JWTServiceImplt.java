@@ -31,6 +31,11 @@ public class JWTServiceImplt implements JWTService {
     }
 
     @Override
+    public int getTokenExpirySeconds() {
+        return TOKEN_EXPIRY_SECONDS;
+    }
+
+    @Override
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
