@@ -28,11 +28,15 @@ public class SecurityConfig {
      * Cross-origin SPA (e.g. Railway FE → Railway API) needs SameSite=None; Secure
      * so the browser sends XSRF-TOKEN on credentialed POSTs. Localhost can keep Lax.
      */
-    @Value("${app.csrf.cookie.same-site:Lax}")
+    @Value("${app.csrf.cookie.same-site:None}")
     private String csrfCookieSameSite;
 
-    @Value("${app.csrf.cookie.secure:false}")
+    @Value("${app.csrf.cookie.secure:true}")
     private boolean csrfCookieSecure;
+
+    /** Set false to match main (CSRF off) while FE still calls API cross-origin without proxy. */
+    @Value("${app.csrf.enabled:true}")
+    private boolean csrfEnabled;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
@@ -50,16 +54,19 @@ public class SecurityConfig {
         requestHandler.setCsrfRequestAttributeName(null);
 
         http
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(csrfTokenRepository)
-                        .csrfTokenRequestHandler(requestHandler)
-                        // Bootstrap auth POSTs before an XSRF cookie exists.
-                        // /user/status is intentionally NOT ignored so GET can mint XSRF-TOKEN.
-                        .ignoringRequestMatchers(
-                                "/user/login",
-                                "/user/register",
-                                "/user/logout",
-                                "/user/verify"))
+                .csrf(csrf -> {
+                    if (!csrfEnabled) {
+                        csrf.disable();
+                        return;
+                    }
+                    csrf.csrfTokenRepository(csrfTokenRepository)
+                            .csrfTokenRequestHandler(requestHandler)
+                            .ignoringRequestMatchers(
+                                    "/user/login",
+                                    "/user/register",
+                                    "/user/logout",
+                                    "/user/verify");
+                })
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptionHandling -> exceptionHandling

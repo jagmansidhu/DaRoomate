@@ -37,8 +37,8 @@ public class AuthController {
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
 
-    /** Lax for same-origin nginx proxy; None only if FE still calls API cross-origin. */
-    @Value("${app.cookie.same-site:Lax}")
+    /** Default None for HTTPS/cross-origin Railway; set COOKIE_SAME_SITE=Lax after FE nginx proxy. */
+    @Value("${app.cookie.same-site:None}")
     private String cookieSameSite;
 
     @GetMapping("/verify-status")
@@ -96,15 +96,15 @@ public class AuthController {
         UserEntity user = userService.getUserEntityByEmail(req.getEmail());
         String token = jwtService.generateToken(user);
 
-        // Railway's edge has historically been fragile with multiple Set-Cookie headers.
-        // Set exactly one jwt cookie (overwrite). Prefer Lax for same-origin FE proxy.
+        // Railway FE and API are different hosts today → need SameSite=None (same as main).
+        // After FE nginx same-origin proxy is live, set COOKIE_SAME_SITE=Lax.
         boolean isSecure = request.isSecure()
                 || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"));
         String sameSite = isSecure ? cookieSameSite : "Lax";
 
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
                 .httpOnly(true)
-                .secure(isSecure)
+                .secure(isSecure || "None".equalsIgnoreCase(sameSite))
                 .path("/")
                 .sameSite(sameSite)
                 .maxAge(jwtService.getTokenExpirySeconds())
@@ -168,7 +168,7 @@ public class AuthController {
 
         ResponseCookie cookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
-                .secure(isSecure)
+                .secure(isSecure || "None".equalsIgnoreCase(sameSite))
                 .path("/")
                 .sameSite(sameSite)
                 .maxAge(0)
