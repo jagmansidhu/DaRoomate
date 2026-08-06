@@ -16,7 +16,7 @@ public class RoomInviteMailSender {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        message.setFrom("TheRoommate Team <roomate@example.com>");
+        message.setFrom("The Roomate Team <roomate@example.com>");
         mailSender.send(message);
 
         return mailSender;

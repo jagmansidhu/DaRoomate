@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in TheRoommate, please report it by emailing the maintainers directly. **Do NOT create a public GitHub issue.**
+If you discover a security vulnerability in DaRoomate, please report it by emailing the maintainers directly. **Do NOT create a public GitHub issue.**
 
 Please include:
 - Description of the vulnerability

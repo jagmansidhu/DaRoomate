@@ -87,7 +87,7 @@ const ExpandableDescription = ({ text }) => {
                 style={{
                     background: 'none', 
                     border: 'none', 
-                    color: 'var(--lp-orange)', 
+                    color: 'var(--lp-blue)', 
                     fontSize: '12px', 
                     cursor: 'pointer', 
                     padding: '0 0 0 5px',
@@ -560,7 +560,7 @@ const Budget = () => {
                                                     <div className="entry-desc">
                                                         <ExpandableDescription text={entry.description} />
                                                         {entry.s3Url && (
-                                                            <a href={entry.s3Url} target="_blank" rel="noopener noreferrer" style={{marginLeft: '8px', fontSize: '12px', color: 'var(--lp-orange)', textDecoration: 'underline'}}>
+                                                            <a href={entry.s3Url} target="_blank" rel="noopener noreferrer" style={{marginLeft: '8px', fontSize: '12px', color: 'var(--lp-blue)', textDecoration: 'underline'}}>
                                                                 [View Receipt]
                                                             </a>
                                                         )}

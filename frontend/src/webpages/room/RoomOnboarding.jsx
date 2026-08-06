@@ -4,7 +4,7 @@ const RoomOnboarding = ({ onCreateRoom, onJoinRoom }) => {
     return (
         <div className="room-onboarding">
             <div className="onboarding-welcome">
-                <h2>Welcome to TheRoommate</h2>
+                <h2>Welcome to DaRoommate! 🏠</h2>
                 <p>Get started by creating a new room or joining an existing one</p>
             </div>
             
