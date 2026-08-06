@@ -24,6 +24,16 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins:http://localhost:3000,http://127.0.0.1:8085}")
     private String allowedOrigins;
 
+    /**
+     * Cross-origin SPA (e.g. Railway FE → Railway API) needs SameSite=None; Secure
+     * so the browser sends XSRF-TOKEN on credentialed POSTs. Localhost can keep Lax.
+     */
+    @Value("${app.csrf.cookie.same-site:Lax}")
+    private String csrfCookieSameSite;
+
+    @Value("${app.csrf.cookie.secure:false}")
+    private boolean csrfCookieSecure;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
             JwtAuthenticationFilter jwtAuthenticationFilter,
@@ -31,6 +41,9 @@ public class SecurityConfig {
             throws Exception {
         CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         csrfTokenRepository.setHeaderName("X-CSRF-TOKEN");
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+                .sameSite(csrfCookieSameSite)
+                .secure(csrfCookieSecure || "None".equalsIgnoreCase(csrfCookieSameSite)));
 
         // SPA-friendly: compare cookie value to header as-is (no XOR masking).
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
@@ -73,9 +86,10 @@ public class SecurityConfig {
                         .hasAnyRole("ROOMMATE", "ASSISTANT_ROOMMATE", "HEAD_ROOMMATE", "ADMIN")
 
                         .anyRequest().authenticated())
+                // Authenticate before CSRF so missing CSRF returns 403 when logged in, not 401.
+                .addFilterBefore(jwtAuthenticationFilter, CsrfFilter.class)
                 .addFilterAfter(new CsrfCookieFilter(), CsrfFilter.class)
-                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

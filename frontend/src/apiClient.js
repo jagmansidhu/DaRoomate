@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { getCookie } from './webpages/utils/cookies';
 
+// Cross-origin SPAs cannot read the backend's XSRF-TOKEN cookie via document.cookie.
+// Prefer the token returned in /user/status and /user/login JSON bodies.
+let csrfTokenFromApi = null;
+
+export function setCsrfToken(token) {
+    csrfTokenFromApi = token || null;
+}
+
 const apiClient = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
     withCredentials: true,
@@ -11,7 +19,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use((config) => {
     const method = (config.method || 'get').toLowerCase();
     if (['post', 'put', 'patch', 'delete'].includes(method)) {
-        const csrfToken = getCookie('XSRF-TOKEN');
+        const csrfToken = csrfTokenFromApi || getCookie('XSRF-TOKEN');
         if (csrfToken) {
             config.headers['X-CSRF-TOKEN'] = csrfToken;
         }
@@ -19,7 +27,13 @@ apiClient.interceptors.request.use((config) => {
     return config;
 });
 
-apiClient.interceptors.response.use((response) => response, (error) => {
+apiClient.interceptors.response.use((response) => {
+    const token = response?.data?.csrfToken;
+    if (typeof token === 'string' && token.length > 0) {
+        setCsrfToken(token);
+    }
+    return response;
+}, (error) => {
     if (error.response && error.response.status === 401) {
         const msg = error.response.data?.message || '';
         const isAuthError = msg.toLowerCase().includes('log in') || msg.toLowerCase().includes('unauthorized');

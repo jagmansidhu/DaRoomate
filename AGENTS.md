@@ -17,11 +17,13 @@ Canonical AI coding guidance for this repository. Keep this file as the source o
 - `/user/login` (`AuthController`) sets HttpOnly `jwt` cookie only (no JWT in response body). Cookie `maxAge` matches JWT expiry (4h).
 - `JwtAuthenticationFilter` validates JWT from `jwt` cookie only (stateless, no bearer fallback).
 - **CSRF Protection**: Enabled via double-submit cookie pattern (`CookieCsrfTokenRepository` in `SecurityConfig`).
-  - Token stored in public `XSRF-TOKEN` cookie, sent via `X-CSRF-TOKEN` header on state-changing requests.
+  - Token also returned as `csrfToken` in `/user/status` (and login when available) JSON — required for cross-origin FE↔API because JS cannot read the API host cookie.
+  - Frontend stores that value and sends `X-CSRF-TOKEN` on mutating requests (`apiClient.js`).
+  - Cross-origin prod (Railway): set `CSRF_COOKIE_SAME_SITE=None` and `CSRF_COOKIE_SECURE=true`.
   - CSRF-ignored endpoints: `/user/login`, `/user/register`, `/user/logout`, `/user/verify`.
   - `/user/status` is not ignored so GET can mint `XSRF-TOKEN` (`CsrfCookieFilter` forces deferred token write).
 - Frontend boot path is `/user/status` -> `/api/get-user` -> `/api/profile-status` (see `frontend/src/App.jsx`).
-  - `/user/status` GET triggers CSRF token generation on client.
+  - `/user/status` always returns 200 with `authenticated` + `csrfToken` (even when logged out).
 - `apiClient.js` automatically adds CSRF token to POST/PUT/DELETE/PATCH requests via interceptor.
 - Room-scoped mutations use `RoomAuthorizationService` (`assertRoomMember` / `assertRoomRole`) — head/assistant for invite and chore/utility mutates.
 - `frontend/src/component/userProfileRedirection.jsx` still uses Auth0 hooks; treat this as mixed/legacy auth context.

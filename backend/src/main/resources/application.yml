@@ -64,6 +64,11 @@ spring:
 app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
+  csrf:
+    cookie:
+      # Use None + secure=true on Railway (cross-origin FE/API). Lax is fine for localhost.
+      same-site: ${CSRF_COOKIE_SAME_SITE:Lax}
+      secure: ${CSRF_COOKIE_SECURE:false}
 
 logging:
   level:

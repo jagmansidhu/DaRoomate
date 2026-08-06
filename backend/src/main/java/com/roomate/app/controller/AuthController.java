@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDto req, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response, CsrfToken csrfToken) {
         // Clear only a prior jwt cookie — do not wipe unrelated cookies (e.g. XSRF-TOKEN).
         ResponseCookie clearJwt = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
@@ -115,11 +116,22 @@ public class AuthController {
         response.addHeader("Set-Cookie", cookie.toString());
 
         // Cookie-only auth for browser clients — JWT is not returned in the body.
-        return ResponseEntity.ok(Map.of("authenticated", true));
+        // csrfToken is returned in JSON because cross-origin SPAs cannot read the XSRF cookie via JS.
+        Map<String, Object> body = new HashMap<>();
+        body.put("authenticated", true);
+        if (csrfToken != null) {
+            body.put("csrfToken", csrfToken.getToken());
+        }
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping("/status")
-    public ResponseEntity<?> authStatus(HttpServletRequest request) {
+    public ResponseEntity<?> authStatus(HttpServletRequest request, CsrfToken csrfToken) {
+        Map<String, Object> body = new HashMap<>();
+        if (csrfToken != null) {
+            body.put("csrfToken", csrfToken.getToken());
+        }
+
         Cookie[] cookies = request.getCookies();
         String token = null;
 
@@ -131,21 +143,25 @@ public class AuthController {
             }
         }
 
-
+        // Always 200 so the SPA can bootstrap CSRF even when logged out.
+        // Cross-origin frontends cannot read the XSRF-TOKEN cookie; they use csrfToken from this body.
         if (token == null || token.isEmpty() || !token.contains(".")) {
-            return ResponseEntity.status(401).body("Invalid or missing token");
+            body.put("authenticated", false);
+            return ResponseEntity.ok(body);
         }
 
         try {
             if (jwtService.isTokenValid(token)) {
-                String user = jwtService.extractUsername(token);
-                return ResponseEntity.ok(Map.of("username", user));
-            } else {
-                return ResponseEntity.status(401).body("Invalid token");
+                body.put("authenticated", true);
+                body.put("username", jwtService.extractUsername(token));
+                return ResponseEntity.ok(body);
             }
+            body.put("authenticated", false);
+            return ResponseEntity.ok(body);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(401).body("Malformed token");
+            body.put("authenticated", false);
+            return ResponseEntity.ok(body);
         }
     }
 

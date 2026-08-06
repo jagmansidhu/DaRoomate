@@ -24,6 +24,12 @@ const Login = () => {
             );
 
             if (response.status === 200) {
+                // Refresh CSRF token from /user/status (login is CSRF-ignored so body may omit it)
+                try {
+                    await apiClient.get('/user/status');
+                } catch (_) {
+                    /* status still seeds csrf via interceptor when possible */
+                }
                 login();
                 navigate('/dashboard');
             } else {

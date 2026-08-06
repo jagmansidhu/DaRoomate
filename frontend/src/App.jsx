@@ -56,6 +56,7 @@ const AuthProvider = ({children}) => {
 
                 if (res.status === 200) {
                     const data = res.data;
+                    // csrfToken is captured by apiClient response interceptor for cross-origin POSTs
                     if (data && (data.username || data.email || data.authenticated === true)) {
                        setIsAuthenticated(true);
                        localStorage.setItem('appAuth', 'true');
