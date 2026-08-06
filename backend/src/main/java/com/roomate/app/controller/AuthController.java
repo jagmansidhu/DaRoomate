@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -35,6 +36,10 @@ public class AuthController {
     private final JWTService jwtService;
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
+
+    /** Lax for same-origin nginx proxy; None only if FE still calls API cross-origin. */
+    @Value("${app.cookie.same-site:Lax}")
+    private String cookieSameSite;
 
     @GetMapping("/verify-status")
     public ResponseEntity<Map<String, Object>> getUserStatus(@AuthenticationPrincipal UserDetails user) {
@@ -85,38 +90,28 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDto req, HttpServletRequest request,
             HttpServletResponse response, CsrfToken csrfToken) {
-        // Clear only a prior jwt cookie — do not wipe unrelated cookies (e.g. XSRF-TOKEN).
-        ResponseCookie clearJwt = ResponseCookie.from("jwt", "")
-                .httpOnly(true)
-                .secure(request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto")))
-                .path("/")
-                .sameSite((request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto")))
-                        ? "None" : "Lax")
-                .maxAge(0)
-                .build();
-        response.addHeader("Set-Cookie", clearJwt.toString());
-
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
 
         UserEntity user = userService.getUserEntityByEmail(req.getEmail());
-
         String token = jwtService.generateToken(user);
 
-        boolean isSecure = request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"));
+        // Railway's edge has historically been fragile with multiple Set-Cookie headers.
+        // Set exactly one jwt cookie (overwrite). Prefer Lax for same-origin FE proxy.
+        boolean isSecure = request.isSecure()
+                || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"));
+        String sameSite = isSecure ? cookieSameSite : "Lax";
 
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
                 .httpOnly(true)
                 .secure(isSecure)
                 .path("/")
-                .sameSite(isSecure ? "None" : "Lax")
+                .sameSite(sameSite)
                 .maxAge(jwtService.getTokenExpirySeconds())
                 .build();
 
-        response.addHeader("Set-Cookie", cookie.toString());
+        response.setHeader("Set-Cookie", cookie.toString());
 
-        // Cookie-only auth for browser clients — JWT is not returned in the body.
-        // csrfToken is returned in JSON because cross-origin SPAs cannot read the XSRF cookie via JS.
         Map<String, Object> body = new HashMap<>();
         body.put("authenticated", true);
         if (csrfToken != null) {
@@ -167,13 +162,15 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        boolean isSecure = request.isSecure() || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"));
+        boolean isSecure = request.isSecure()
+                || "https".equalsIgnoreCase(request.getHeader("X-Forwarded-Proto"));
+        String sameSite = isSecure ? cookieSameSite : "Lax";
 
         ResponseCookie cookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
                 .secure(isSecure)
                 .path("/")
-                .sameSite(isSecure ? "None" : "Lax")
+                .sameSite(sameSite)
                 .maxAge(0)
                 .build();
         response.setHeader("Set-Cookie", cookie.toString());

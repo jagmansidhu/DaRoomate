@@ -12,8 +12,9 @@ RUN npm install
 COPY public/ public/
 COPY src/ src/
 
-# Build argument for API URL (must be set at build time for React)
-ARG REACT_APP_BASE_API_URL
+# Production: leave empty so the browser calls same-origin /api and /user
+# (nginx proxies to the backend). Local/dev can still point at a remote API URL.
+ARG REACT_APP_BASE_API_URL=
 ENV REACT_APP_BASE_API_URL=$REACT_APP_BASE_API_URL
 
 ARG REACT_APP_N8N_WEBHOOK_URL
@@ -54,4 +55,6 @@ RUN mkdir -p /var/run/nginx /var/cache/nginx /var/log/nginx /tmp && \
 
 USER appuser
 EXPOSE 80
-CMD ["/bin/sh", "-c", "export PORT=${PORT:-80} && envsubst '$PORT' < /etc/nginx/conf.d/default.conf > /tmp/default.conf && mv /tmp/default.conf /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+# BACKEND_UPSTREAM: Railway private URL, e.g. http://backend.railway.internal:8080
+# REACT_APP_BASE_API_URL should be empty in prod so the SPA uses same-origin /api + /user.
+CMD ["/bin/sh", "-c", "export PORT=${PORT:-80}; export BACKEND_UPSTREAM=${BACKEND_UPSTREAM:?BACKEND_UPSTREAM is required}; envsubst '$PORT $BACKEND_UPSTREAM' < /etc/nginx/conf.d/default.conf > /tmp/default.conf && mv /tmp/default.conf /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]

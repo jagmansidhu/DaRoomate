@@ -14,14 +14,12 @@ Canonical AI coding guidance for this repository. Keep this file as the source o
 - Use `frontend/src/apiClient.js` for HTTP (`withCredentials: true`, base URL from `REACT_APP_BASE_API_URL`).
 
 ## Auth and Request Flow
-- `/user/login` (`AuthController`) sets HttpOnly `jwt` cookie only (no JWT in response body). Cookie `maxAge` matches JWT expiry (4h).
+- `/user/login` (`AuthController`) sets a single HttpOnly `jwt` cookie (no JWT in body). Cookie `maxAge` matches JWT expiry (4h).
 - `JwtAuthenticationFilter` validates JWT from `jwt` cookie only (stateless, no bearer fallback).
 - **CSRF Protection**: Enabled via double-submit cookie pattern (`CookieCsrfTokenRepository` in `SecurityConfig`).
-  - Token also returned as `csrfToken` in `/user/status` (and login when available) JSON — required for cross-origin FE↔API because JS cannot read the API host cookie.
-  - Frontend stores that value and sends `X-CSRF-TOKEN` on mutating requests (`apiClient.js`).
-  - Cross-origin prod (Railway): set `CSRF_COOKIE_SAME_SITE=None` and `CSRF_COOKIE_SECURE=true`.
+  - Token also returned as `csrfToken` in `/user/status` JSON; frontend sends `X-CSRF-TOKEN` on mutations (`apiClient.js`).
   - CSRF-ignored endpoints: `/user/login`, `/user/register`, `/user/logout`, `/user/verify`.
-  - `/user/status` is not ignored so GET can mint `XSRF-TOKEN` (`CsrfCookieFilter` forces deferred token write).
+- **Railway production**: frontend nginx proxies `/api/` and `/user/` to the backend private URL (`BACKEND_UPSTREAM`). Browser stays same-origin → `SameSite=Lax` cookies work; avoid pointing `REACT_APP_BASE_API_URL` at the public API host.
 - Frontend boot path is `/user/status` -> `/api/get-user` -> `/api/profile-status` (see `frontend/src/App.jsx`).
   - `/user/status` always returns 200 with `authenticated` + `csrfToken` (even when logged out).
 - `apiClient.js` automatically adds CSRF token to POST/PUT/DELETE/PATCH requests via interceptor.
@@ -32,8 +30,8 @@ Canonical AI coding guidance for this repository. Keep this file as the source o
 - Backend local: `cd backend && mvn spring-boot:run` (requires Postgres + Redis).
 - Backend docker stack: `cd backend && docker compose up` (API 8085, Postgres mapped to 5433).
 - Backend tests: `cd backend && mvn test` (H2 + `test` profile from `backend/src/test/resources/application-test.yml`).
-- Frontend local: `cd frontend && npm start`; build: `npm run build`; tests: `npm test`.
-- Production: deployed via Railway using `frontend/railway.json` and `backend/railway.json` (each pointing to their own Dockerfile).
+- Frontend local: `cd frontend && npm start` with `REACT_APP_BASE_API_URL=http://localhost:8085`; build: `npm run build`; tests: `npm test`.
+- Production: Railway — frontend Dockerfile + `nginx.conf` (SPA + API proxy), backend Dockerfile. Set frontend `BACKEND_UPSTREAM` and leave `REACT_APP_BASE_API_URL` empty.
 
 ## Project-Specific Conventions
 - Service implementation names are intentionally inconsistent (`*Implt`, `*Impl`, `UserServiceImplementation`); match existing naming in touched area.

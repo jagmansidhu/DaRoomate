@@ -10,7 +10,8 @@ export function setCsrfToken(token) {
 }
 
 const apiClient = axios.create({
-    baseURL: process.env.REACT_APP_BASE_API_URL,
+    // Empty/undefined => same-origin (Railway: nginx proxies /api and /user to backend)
+    baseURL: process.env.REACT_APP_BASE_API_URL || '',
     withCredentials: true,
     xsrfCookieName: 'XSRF-TOKEN',
     xsrfHeaderName: 'X-CSRF-TOKEN',
